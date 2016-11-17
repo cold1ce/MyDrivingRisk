@@ -54,10 +54,10 @@ public class GPSDatenTest extends AppCompatActivity {
             public void onLocationChanged(Location location) {
                 Calendar kalender = Calendar.getInstance();
                 SimpleDateFormat zeitformat = new SimpleDateFormat("HH:mm:ss");
-                t6.setText(zeitformat.format(kalender.getTime()));
+                t6.setText("  " + zeitformat.format(kalender.getTime()));
 
-                t2.setText(" " + location.getLatitude());
-                t4.setText(" " + location.getLongitude());
+                t2.setText("  " + location.getLatitude());
+                t4.setText("  " + location.getLongitude());
                 //t.append("\n " + location.getLongitude() + " " + location.getLatitude());
 
             }
