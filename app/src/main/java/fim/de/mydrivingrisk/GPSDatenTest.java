@@ -75,15 +75,15 @@ public class GPSDatenTest extends AppCompatActivity {
                 t2.setText("  " + breiteneu); //Breitengrad
                 t4.setText("  " + laengeneu); //Längengrad
 
-                t8.setText("  " + location.getSpeed());
+                t8.setText("  " + location.getSpeed()*3.6 +" km/h");
 
                 t6.setText("  " + zeitformat.format(kalender.getTime()));
 
 
 
-                t7.setText("  " + (location.getAccuracy()*100.0) +"%");
+                t7.setText("  ±" + location.getAccuracy() + " m");
                 location.distanceBetween (breiteneu, laengeneu, 48.169108, 9.522374, results);
-                t9.setText("  " + (results[0]/1000) + "km");
+                t9.setText("  " + (results[0]/1000) + " km");
             }
 
             @Override
