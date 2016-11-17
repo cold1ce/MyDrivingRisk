@@ -45,7 +45,6 @@
             android:text="-"
             android:layout_height="wrap_content"
             android:id="@+id/textView11"
-            android:textStyle="normal|bold"
             android:textColor="@android:color/background_light"
             android:layout_width="match_parent" />
 
@@ -79,10 +78,50 @@
             android:id="@+id/textView15"
             android:textColor="@android:color/background_light" />
 
-        <Space
+        <TextView
+            android:text="Genauigkeit:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.15" />
+            android:id="@+id/textView18"
+            android:textStyle="normal|bold"
+            android:textColor="@android:color/background_light" />
+
+        <TextView
+            android:text="-"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView17"
+            android:textColor="@android:color/background_light" />
+
+        <TextView
+            android:text="Geschwindigkeit:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView19"
+            android:textStyle="normal|bold"
+            android:textColor="@android:color/background_light" />
+
+        <TextView
+            android:text="-"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView20"
+            android:textColor="@android:color/background_light" />
+
+        <TextView
+            android:text="Abstand nach Hause(Luftlinie):"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView21"
+            android:textColor="@android:color/background_light"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:text="-"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView22"
+            android:textColor="@android:color/background_light" />
 
     </LinearLayout>
 

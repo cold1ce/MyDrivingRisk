@@ -30,6 +30,9 @@ public class GPSDatenTest extends AppCompatActivity {
     private TextView t4;
     private TextView t5;
     private TextView t6;
+    private TextView t7;
+    private TextView t8;
+    private TextView t9;
     private LocationManager locationManager1;
     private LocationListener listener1;
 
@@ -45,21 +48,42 @@ public class GPSDatenTest extends AppCompatActivity {
         t4 = (TextView) findViewById(R.id.textView13);
         t5 = (TextView) findViewById(R.id.textView14);
         t6 = (TextView) findViewById(R.id.textView15);
+        t7 = (TextView) findViewById(R.id.textView17);
+        t8 = (TextView) findViewById(R.id.textView20);
+        t9 = (TextView) findViewById(R.id.textView22);
         b1 = (Button) findViewById(R.id.button5);
+
+
+
 
         locationManager1 = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         listener1 = new LocationListener() {
+
+            //public double laengealt = 0.0;
+            //public double breitealt = 0.0;
+            public double laengeneu = 0.0;
+            public double breiteneu = 0.0;
+            public float[] results = {0, 0, 0};
             @Override
             public void onLocationChanged(Location location) {
                 Calendar kalender = Calendar.getInstance();
                 SimpleDateFormat zeitformat = new SimpleDateFormat("HH:mm:ss");
+
+                breiteneu = location.getLatitude(); //Breitengrad
+                laengeneu = location.getLongitude(); //Längengrad
+                t2.setText("  " + breiteneu); //Breitengrad
+                t4.setText("  " + laengeneu); //Längengrad
+
+                t8.setText("  " + location.getSpeed());
+
                 t6.setText("  " + zeitformat.format(kalender.getTime()));
 
-                t2.setText("  " + location.getLatitude());
-                t4.setText("  " + location.getLongitude());
-                //t.append("\n " + location.getLongitude() + " " + location.getLatitude());
 
+
+                t7.setText("  " + (location.getAccuracy()*100.0) +"%");
+                location.distanceBetween (breiteneu, laengeneu, 48.169108, 9.522374, results);
+                t9.setText("  " + (results[0]/1000) + "km");
             }
 
             @Override
@@ -109,7 +133,7 @@ public class GPSDatenTest extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //noinspection MissingPermission
-                locationManager1.requestLocationUpdates("gps", 2000, 0, listener1);
+                locationManager1.requestLocationUpdates("gps", 1000, 0, listener1);
             }
         });
     }
