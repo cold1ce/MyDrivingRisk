@@ -3,6 +3,7 @@ package fim.de.mydrivingrisk;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -10,6 +11,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +26,8 @@ public class GPSDatenTest extends AppCompatActivity {
 
 
     private Button b1;
+    private Button b2;
+
     private TextView t1;
     private TextView t2;
     private TextView t3;
@@ -33,8 +37,20 @@ public class GPSDatenTest extends AppCompatActivity {
     private TextView t7;
     private TextView t8;
     private TextView t9;
+
+    private TextView t10;
     private LocationManager locationManager1;
     private LocationListener listener1;
+
+    public DatabaseHelper myDB;
+
+
+
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +67,14 @@ public class GPSDatenTest extends AppCompatActivity {
         t7 = (TextView) findViewById(R.id.textView17);
         t8 = (TextView) findViewById(R.id.textView20);
         t9 = (TextView) findViewById(R.id.textView22);
+
+        t10 = (TextView) findViewById(R.id.textView2);
+
         b1 = (Button) findViewById(R.id.button5);
-
-
+        b2 = (Button) findViewById(R.id.button4);
+        myDB = new DatabaseHelper(this, "Neu");
+        //addData();
+        viewAll();
 
 
         locationManager1 = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -64,6 +85,7 @@ public class GPSDatenTest extends AppCompatActivity {
             //public double breitealt = 0.0;
             public double laengeneu = 0.0;
             public double breiteneu = 0.0;
+            double geschw = 0.0;
             public float[] results = {0, 0, 0};
             @Override
             public void onLocationChanged(Location location) {
@@ -75,7 +97,9 @@ public class GPSDatenTest extends AppCompatActivity {
                 t2.setText("  " + breiteneu); //Breitengrad
                 t4.setText("  " + laengeneu); //Längengrad
 
-                t8.setText("  " + location.getSpeed()*3.6 +" km/h");
+
+                double geschw = location.getSpeed()*3.6;
+                t8.setText("  " +geschw+" km/h");
 
                 t6.setText("  " + zeitformat.format(kalender.getTime()));
 
@@ -84,6 +108,9 @@ public class GPSDatenTest extends AppCompatActivity {
                 t7.setText("  ±" + location.getAccuracy() + " m");
                 location.distanceBetween (breiteneu, laengeneu, 48.169108, 9.522374, results);
                 t9.setText("  " + (results[0]/1000) + " km");
+
+
+                myDB.insertData(breiteneu, laengeneu, geschw);
             }
 
             @Override
@@ -138,6 +165,38 @@ public class GPSDatenTest extends AppCompatActivity {
         });
     }
 
+    public void viewAll() {
+        b2.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Cursor res = myDB.getAllData();
+                        if (res.getCount() == 0) {
+                            showMessage("Fehler", "Nichts gefunden");
+                            return;
+                        }
 
+                        StringBuffer buffer = new StringBuffer();
+                        while (res.moveToNext()) {
+                            buffer.append("Id :"+ res.getString(0)+"\n");
+                            buffer.append("Breitengrad: :"+ res.getString(1)+"\n");
+                            buffer.append("Längengrad: "+ res.getString(2)+"\n");
+                            buffer.append("Geschwindigkeit :"+ res.getString(3)+"\n\n");
+                        }
+
+                        showMessage("Daten", buffer.toString());
+                       // t10.setText(buffer.toString());
+                    }
+                }
+        );
+    }
+
+    public void showMessage(String title, String Message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(Message);
+        builder.show();
+    }
 
 }

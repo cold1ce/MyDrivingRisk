@@ -123,6 +123,21 @@
             android:id="@+id/textView22"
             android:textColor="@android:color/background_light" />
 
+        <Button
+            android:text="Gespeicherte Daten anzeigen"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:id="@+id/button4"
+            android:layout_weight="0.05" />
+
+        <TextView
+            android:text="-"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            android:layout_weight="0.85"
+            android:textColor="@android:color/background_light" />
+
     </LinearLayout>
 
 </RelativeLayout>
