@@ -14,12 +14,16 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:weightSum="1">
 
             <TextView
                 android:layout_width="match_parent"
@@ -29,6 +33,11 @@
                 android:textStyle="normal|bold"
                 android:textSize="16sp"
                 android:textColor="@android:color/background_light" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.05" />
 
             <Button
                 android:text="Neue Fahrt aufzeichnen"
@@ -49,12 +58,24 @@
                 android:id="@+id/button2" />
 
             <Button
-                android:text="GPS-Daten Test"
+                android:text="Über die App"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/button3"
-                android:drawableLeft="@android:drawable/ic_menu_mylocation"
-                android:onClick="toGPSTest" /> //OnClick Listener
+                android:drawableLeft="@android:drawable/ic_menu_info_details" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_weight="0.42" />
+
+            <Button
+                android:text="Impressum"
+                android:layout_width="wrap_content"
+                android:layout_height="39dp"
+                android:id="@+id/button7" />
+
+            //OnClick Listener
         </LinearLayout>
     </FrameLayout>
 

@@ -12,15 +12,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "MyDrivingRisk.db"; //Datenbank Name
-    public static final String TABLE_NAME = "fahrten_tabelle"; //Tabellen Name
-
-    public static final String Spalte_1 = "ID";
-    public static final String Spalte_2 = "BREITENGRAD";
-    public static final String Spalte_3 = "LAENGENGRAD";
-    public static final String Spalte_4 = "GESCHWINDIGKEIT";
-
-
+    //public static final String DATABASE_NAME = "MyDrivingRisk.db"; //Datenbank Name
+    //public static final String TABLE_NAME = "fahrten_tabelle"; //Tabellen Name
 
     //Diesen Konstruktor aufrufen um Datenbank zu erzeugen
     public DatabaseHelper(Context context, String name/*, SQLiteDatabase.CursorFactory factory, int version*/) {
@@ -36,10 +29,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
-        onCreate(db);
+        //db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
+        //onCreate(db);
     }
 
+
+    //Fahrtdaten einfügen, sammelt alle Daten die in die Tabelle sollen und fügt sie ein.
     public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, String wetter, double tempolimit/*, double zeit*/) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
         ContentValues contentValues = new ContentValues();
@@ -59,23 +54,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    public Cursor getAllData() {
-        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
-        Cursor res = db.rawQuery("select * from "+TABLE_NAME, null);
-        return res;
-    }
+    //public Cursor getAllData() {
+        //SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        //Cursor res = db.rawQuery("select * from "+TABLE_NAME, null);
+        //return res;
+    //}
 
 
+    //Beschleunigung berechnen, im Konstruktor wird die aktuelle Geschwindigkeit sowie die aktuelle
+    //Fahrtentabelle übergeben.
     public double berechneBeschleunigung(String aktuelletabelle, double aktuellegeschwindigkeit) {
         SQLiteDatabase db = this.getWritableDatabase();
+
+        //Letzte abgespeicherte Geschwindigkeit aus der Tabelle abfragen
         Cursor cursor = db.rawQuery("SELECT Geschwindigkeit FROM "+aktuelletabelle+" ORDER BY ID DESC LIMIT 1", null); //Letzte Geschwindigkeit auslesen
+
         //Cursor cursor2 = db.rawQuery("SELECT Geschwindigkeit FROM "+aktuelletabelle+" ORDER BY ID DESC LIMIT 1,1;", null); //Vorletzte Geschwindigkeit auslesen
 
         double letzte = 0.0;
         //double vorletzte = 0.0;
         double beschleunigung = 0.0;
 
-        //Letzte Geschwindigkeit schreiben
+        //Zuvor abgefragte letzte Geschwindigkeit in Variable speichern
         cursor.moveToLast();
         letzte = cursor.getDouble(0);
 
@@ -83,16 +83,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //cursor2.moveToLast();
         //vorletzte = cursor2.getDouble(0);
 
+        //Berechnen der Beschleunigung (Geteilt durch 1 für eine Sekunde, sollte man evtl. noch nachbessern da manchmal zwischen zwei
+        //Spalten 2 Sekunden abstand generiert werden(Verzögerung durch Rechendauer
         beschleunigung = ((aktuellegeschwindigkeit - letzte)/1)/3.6;
         return beschleunigung;
 
     }
 
+    //Neue Tabelle für die aufzuzeichnende Fahrt anlegen
     public void createFahrtenTabelle(String timestring){
         //Tabelle für eine Fahrt in der Fahrtendatenbank.db erstellen
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("create table "+timestring+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, Wetter TEXT, Tempolimit REAL)");
-        //Ersten Wert einfügen
+
 
     }
 

@@ -1,8 +1,8 @@
 package fim.de.mydrivingrisk;
 
 //Einbinden von anderen Klassen
-
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,7 +32,6 @@ public class RecordTrip extends AppCompatActivity {
     public DatabaseHelper myDB;
     private LocationManager locationManager1;
     private LocationListener locationListener1;
-
     public double aktuellerbreitengrad = 0.0;
     public double aktuellerlaengengrad = 0.0;
     public double aktuellerspeed = 0.0;
@@ -44,15 +42,14 @@ public class RecordTrip extends AppCompatActivity {
     public boolean aufnahmelaeuft;
     public String timestring;
     public String aktuelletabelle;
-
     public TextView t1, t2, t3, t4, t5, t6, t7, t8;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_trip);
+
+        //TextView Objekte zuordnen
         t1 = (TextView) findViewById(R.id.textView3);
         t2 = (TextView) findViewById(R.id.textView4);
         t3 = (TextView) findViewById(R.id.textView5);
@@ -61,11 +58,15 @@ public class RecordTrip extends AppCompatActivity {
         t6 = (TextView) findViewById(R.id.textView8);
         t7 = (TextView) findViewById(R.id.textView9);
 
+        //Neue Instanz eines Datenbankhelfers, der die Datenbank Fahrdatenbank.db erstellt bzw. verwendet
         myDB = new DatabaseHelper(this, "Fahrtendatenbank.db");
 
+        //GPS Hilfsobjekte erzeugen
         locationManager1 = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationListener1 = new LocationListener() {
 
+            // Sobald sich die Position verändert oder mindestens jede Sekunde neues zuweisen der
+            // aktuellen Position, Geschwindigkeit und Genauigkeit
             @Override
             public void onLocationChanged(Location location) {
                 aktuellerbreitengrad = location.getLatitude();
@@ -88,6 +89,7 @@ public class RecordTrip extends AppCompatActivity {
 
         };
 
+        //Rechte überprüfen ob GPS an ist und ob zugegriffen werden kann(Im Moment nicht funktionsfähig)
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -98,24 +100,38 @@ public class RecordTrip extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+        //Start der GPS-Aktualisierungen
         locationManager1.requestLocationUpdates("gps", 1000, 0, locationListener1);
     }
 
-
+    //Fahrt aufzeichnen Button
     public void recordButton(View view) {
         Button b1 = (Button)findViewById(R.id.button6);
+        //Überprüfen ob der Button zum Starten oder zum Stoppen der Aufzeichnung gerade zuständig ist
         if (aufnahmelaeuft == false) {
-            aufnahmelaeuft = true;
-            addNewTrip();
-            b1.setText("Aufzeichnung beenden");
+            //Überprüfen ob GPS Signal einigermaßen genau ist (+/-10m)
+            //Wenn ja: Beginn der Aufzeichnung einer neuen Fahrt
+            //Wenn nein: Warnung ausgeben
+            if ((aktuellegenauigkeit > 0.0)&&(aktuellegenauigkeit<=10)) {
+                aufnahmelaeuft = true;
+                addNewTrip();
+                Toast.makeText(RecordTrip.this, "Neue Fahrt wird aufgezeichnet!", Toast.LENGTH_LONG).show();
+                b1.setText("Aufzeichnung beenden");
+            }
+            else {
+                Toast.makeText(RecordTrip.this, "GPS zu ungenau, bitte etwas warten und erneut versuchen!", Toast.LENGTH_LONG).show();
+                t3.setText("Genauigkeit: ±"+aktuellegenauigkeit+" m (Beim letzten Versuch)");
+            }
         }
         else if (aufnahmelaeuft == true) {
             aufnahmelaeuft = false;
             //stopRecord();
             b1.setText("Fahrt aufzeichnen");
+            Toast.makeText(RecordTrip.this, "Aufnahme beendet!", Toast.LENGTH_LONG).show();
         }
     }
 
+    //Neue Fahrt anlegen
     public void addNewTrip () {
         //Aktuelles Datum ermitteln, dieses in Format bringen
         Date aktuellesDatum = new Date();
@@ -126,16 +142,20 @@ public class RecordTrip extends AppCompatActivity {
         //Tabelle erstellen in der Fahrtendatenbank.db, mit der Aktuellen Zeit als Tabellenname
         myDB.createFahrtenTabelle(aktuelletabelle);
 
-        //2 Startwerte einfügen
-        myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 36.0, 0.0, "Startwetter", 0.0);
-        //Timer erstellen, um die Schleife nicht permanent zu wiederholen sondern nur jede Sekunde
-        Timer timer = new Timer();
+        //"Leeren" Startwert einfügen um einen Crash zu verhindern
+        myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, "Startwetter", 0.0);
 
+        //Timer erstellen, um die Schleife nicht permanent zu wiederholen sondern nur jede Sekunde
+        //Timer timer = new Timer();
+
+        //Aufnahmeschleife aufrufen
         recordTrip();
     }
 
 
-
+        //Aufnahmeschleife (Wird permanent wiederholt solange bis aufnahmeläuft auf false gesetzt wird
+        //(Durch stoppen der Aufnahme) - Künstliche Verzögerung von 1s abgebaut da nur alle Sekunde
+        //Daten angelegt werden sollen
         private Handler handler = new Handler();
 
         private Runnable runnable = new Runnable() {
@@ -143,14 +163,14 @@ public class RecordTrip extends AppCompatActivity {
             public void run() {
 
                 t1.setText("Breitengrad: "+aktuellerbreitengrad);
-                t2.setText("Längengrad:: "+aktuellerlaengengrad);
-                t3.setText("Genauigkeit: ±"+aktuellegenauigkeit+" m");
+                t2.setText("Längengrad: "+aktuellerlaengengrad);
+                t3.setText("Genauigkeit: ±"+(Math.round(100.0 * aktuellegenauigkeit)/100)+" m");
                 t4.setText("Geschwindigkeit: "+(Math.round(100.0 * aktuellerspeed)/100)+" m/s | "+(Math.round(100.0 * aktuellerspeed * 3.6)/100)+" km/h");
                 t5.setText("Aufnahmestatus: "+aufnahmelaeuft);
                 t6.setText("Tabellenname: "+aktuelletabelle);
 
                 aktuellebeschleunigung = myDB.berechneBeschleunigung(aktuelletabelle, (aktuellerspeed * 3.6));
-                t7.setText("Beschleunigung: "+aktuellebeschleunigung);
+                t7.setText("Beschleunigung: "+aktuellebeschleunigung+" m/s²");
 
 
 
