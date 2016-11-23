@@ -38,6 +38,7 @@
                 android:id="@+id/button"
                 android:layout_below="@+id/textView"
                 android:drawableLeft="@android:drawable/ic_menu_edit"
+                android:onClick="toRecordTrip"
                 android:layout_centerHorizontal="true" />
 
             <Button

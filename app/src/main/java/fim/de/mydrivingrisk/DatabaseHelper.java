@@ -26,13 +26,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context, String name/*, SQLiteDatabase.CursorFactory factory, int version*/) {
         super(context, name, null, 1);
 
-
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Immer eine Tabelle generieren wenn DatabaseHelper erzeugt wird
-        db.execSQL("create table " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, BREITENGRAD REAL, LAENGENGRAD REAL, GESCHWINDIGKEIT REAL)");
+        //db.execSQL("create table " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, BREITENGRAD REAL, LAENGENGRAD REAL, GESCHWINDIGKEIT REAL)");
     }
 
     @Override
@@ -41,14 +40,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData(double breitengrad, double laengengrad, double geschwindigkeit) {
+    public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, String wetter, double tempolimit/*, double zeit*/) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("BREITENGRAD", breitengrad);
-        contentValues.put("LAENGENGRAD", laengengrad);
-        contentValues.put("GESCHWINDIGKEIT", geschwindigkeit);
-        long result = db.insert(TABLE_NAME, null, contentValues);
+        contentValues.put("Breitengrad", breitengrad);
+        contentValues.put("Laengengrad", laengengrad);
+        contentValues.put("Geschwindigkeit", geschwindigkeit);
+        contentValues.put("Beschleunigung", beschleunigung);
+        contentValues.put("Wetter", wetter);
+        contentValues.put("Tempolimit", tempolimit);
+        //contentValues.put("Zeit", zeit);
+        long result = db.insert(aktuelletabelle, null, contentValues);
 
         if(result == -1)
             return false;
@@ -61,5 +64,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from "+TABLE_NAME, null);
         return res;
     }
+
+
+    public double berechneBeschleunigung(String aktuelletabelle, double aktuellegeschwindigkeit) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT Geschwindigkeit FROM "+aktuelletabelle+" ORDER BY ID DESC LIMIT 1", null); //Letzte Geschwindigkeit auslesen
+        //Cursor cursor2 = db.rawQuery("SELECT Geschwindigkeit FROM "+aktuelletabelle+" ORDER BY ID DESC LIMIT 1,1;", null); //Vorletzte Geschwindigkeit auslesen
+
+        double letzte = 0.0;
+        //double vorletzte = 0.0;
+        double beschleunigung = 0.0;
+
+        //Letzte Geschwindigkeit schreiben
+        cursor.moveToLast();
+        letzte = cursor.getDouble(0);
+
+        //Vorletzte Geschwindigkeit schreiben
+        //cursor2.moveToLast();
+        //vorletzte = cursor2.getDouble(0);
+
+        beschleunigung = ((aktuellegeschwindigkeit - letzte)/1)/3.6;
+        return beschleunigung;
+
+    }
+
+    public void createFahrtenTabelle(String timestring){
+        //Tabelle für eine Fahrt in der Fahrtendatenbank.db erstellen
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("create table "+timestring+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, Wetter TEXT, Tempolimit REAL)");
+        //Ersten Wert einfügen
+
+    }
+
 
 }

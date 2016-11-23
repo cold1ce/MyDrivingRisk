@@ -72,7 +72,7 @@ public class GPSDatenTest extends AppCompatActivity {
 
         b1 = (Button) findViewById(R.id.button5);
         b2 = (Button) findViewById(R.id.button4);
-        myDB = new DatabaseHelper(this, "Neu");
+        myDB = new DatabaseHelper(this, "Tester.db");
         //addData();
         viewAll();
 
@@ -110,7 +110,7 @@ public class GPSDatenTest extends AppCompatActivity {
                 t9.setText("  " + (results[0]/1000) + " km");
 
 
-                myDB.insertData(breiteneu, laengeneu, geschw);
+                //myDB.insertData(breiteneu, laengeneu, geschw);
             }
 
             @Override

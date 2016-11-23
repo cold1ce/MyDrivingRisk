@@ -17,4 +17,8 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), GPSDatenTest.class);
         startActivity(i);
     }
+    public void toRecordTrip(View view) {
+        Intent i = new Intent(getApplicationContext(), RecordTrip.class);
+        startActivity(i);
+    }
 }

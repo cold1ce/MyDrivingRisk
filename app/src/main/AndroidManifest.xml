@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".GPSDatenTest" />
-        <activity android:name=".RercordTrip"></activity>
+        <activity android:name=".RecordTrip"></activity>
     </application>
 
 </manifest>
