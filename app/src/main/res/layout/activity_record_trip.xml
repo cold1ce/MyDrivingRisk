@@ -22,20 +22,28 @@
         android:layout_height="match_parent"
         android:weightSum="1">
 
-        <Button
-            android:text="Fahrt aufzeichnen"
-            android:layout_width="185dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="0dp"
-            android:layout_marginStart="86dp"
-            android:layout_marginTop="75dp"
-            android:id="@+id/button6"
-            android:onClick="recordButton"
-            android:textAlignment="center"
-            android:elevation="0dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="78dp">
+
+            <Button
+                android:text="Fahrt aufzeichnen"
+                android:layout_width="257dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/button6"
+                android:onClick="recordButton"
+                android:textAlignment="center"
+                android:elevation="0dp" />
+
+            <ProgressBar android:indeterminate="true"
+                android:layout_width="match_parent" android:layout_height="69dp"
+                android:id="@+id/marker_progress" style="?android:attr/progressBarStyle"
+                android:layout_gravity="center_vertical|center_horizontal" />
+        </LinearLayout>
 
         <TextView
             android:text="Breitengrad: -"

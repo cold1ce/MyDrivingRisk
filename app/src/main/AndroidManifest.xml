@@ -19,8 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GPSDatenTest" />
-        <activity android:name=".RecordTrip"></activity>
+        <activity android:name=".RecordTrip" />
+        <activity android:name=".TripResult"></activity>
     </application>
 
 </manifest>

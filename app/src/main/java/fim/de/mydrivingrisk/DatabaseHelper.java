@@ -84,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //vorletzte = cursor2.getDouble(0);
 
         //Berechnen der Beschleunigung (Geteilt durch 1 für eine Sekunde, sollte man evtl. noch nachbessern da manchmal zwischen zwei
-        //Spalten 2 Sekunden abstand generiert werden(Verzögerung durch Rechendauer
+        //Spalten 2 Sekunden abstand generiert werden(Verzögerung durch Rechendauer)
         beschleunigung = ((aktuellegeschwindigkeit - letzte)/1)/3.6;
         return beschleunigung;
 
@@ -99,5 +99,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public double berechneDurschnittsgeschwindigkeit(String aktuelletabelle) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //Durchschnitt der Geschwindigkeiten auslesen
+        Cursor cursor = db.rawQuery("SELECT avg(Geschwindigkeit) FROM "+aktuelletabelle+"", null);
+
+
+        double avg = -1.0;
+
+        //in Variable speichern
+        cursor.moveToLast();
+        avg = cursor.getDouble(0);
+
+        return avg;
+
+    }
 
 }

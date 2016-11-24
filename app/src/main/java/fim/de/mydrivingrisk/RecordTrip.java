@@ -4,6 +4,7 @@ package fim.de.mydrivingrisk;
 import android.Manifest;
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -128,11 +129,13 @@ public class RecordTrip extends AppCompatActivity {
             //stopRecord();
             b1.setText("Fahrt aufzeichnen");
             Toast.makeText(RecordTrip.this, "Aufnahme beendet!", Toast.LENGTH_LONG).show();
+            toTripResult();
         }
     }
 
     //Neue Fahrt anlegen
     public void addNewTrip () {
+
         //Aktuelles Datum ermitteln, dieses in Format bringen
         Date aktuellesDatum = new Date();
         SimpleDateFormat MeinFormat = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -196,8 +199,18 @@ public class RecordTrip extends AppCompatActivity {
         }
 
 
+    public void toTripResult() {
+        Bundle trip = new Bundle();
+        trip.putString("datenpaket1", aktuelletabelle);
 
+        Intent i = new Intent(getApplicationContext(), TripResult.class);
+        i.putExtras(trip);
+        startActivity(i);
+    }
 
+    public String getAktuelleTabelle(){
+        return aktuelletabelle;
+    }
 
 
 
