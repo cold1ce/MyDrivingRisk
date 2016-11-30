@@ -21,6 +21,13 @@ public class TripResult extends AppCompatActivity {
     public Button b1, b2;
     public String aktuelletabelle;
 
+    public double gesamtscore;
+    public double brakingscore;
+    public double accelerationscore;
+    public double timescore;
+    public double corneringscore;
+    public double speedingscore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +55,15 @@ public class TripResult extends AppCompatActivity {
         double average = myDB2.berechneDurschnittsgeschwindigkeit(aktuelletabelle);
         t2.setText("Durchschnittsgeschw.: "+average+" km/h");
 
-        double beschleunigungsScore = myDB2.AccelarationScore(aktuelletabelle);
-        t3.setText("BeschleunigungsScore: " + beschleunigungsScore);
+        double beschleunigungsscore = myDB2.berechneAccelarationScore(aktuelletabelle);
+        t3.setText("BeschleunigungsScore: " + beschleunigungsscore);
     }
+
+    public double berechneGesamtscore (double breakingscore, double accelerationscore, double timescore, double corneringscore, double speedingscore) {
+        gesamtscore=((breakingscore*0.3)+(accelerationscore*0.2)+(timescore*0.2)+(corneringscore*0.2)+(speedingscore*0.1));
+        return gesamtscore;
+    }
+
 
     public void mainMenuButton(View view) {
         Intent i = new Intent(getApplicationContext(), MainActivity.class);

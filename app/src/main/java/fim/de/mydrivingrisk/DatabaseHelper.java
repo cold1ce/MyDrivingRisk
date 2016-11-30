@@ -117,7 +117,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public double AccelarationScore(String aktuelletabelle) {
+    public double berechneAccelarationScore(String aktuelletabelle) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -139,7 +139,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (s / n * 100);
     }
 
-    public double berechneZentripetalkraft(String aktuelletabelle, double latitude1, double longitude1, double aktuellerspeed, double aktuelleRichtungsdifferenz) {
+    public double berechneZentripetalkraft(String aktuelletabelle, double latitude1, double longitude1, double aktuellerspeed, double aktuellerichtungsdifferenz) {
         double R = 6371000;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor1 = db.rawQuery("SELECT Breitengrad FROM " + aktuelletabelle + " ORDER BY ID DESC LIMIT 1", null);
@@ -157,7 +157,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         double a = Math.pow(Math.sin((latitude1 - latitude2) / 2), 2) + Math.cos(latitude1) * Math.cos(latitude2) * Math.pow(Math.sin(longitude1 - longitude2), 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double d = R * c;
-        double r = d / (2 * Math.sin(aktuelleRichtungsdifferenz / 2));
+        double r = d / (2 * Math.sin(aktuellerichtungsdifferenz / 2));
 
         zentripetalkraft = Math.pow(aktuellerspeed, 2) / r;
 
