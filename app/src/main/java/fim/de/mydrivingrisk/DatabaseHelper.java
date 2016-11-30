@@ -35,7 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     //Fahrtdaten einfügen, sammelt alle Daten die in die Tabelle sollen und fügt sie ein.
-    public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, String wetter, double tempolimit/*, double zeit*/) {
+    public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double zentripetalkraft, String wetter, double tempolimit/*, double zeit*/) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
         ContentValues contentValues = new ContentValues();
 
@@ -43,6 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("Laengengrad", laengengrad);
         contentValues.put("Geschwindigkeit", geschwindigkeit);
         contentValues.put("Beschleunigung", beschleunigung);
+        contentValues.put("Zentripetalkraft", zentripetalkraft);
         contentValues.put("Wetter", wetter);
         contentValues.put("Tempolimit", tempolimit);
         //contentValues.put("Zeit", zeit);
@@ -94,7 +95,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void createFahrtenTabelle(String timestring){
         //Tabelle für eine Fahrt in der Fahrtendatenbank.db erstellen
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("create table "+timestring+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, Wetter TEXT, Tempolimit REAL)");
+        db.execSQL("create table "+timestring+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, Zentripetalkraft REAL, Wetter TEXT, Tempolimit REAL)");
 
 
     }
@@ -116,4 +117,60 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public double AccelarationScore(String aktuelletabelle) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor1 = db.rawQuery("SELECT count(*) FROM " + aktuelletabelle + " WHERE Beschleunigung > 0.55", null);
+        cursor1.moveToFirst();
+        double n = cursor1.getDouble(0);
+
+        Cursor cursor2 = db.rawQuery("SELECT count(*) FROM " + aktuelletabelle + " WHERE Beschleunigung > 2.5", null);
+        cursor2.moveToFirst();
+        double s = cursor2.getDouble(0);
+
+        //   cursor1.close();
+        //   cursor2.close();
+
+        if (n < 1) {
+            n = n + 1;
+        }
+
+        return (s / n * 100);
+    }
+
+    public double berechneZentripetalkraft(String aktuelletabelle, double latitude1, double longitude1, double aktuellerspeed, double aktuelleRichtungsdifferenz) {
+        double R = 6371000;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor1 = db.rawQuery("SELECT Breitengrad FROM " + aktuelletabelle + " ORDER BY ID DESC LIMIT 1", null);
+        Cursor cursor2 = db.rawQuery("SELECT Laengengrad FROM " + aktuelletabelle + " ORDER BY ID DESC LIMIT 1", null);
+        double latitude2 = 0.0;
+        double longitude2 = 0.0;
+        double zentripetalkraft = 0.0;
+
+        cursor1.moveToLast();
+        latitude2 = cursor1.getDouble(0);
+
+        cursor2.moveToLast();
+        longitude2 = cursor2.getDouble(0);
+
+        double a = Math.pow(Math.sin((latitude1 - latitude2) / 2), 2) + Math.cos(latitude1) * Math.cos(latitude2) * Math.pow(Math.sin(longitude1 - longitude2), 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double d = R * c;
+        double r = d / (2 * Math.sin(aktuelleRichtungsdifferenz / 2));
+
+        zentripetalkraft = Math.pow(aktuellerspeed, 2) / r;
+
+        //unzulässige Werte abfangen
+        if (zentripetalkraft > 50 || zentripetalkraft < -50) {
+            zentripetalkraft = 0;
+        }
+
+        return zentripetalkraft;
+        //return Math.abs(zentripetalkraft);
+    }
+
+
+
 }
+

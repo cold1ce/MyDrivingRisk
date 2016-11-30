@@ -15,7 +15,7 @@ import static fim.de.mydrivingrisk.R.id.textView;
 
 public class TripResult extends AppCompatActivity {
 
-    public TextView t1, t2;
+    public TextView t1, t2, t3;
     public DatabaseHelper myDB2;
 
     public Button b1, b2;
@@ -28,6 +28,7 @@ public class TripResult extends AppCompatActivity {
         setContentView(R.layout.activity_trip_result);
         t1 = (TextView) findViewById(R.id.textView23);
         t2 = (TextView) findViewById(R.id.textView24);
+        t3 = (TextView) findViewById(R.id.textView25);
 
         Bundle zielkorb = getIntent().getExtras();
         aktuelletabelle = zielkorb.getString("datenpaket1");
@@ -43,13 +44,12 @@ public class TripResult extends AppCompatActivity {
         r1.setVisibility(View.GONE);
         t1.setText("Ihr Score beträgt: ?");
 
-
-
-
-
         Toast.makeText(TripResult.this,"|"+aktuelletabelle, Toast.LENGTH_LONG).show();
         double average = myDB2.berechneDurschnittsgeschwindigkeit(aktuelletabelle);
         t2.setText("Durchschnittsgeschw.: "+average+" km/h");
+
+        double beschleunigungsScore = myDB2.AccelarationScore(aktuelletabelle);
+        t3.setText("BeschleunigungsScore: " + beschleunigungsScore);
     }
 
     public void mainMenuButton(View view) {

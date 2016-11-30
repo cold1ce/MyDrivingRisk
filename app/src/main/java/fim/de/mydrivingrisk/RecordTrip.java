@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.text.DateFormat;
@@ -39,11 +40,14 @@ public class RecordTrip extends AppCompatActivity {
     public double aktuellerspeedkmh = aktuellerspeed * 3.6;
     public double aktuellegenauigkeit = 0.0;
     public double aktuellebeschleunigung = 0.0;
+    public double aktuellerichtungsdifferenz = 0.0;
+    public double aktuellezentripetalkraft = 0.0;
     public int aktuelleanzahlsatelliten = 0;
     public boolean aufnahmelaeuft;
     public String timestring;
     public String aktuelletabelle;
     public TextView t1, t2, t3, t4, t5, t6, t7, t8;
+    public ProgressBar p1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,9 @@ public class RecordTrip extends AppCompatActivity {
         t5 = (TextView) findViewById(R.id.textView7);
         t6 = (TextView) findViewById(R.id.textView8);
         t7 = (TextView) findViewById(R.id.textView9);
+        t8 = (TextView) findViewById(R.id.textView29);
+
+        p1 = (ProgressBar) findViewById(R.id.marker_progress);
 
         //Neue Instanz eines Datenbankhelfers, der die Datenbank Fahrdatenbank.db erstellt bzw. verwendet
         myDB = new DatabaseHelper(this, "Fahrtendatenbank.db");
@@ -74,6 +81,7 @@ public class RecordTrip extends AppCompatActivity {
                 aktuellerlaengengrad = location.getLongitude();
                 aktuellerspeed = location.getSpeed();
                 aktuellegenauigkeit = location.getAccuracy();
+                aktuellerichtungsdifferenz = location.getBearing();
             }
 
             @Override
@@ -146,10 +154,12 @@ public class RecordTrip extends AppCompatActivity {
         myDB.createFahrtenTabelle(aktuelletabelle);
 
         //"Leeren" Startwert einfügen um einen Crash zu verhindern
-        myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, "Startwetter", 0.0);
+        myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, "Startwetter", 0.0);
 
         //Timer erstellen, um die Schleife nicht permanent zu wiederholen sondern nur jede Sekunde
         //Timer timer = new Timer();
+
+        p1.setVisibility(View.VISIBLE);
 
         //Aufnahmeschleife aufrufen
         recordTrip();
@@ -174,13 +184,10 @@ public class RecordTrip extends AppCompatActivity {
 
                 aktuellebeschleunigung = myDB.berechneBeschleunigung(aktuelletabelle, (aktuellerspeed * 3.6));
                 t7.setText("Beschleunigung: "+aktuellebeschleunigung+" m/s²");
+                aktuellezentripetalkraft = myDB.berechneZentripetalkraft(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
+                t8.setText("Zentripetalkraft: " + aktuellezentripetalkraft + " m/s²");
 
-
-
-
-                myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, "Schönes Wetter", 0.0);
-
-
+                myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellezentripetalkraft, "Schönes Wetter", 0.0);
 
                 if(aufnahmelaeuft) {
                     recordTrip();
