@@ -180,6 +180,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //return Math.abs(lateralebeschleunigung);
     }
 
+
+
+
+/*
     public static JSONObject getWeatherJSON(String lat, String lon){
         try {
             URL url = new URL(String.format(OPEN_WEATHER_MAP_URL, lat, lon));
@@ -209,6 +213,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return null;
         }
     }
-
+*/
 }
 

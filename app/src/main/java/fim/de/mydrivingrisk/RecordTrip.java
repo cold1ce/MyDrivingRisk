@@ -5,6 +5,7 @@ package fim.de.mydrivingrisk;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -12,6 +13,7 @@ import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -23,6 +25,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class RecordTrip extends AppCompatActivity {
@@ -45,6 +48,7 @@ public class RecordTrip extends AppCompatActivity {
     public String aktuelletabelle;
     public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9;
     public ProgressBar p1;
+    public String wetter;
 
     public RecordTrip() throws JSONException {
     }
@@ -141,12 +145,6 @@ public class RecordTrip extends AppCompatActivity {
     }
 
 
-    // JSONObject weather = myDB.getWeatherJSON(String.valueOf(aktuellerbreitengrad),String.valueOf(aktuellerlaengengrad));
-    JSONObject weather = myDB.getWeatherJSON(String.valueOf(48.2696917), String.valueOf(10.8295813));
-    //String wetter = String.valueOf(weather.optJSONObject("description")); //Test
-    String wetter = "schoen";
-
-
     //Neue Fahrt anlegen
     public void addNewTrip() {
 
@@ -194,6 +192,7 @@ public class RecordTrip extends AppCompatActivity {
             aktuellelateralebeschleunigung = myDB.berechneLateraleBeschleunigung(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
             t8.setText("LateraleBeschleunigung: " + aktuellelateralebeschleunigung + " m/s²");
 
+            Wetter(String.valueOf(aktuellerbreitengrad),String.valueOf(aktuellerlaengengrad));
             t9.setText("Wetter: " + wetter);
 
             myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, wetter, 0.0);
@@ -226,6 +225,19 @@ public class RecordTrip extends AppCompatActivity {
 
     public String getAktuelleTabelle() {
         return aktuelletabelle;
+    }
+
+
+
+    public void Wetter(String latitude, String longitude) {
+        Weather.placeIdTask asyncTask = new Weather.placeIdTask(new Weather.AsyncResponse() {
+            @Override
+            public void processFinish(String output1, String output2, String output3, String output4, String output5) {
+                wetter = output2;
+            }
+        });
+
+        asyncTask.execute(latitude, longitude);
     }
 
 
