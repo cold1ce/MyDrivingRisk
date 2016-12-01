@@ -3,14 +3,11 @@ package fim.de.mydrivingrisk;
 //Einbinden von anderen Klassen
 
 import android.Manifest;
-import android.app.ActionBar;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.GnssStatus;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -24,11 +21,8 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Calendar;
-import java.util.Timer;
 
 
 public class RecordTrip extends AppCompatActivity {
@@ -44,7 +38,7 @@ public class RecordTrip extends AppCompatActivity {
     public double aktuellegenauigkeit = 0.0;
     public double aktuellebeschleunigung = 0.0;
     public double aktuellerichtungsdifferenz = 0.0;
-    public double aktuellezentripetalkraft = 0.0;
+    public double aktuellelateralebeschleunigung = 0.0;
     public int aktuelleanzahlsatelliten = 0;
     public boolean aufnahmelaeuft;
     public String timestring;
@@ -149,8 +143,8 @@ public class RecordTrip extends AppCompatActivity {
 
     // JSONObject weather = myDB.getWeatherJSON(String.valueOf(aktuellerbreitengrad),String.valueOf(aktuellerlaengengrad));
     JSONObject weather = myDB.getWeatherJSON(String.valueOf(48.2696917), String.valueOf(10.8295813));
-    String wetter = String.valueOf(weather.optJSONObject("description")); //Test
-    // String wetter = "schoen";
+    //String wetter = String.valueOf(weather.optJSONObject("description")); //Test
+    String wetter = "schoen";
 
 
     //Neue Fahrt anlegen
@@ -197,12 +191,12 @@ public class RecordTrip extends AppCompatActivity {
             aktuellebeschleunigung = myDB.berechneBeschleunigung(aktuelletabelle, (aktuellerspeed * 3.6));
             t7.setText("Beschleunigung: " + aktuellebeschleunigung + " m/s²");
 
-            aktuellezentripetalkraft = myDB.berechneZentripetalkraft(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
-            t8.setText("Zentripetalkraft: " + aktuellezentripetalkraft + " m/s²");
+            aktuellelateralebeschleunigung = myDB.berechneLateraleBeschleunigung(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
+            t8.setText("LateraleBeschleunigung: " + aktuellelateralebeschleunigung + " m/s²");
 
             t9.setText("Wetter: " + wetter);
 
-            myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellezentripetalkraft, wetter, 0.0);
+            myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, wetter, 0.0);
 
             if (aufnahmelaeuft) {
                 recordTrip();

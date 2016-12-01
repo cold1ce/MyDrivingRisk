@@ -23,7 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //public static final String TABLE_NAME = "fahrten_tabelle"; //Tabellen Name
 
     private static final String OPEN_WEATHER_MAP_URL = "http://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&units=metric";
-    private static final String OPEN_WEATHER_MAP_API = "92080114fee4af04b0fd05c803fba1fd";
+    private static final String OPEN_WEATHER_MAP_KEY = "92080114fee4af04b0fd05c803fba1fd";
 
     //Diesen Konstruktor aufrufen um Datenbank zu erzeugen
     public DatabaseHelper(Context context, String name/*, SQLiteDatabase.CursorFactory factory, int version*/) {
@@ -45,7 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     //Fahrtdaten einfügen, sammelt alle Daten die in die Tabelle sollen und fügt sie ein.
-    public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double zentripetalkraft, String wetter, double tempolimit/*, double zeit*/) {
+    public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, String wetter, double tempolimit/*, double zeit*/) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
         ContentValues contentValues = new ContentValues();
 
@@ -53,7 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("Laengengrad", laengengrad);
         contentValues.put("Geschwindigkeit", geschwindigkeit);
         contentValues.put("Beschleunigung", beschleunigung);
-        contentValues.put("Zentripetalkraft", zentripetalkraft);
+        contentValues.put("LateraleBeschleunigung", lateralebeschleunigung);
         contentValues.put("Wetter", wetter);
         contentValues.put("Tempolimit", tempolimit);
         //contentValues.put("Zeit", zeit);
@@ -105,7 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void createFahrtenTabelle(String timestring){
         //Tabelle für eine Fahrt in der Fahrtendatenbank.db erstellen
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("create table "+timestring+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, Zentripetalkraft REAL, Wetter TEXT, Tempolimit REAL)");
+        db.execSQL("create table "+timestring+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, Wetter TEXT, Tempolimit REAL)");
 
 
     }
@@ -149,14 +149,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (s / n * 100);
     }
 
-    public double berechneZentripetalkraft(String aktuelletabelle, double latitude1, double longitude1, double aktuellerspeed, double aktuellerichtungsdifferenz) {
+    public double berechneLateraleBeschleunigung(String aktuelletabelle, double latitude1, double longitude1, double aktuellerspeed, double aktuellerichtungsdifferenz) {
         double R = 6371000;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor1 = db.rawQuery("SELECT Breitengrad FROM " + aktuelletabelle + " ORDER BY ID DESC LIMIT 1", null);
         Cursor cursor2 = db.rawQuery("SELECT Laengengrad FROM " + aktuelletabelle + " ORDER BY ID DESC LIMIT 1", null);
         double latitude2 = 0.0;
         double longitude2 = 0.0;
-        double zentripetalkraft = 0.0;
+        double lateralebeschleunigung = 0.0;
 
         cursor1.moveToLast();
         latitude2 = cursor1.getDouble(0);
@@ -164,20 +164,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor2.moveToLast();
         longitude2 = cursor2.getDouble(0);
 
-        double a = Math.pow(Math.sin((latitude1 - latitude2) / 2), 2) + Math.cos(latitude1) * Math.cos(latitude2) * Math.pow(Math.sin(longitude1 - longitude2), 2);
+        double a = Math.pow(Math.sin((latitude2 - latitude1) / 2), 2) + Math.cos(latitude1) * Math.cos(latitude2) * Math.pow(Math.sin(longitude2 - longitude1), 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double d = R * c;
         double r = d / (2 * Math.sin(aktuellerichtungsdifferenz / 2));
 
-        zentripetalkraft = Math.pow(aktuellerspeed, 2) / r;
+        lateralebeschleunigung = Math.pow(aktuellerspeed, 2) / r;
 
         //unzulässige Werte abfangen
-        if (zentripetalkraft > 50 || zentripetalkraft < -50) {
-            zentripetalkraft = 0;
+        if (lateralebeschleunigung > 50 || lateralebeschleunigung < -50) {
+            lateralebeschleunigung = 0;
         }
 
-        return zentripetalkraft;
-        //return Math.abs(zentripetalkraft);
+        return lateralebeschleunigung;
+        //return Math.abs(lateralebeschleunigung);
     }
 
     public static JSONObject getWeatherJSON(String lat, String lon){
@@ -185,7 +185,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             URL url = new URL(String.format(OPEN_WEATHER_MAP_URL, lat, lon));
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 
-            connection.addRequestProperty("x-api-key", OPEN_WEATHER_MAP_API);
+            connection.addRequestProperty("x-api-key", OPEN_WEATHER_MAP_KEY);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
