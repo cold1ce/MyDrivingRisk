@@ -1,6 +1,7 @@
 package fim.de.mydrivingrisk;
 
 //Einbinden von anderen Klassen
+
 import android.Manifest;
 import android.app.ActionBar;
 import android.content.Context;
@@ -19,13 +20,15 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.Timer;
-
-
 
 
 public class RecordTrip extends AppCompatActivity {
@@ -46,8 +49,11 @@ public class RecordTrip extends AppCompatActivity {
     public boolean aufnahmelaeuft;
     public String timestring;
     public String aktuelletabelle;
-    public TextView t1, t2, t3, t4, t5, t6, t7, t8;
+    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9;
     public ProgressBar p1;
+
+    public RecordTrip() throws JSONException {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,7 @@ public class RecordTrip extends AppCompatActivity {
         t6 = (TextView) findViewById(R.id.textView8);
         t7 = (TextView) findViewById(R.id.textView9);
         t8 = (TextView) findViewById(R.id.textView29);
+        t9 = (TextView) findViewById(R.id.textView10);
 
         p1 = (ProgressBar) findViewById(R.id.marker_progress);
 
@@ -115,24 +122,22 @@ public class RecordTrip extends AppCompatActivity {
 
     //Fahrt aufzeichnen Button
     public void recordButton(View view) {
-        Button b1 = (Button)findViewById(R.id.button6);
+        Button b1 = (Button) findViewById(R.id.button6);
         //Überprüfen ob der Button zum Starten oder zum Stoppen der Aufzeichnung gerade zuständig ist
         if (aufnahmelaeuft == false) {
             //Überprüfen ob GPS Signal einigermaßen genau ist (+/-10m)
             //Wenn ja: Beginn der Aufzeichnung einer neuen Fahrt
             //Wenn nein: Warnung ausgeben
-            if ((aktuellegenauigkeit > 0.0)&&(aktuellegenauigkeit<=10)) {
+            if ((aktuellegenauigkeit > 0.0) && (aktuellegenauigkeit <= 10)) {
                 aufnahmelaeuft = true;
                 addNewTrip();
                 Toast.makeText(RecordTrip.this, "Neue Fahrt wird aufgezeichnet!", Toast.LENGTH_LONG).show();
                 b1.setText("Aufzeichnung beenden");
-            }
-            else {
+            } else {
                 Toast.makeText(RecordTrip.this, "GPS zu ungenau, bitte etwas warten und erneut versuchen!", Toast.LENGTH_LONG).show();
-                t3.setText("Genauigkeit: ±"+aktuellegenauigkeit+" m (Beim letzten Versuch)");
+                t3.setText("Genauigkeit: ±" + aktuellegenauigkeit + " m (Beim letzten Versuch)");
             }
-        }
-        else if (aufnahmelaeuft == true) {
+        } else if (aufnahmelaeuft == true) {
             aufnahmelaeuft = false;
             //stopRecord();
             b1.setText("Fahrt aufzeichnen");
@@ -141,14 +146,21 @@ public class RecordTrip extends AppCompatActivity {
         }
     }
 
+
+    // JSONObject weather = myDB.getWeatherJSON(String.valueOf(aktuellerbreitengrad),String.valueOf(aktuellerlaengengrad));
+    JSONObject weather = myDB.getWeatherJSON(String.valueOf(48.2696917), String.valueOf(10.8295813));
+    String wetter = String.valueOf(weather.optJSONObject("description")); //Test
+    // String wetter = "schoen";
+
+
     //Neue Fahrt anlegen
-    public void addNewTrip () {
+    public void addNewTrip() {
 
         //Aktuelles Datum ermitteln, dieses in Format bringen
         Date aktuellesDatum = new Date();
         SimpleDateFormat MeinFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String timestring = MeinFormat.format(aktuellesDatum);
-        aktuelletabelle = "trip_"+timestring;
+        aktuelletabelle = "trip_" + timestring;
 
         //Tabelle erstellen in der Fahrtendatenbank.db, mit der Aktuellen Zeit als Tabellenname
         myDB.createFahrtenTabelle(aktuelletabelle);
@@ -166,44 +178,47 @@ public class RecordTrip extends AppCompatActivity {
     }
 
 
-        //Aufnahmeschleife (Wird permanent wiederholt solange bis aufnahmeläuft auf false gesetzt wird
-        //(Durch stoppen der Aufnahme) - Künstliche Verzögerung von 1s abgebaut da nur alle Sekunde
-        //Daten angelegt werden sollen
-        private Handler handler = new Handler();
+    //Aufnahmeschleife (Wird permanent wiederholt solange bis aufnahmeläuft auf false gesetzt wird
+    //(Durch stoppen der Aufnahme) - Künstliche Verzögerung von 1s abgebaut da nur alle Sekunde
+    //Daten angelegt werden sollen
+    private Handler handler = new Handler();
 
-        private Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
 
-                t1.setText("Breitengrad: "+aktuellerbreitengrad);
-                t2.setText("Längengrad: "+aktuellerlaengengrad);
-                t3.setText("Genauigkeit: ±"+(Math.round(100.0 * aktuellegenauigkeit)/100)+" m");
-                t4.setText("Geschwindigkeit: "+(Math.round(100.0 * aktuellerspeed)/100)+" m/s | "+(Math.round(100.0 * aktuellerspeed * 3.6)/100)+" km/h");
-                t5.setText("Aufnahmestatus: "+aufnahmelaeuft);
-                t6.setText("Tabellenname: "+aktuelletabelle);
+            t1.setText("Breitengrad: " + aktuellerbreitengrad);
+            t2.setText("Längengrad: " + aktuellerlaengengrad);
+            t3.setText("Genauigkeit: ±" + (Math.round(100.0 * aktuellegenauigkeit) / 100) + " m");
+            t4.setText("Geschwindigkeit: " + (Math.round(100.0 * aktuellerspeed) / 100) + " m/s | " + (Math.round(100.0 * aktuellerspeed * 3.6) / 100) + " km/h");
+            t5.setText("Aufnahmestatus: " + aufnahmelaeuft);
+            t6.setText("Tabellenname: " + aktuelletabelle);
 
-                aktuellebeschleunigung = myDB.berechneBeschleunigung(aktuelletabelle, (aktuellerspeed * 3.6));
-                t7.setText("Beschleunigung: "+aktuellebeschleunigung+" m/s²");
-                aktuellezentripetalkraft = myDB.berechneZentripetalkraft(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
-                t8.setText("Zentripetalkraft: " + aktuellezentripetalkraft + " m/s²");
+            aktuellebeschleunigung = myDB.berechneBeschleunigung(aktuelletabelle, (aktuellerspeed * 3.6));
+            t7.setText("Beschleunigung: " + aktuellebeschleunigung + " m/s²");
 
-                myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellezentripetalkraft, "Schönes Wetter", 0.0);
+            aktuellezentripetalkraft = myDB.berechneZentripetalkraft(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
+            t8.setText("Zentripetalkraft: " + aktuellezentripetalkraft + " m/s²");
 
-                if(aufnahmelaeuft) {
-                    recordTrip();
-                }
+            t9.setText("Wetter: " + wetter);
+
+            myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellezentripetalkraft, wetter, 0.0);
+
+            if (aufnahmelaeuft) {
+                recordTrip();
             }
-        };
-
-        public void stop() {
-            aufnahmelaeuft = false;
-            handler.removeCallbacks(runnable);
         }
+    };
 
-        public void recordTrip() {
-            aufnahmelaeuft = true;
-            handler.postDelayed(runnable, 1000);
-        }
+    public void stop() {
+        aufnahmelaeuft = false;
+        handler.removeCallbacks(runnable);
+    }
+
+    public void recordTrip() {
+        aufnahmelaeuft = true;
+        handler.postDelayed(runnable, 1000);
+    }
 
 
     public void toTripResult() {
@@ -215,10 +230,9 @@ public class RecordTrip extends AppCompatActivity {
         startActivity(i);
     }
 
-    public String getAktuelleTabelle(){
+    public String getAktuelleTabelle() {
         return aktuelletabelle;
     }
-
 
 
 }

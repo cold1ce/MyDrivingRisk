@@ -6,6 +6,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 /**
  * Created by Julian on 21.11.2016.
  */
@@ -14,6 +21,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //public static final String DATABASE_NAME = "MyDrivingRisk.db"; //Datenbank Name
     //public static final String TABLE_NAME = "fahrten_tabelle"; //Tabellen Name
+
+    private static final String OPEN_WEATHER_MAP_URL = "http://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&units=metric";
+    private static final String OPEN_WEATHER_MAP_API = "92080114fee4af04b0fd05c803fba1fd";
 
     //Diesen Konstruktor aufrufen um Datenbank zu erzeugen
     public DatabaseHelper(Context context, String name/*, SQLiteDatabase.CursorFactory factory, int version*/) {
@@ -170,7 +180,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //return Math.abs(zentripetalkraft);
     }
 
+    public static JSONObject getWeatherJSON(String lat, String lon){
+        try {
+            URL url = new URL(String.format(OPEN_WEATHER_MAP_URL, lat, lon));
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 
+            connection.addRequestProperty("x-api-key", OPEN_WEATHER_MAP_API);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+            StringBuffer json = new StringBuffer(1024);
+            String tmp="";
+            while((tmp=reader.readLine())!=null)
+                json.append(tmp).append("\n");
+            reader.close();
+
+            JSONObject data = new JSONObject(json.toString());
+
+            // This value will be 404 if the request was not
+            // successful
+            if(data.getInt("cod") != 200){
+                return null;
+            }
+
+            return data;
+
+        }catch(Exception e){
+            return null;
+        }
+    }
 
 }
 
