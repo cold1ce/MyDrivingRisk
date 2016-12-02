@@ -4,11 +4,8 @@ package fim.de.mydrivingrisk;
  * Created by Stefan on 01.12.2016.
  */
 
-import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +22,7 @@ import java.util.Locale;
 public class Weather {
 
     private static final String OPEN_WEATHER_MAP_URL = "http://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&units=metric";
-    private static final String OPEN_WEATHER_MAP_API = "92080114fee4af04b0fd05c803fba1fd";
+    private static final String OPEN_WEATHER_MAP_KEY = "92080114fee4af04b0fd05c803fba1fd";
 
 
     public interface AsyncResponse {
@@ -36,10 +33,10 @@ public class Weather {
 
     public static class placeIdTask extends AsyncTask<String, Void, JSONObject> {
 
-        public AsyncResponse delegate = null;//Call back interface
+        public AsyncResponse delegate = null;
 
         public placeIdTask(AsyncResponse asyncResponse) {
-            delegate = asyncResponse;//Assigning call back interfacethrough constructor
+            delegate = asyncResponse;
         }
 
         @Override
@@ -64,15 +61,13 @@ public class Weather {
                     JSONObject main = json.getJSONObject("main");
                     DateFormat df = DateFormat.getDateTimeInstance();
 
-
                     String city = json.getString("name").toUpperCase(Locale.US) + ", " + json.getJSONObject("sys").getString("country");
                     String description = details.getString("description").toUpperCase(Locale.US);
                     String temperature = String.format("%.2f", main.getDouble("temp")) + "°";
-                    String updatedOn = df.format(new Date(json.getLong("dt") * 1000));
-                    long sunrise = json.getJSONObject("sys").getLong("sunrise") * 1000;
-                    long sunset = json.getJSONObject("sys").getLong("sunset") * 1000;
+                    String sunrise = df.format(new Date(json.getJSONObject("sys").getLong("sunrise") * 1000));
+                    String sunset = df.format(new Date(json.getJSONObject("sys").getLong("sunset") * 1000));
 
-                    delegate.processFinish(city, description, temperature, updatedOn, "" + (json.getJSONObject("sys").getLong("sunrise") * 1000));
+                    delegate.processFinish(city, description, temperature, sunrise, sunset);
 
                 }
             } catch (JSONException e) {
@@ -87,7 +82,7 @@ public class Weather {
             URL url = new URL(String.format(OPEN_WEATHER_MAP_URL, lat, lon));
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-            connection.addRequestProperty("x-api-key", OPEN_WEATHER_MAP_API);
+            connection.addRequestProperty("x-api-key", OPEN_WEATHER_MAP_KEY);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 

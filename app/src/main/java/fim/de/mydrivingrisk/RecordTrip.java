@@ -46,9 +46,10 @@ public class RecordTrip extends AppCompatActivity {
     public boolean aufnahmelaeuft;
     public String timestring;
     public String aktuelletabelle;
-    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9;
+    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14;
     public ProgressBar p1;
-    public String wetter;
+    public String stadt, wetter, temperatur, sonnenaufgang, sonnenuntergang;
+
 
     public RecordTrip() throws JSONException {
     }
@@ -67,7 +68,13 @@ public class RecordTrip extends AppCompatActivity {
         t6 = (TextView) findViewById(R.id.textView8);
         t7 = (TextView) findViewById(R.id.textView9);
         t8 = (TextView) findViewById(R.id.textView29);
-        t9 = (TextView) findViewById(R.id.textView10);
+        t9 = (TextView) findViewById(R.id.textView30);
+        t10 = (TextView) findViewById(R.id.textView31);
+        t11 = (TextView) findViewById(R.id.textView32);
+        t12 = (TextView) findViewById(R.id.textView33);
+        t13 = (TextView) findViewById(R.id.textView34);
+        //     t14 = (TextView) findViewById(R.id.textView35);
+
 
         p1 = (ProgressBar) findViewById(R.id.marker_progress);
 
@@ -145,20 +152,20 @@ public class RecordTrip extends AppCompatActivity {
     }
 
 
-    //Neue Fahrt anlegen
+    //  Neue Fahrt anlegen
     public void addNewTrip() {
 
-        //Aktuelles Datum ermitteln, dieses in Format bringen
+        //  Aktuelles Datum ermitteln, dieses in Format bringen
         Date aktuellesDatum = new Date();
         SimpleDateFormat MeinFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String timestring = MeinFormat.format(aktuellesDatum);
         aktuelletabelle = "trip_" + timestring;
 
-        //Tabelle erstellen in der Fahrtendatenbank.db, mit der Aktuellen Zeit als Tabellenname
+        //  Tabelle erstellen in der Fahrtendatenbank.db, mit der Aktuellen Zeit als Tabellenname
         myDB.createFahrtenTabelle(aktuelletabelle);
 
-        //"Leeren" Startwert einfügen um einen Crash zu verhindern
-        myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, "Startwetter", 0.0);
+        //  "Leeren" Startwert einfügen um einen Crash zu verhindern
+        myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, stadt, wetter, temperatur, sonnenaufgang, sonnenuntergang, 0.0);
 
         //Timer erstellen, um die Schleife nicht permanent zu wiederholen sondern nur jede Sekunde
         //Timer timer = new Timer();
@@ -192,10 +199,14 @@ public class RecordTrip extends AppCompatActivity {
             aktuellelateralebeschleunigung = myDB.berechneLateraleBeschleunigung(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
             t8.setText("LateraleBeschleunigung: " + aktuellelateralebeschleunigung + " m/s²");
 
-            Wetter(String.valueOf(aktuellerbreitengrad),String.valueOf(aktuellerlaengengrad));
-            t9.setText("Wetter: " + wetter);
+            Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
+            t9.setText("Stadt: " + stadt);
+            t10.setText("Wetter: " + wetter);
+            t11.setText("Temperatur: " + temperatur);
+            t12.setText("Sonnenaufgang: " + sonnenaufgang);
+            t13.setText("Sonnenuntergang: " + sonnenuntergang);
 
-            myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, wetter, 0.0);
+            myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, stadt, wetter, temperatur, sonnenaufgang, sonnenuntergang, 0.0);
 
             if (aufnahmelaeuft) {
                 recordTrip();
@@ -228,15 +239,17 @@ public class RecordTrip extends AppCompatActivity {
     }
 
 
-
     public void Wetter(String latitude, String longitude) {
         Weather.placeIdTask asyncTask = new Weather.placeIdTask(new Weather.AsyncResponse() {
             @Override
             public void processFinish(String output1, String output2, String output3, String output4, String output5) {
+                stadt = output1;
                 wetter = output2;
+                temperatur = output3;
+                sonnenaufgang = output4;
+                sonnenuntergang = output5;
             }
         });
-
         asyncTask.execute(latitude, longitude);
     }
 

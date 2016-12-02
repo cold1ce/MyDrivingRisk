@@ -18,43 +18,43 @@
 
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:paddingRight="20dp"
-        android:paddingLeft="20dp"
-        android:paddingTop="30dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:paddingBottom="20dp"
-        android:layout_height="match_parent">
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="30dp">
 
         <TextView
-            android:text="Bewerten Sie Ihre Fahrt!"
+            android:id="@+id/textView16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView16"
-            android:textStyle="normal|bold"
-            android:textColor="@android:color/background_light" />
+            android:text="Bewerten Sie Ihre Fahrt!"
+            android:textColor="@android:color/background_light"
+            android:textStyle="normal|bold" />
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:weightSum="1">
 
             <RatingBar
+                android:id="@+id/ratingBar"
                 android:layout_width="248dp"
                 android:layout_height="42dp"
-                android:id="@+id/ratingBar"
-                android:isIndicator="false"
                 android:fadeScrollbars="true"
-                android:stepSize="0.1"
-                android:numStars="5" />
+                android:isIndicator="false"
+                android:numStars="5"
+                android:stepSize="0.1" />
 
             <Button
-                android:text="OK"
+                android:id="@+id/button8"
                 android:layout_width="wrap_content"
                 android:layout_height="57dp"
-                android:id="@+id/button8"
-                android:onClick="calcButton" />
+                android:onClick="calcButton"
+                android:text="OK" />
         </LinearLayout>
 
         <Space
@@ -63,46 +63,46 @@
             android:layout_weight="0.45" />
 
         <TextView
+            android:id="@+id/textView23"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:id="@+id/textView23"
+            android:textColor="@android:color/holo_red_dark"
             android:textSize="30sp"
-            android:textStyle="normal|bold"
-            android:textColor="@android:color/holo_red_dark" />
+            android:textStyle="normal|bold" />
 
         <TextView
-            android:text="TextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/textView24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
             android:textColor="@android:color/background_light" />
 
         <TextView
-            android:text="TextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/textView25"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
             android:textColor="@android:color/background_light" />
 
         <TextView
-            android:text="TextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/textView26"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
             android:textColor="@android:color/background_light" />
 
         <TextView
-            android:text="TextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/textView27"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
             android:textColor="@android:color/background_light" />
 
         <TextView
-            android:text="TextView"
+            android:id="@+id/textView28"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView28"
+            android:text="TextView"
             android:textColor="@android:color/background_light" />
 
         <Space
@@ -111,11 +111,11 @@
             android:layout_weight="5.28" />
 
         <Button
-            android:text="Zurück zum Hauptmenü"
+            android:id="@+id/button9"
             android:layout_width="153dp"
             android:layout_height="wrap_content"
-            android:id="@+id/button9"
-            android:onClick="mainMenuButton" />
+            android:onClick="mainMenuButton"
+            android:text="Zurück zum Hauptmenü" />
 
     </LinearLayout>
 

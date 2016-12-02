@@ -22,8 +22,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //public static final String DATABASE_NAME = "MyDrivingRisk.db"; //Datenbank Name
     //public static final String TABLE_NAME = "fahrten_tabelle"; //Tabellen Name
 
-    private static final String OPEN_WEATHER_MAP_URL = "http://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&units=metric";
-    private static final String OPEN_WEATHER_MAP_KEY = "92080114fee4af04b0fd05c803fba1fd";
 
     //Diesen Konstruktor aufrufen um Datenbank zu erzeugen
     public DatabaseHelper(Context context, String name/*, SQLiteDatabase.CursorFactory factory, int version*/) {
@@ -45,7 +43,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     //Fahrtdaten einfügen, sammelt alle Daten die in die Tabelle sollen und fügt sie ein.
-    public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, String wetter, double tempolimit/*, double zeit*/) {
+    //public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, String stadt, String wetter, String temperatur, String update, long sonnenaufgang, long sonnenuntergang, double tempolimit/*, double zeit*/) {
+    public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, String stadt, String wetter, String temperatur, String sonnenaufgang, String sonnenuntergang, double tempolimit/*, double zeit*/) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
         ContentValues contentValues = new ContentValues();
 
@@ -54,21 +53,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("Geschwindigkeit", geschwindigkeit);
         contentValues.put("Beschleunigung", beschleunigung);
         contentValues.put("LateraleBeschleunigung", lateralebeschleunigung);
+        contentValues.put("Stadt", stadt);
         contentValues.put("Wetter", wetter);
+        contentValues.put("Temperatur", temperatur);
+        contentValues.put("Sonnenaufgang", sonnenaufgang);
+        contentValues.put("Sonnenuntergang", sonnenaufgang);
         contentValues.put("Tempolimit", tempolimit);
-        //contentValues.put("Zeit", zeit);
+//      contentValues.put("Zeit", zeit);
         long result = db.insert(aktuelletabelle, null, contentValues);
 
-        if(result == -1)
+        if (result == -1)
             return false;
         else
             return true;
     }
 
     //public Cursor getAllData() {
-        //SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
-        //Cursor res = db.rawQuery("select * from "+TABLE_NAME, null);
-        //return res;
+    //SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+    //Cursor res = db.rawQuery("select * from "+TABLE_NAME, null);
+    //return res;
     //}
 
 
@@ -78,7 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         //Letzte abgespeicherte Geschwindigkeit aus der Tabelle abfragen
-        Cursor cursor = db.rawQuery("SELECT Geschwindigkeit FROM "+aktuelletabelle+" ORDER BY ID DESC LIMIT 1", null); //Letzte Geschwindigkeit auslesen
+        Cursor cursor = db.rawQuery("SELECT Geschwindigkeit FROM " + aktuelletabelle + " ORDER BY ID DESC LIMIT 1", null); //Letzte Geschwindigkeit auslesen
 
         //Cursor cursor2 = db.rawQuery("SELECT Geschwindigkeit FROM "+aktuelletabelle+" ORDER BY ID DESC LIMIT 1,1;", null); //Vorletzte Geschwindigkeit auslesen
 
@@ -96,17 +99,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //Berechnen der Beschleunigung (Geteilt durch 1 für eine Sekunde, sollte man evtl. noch nachbessern da manchmal zwischen zwei
         //Spalten 2 Sekunden abstand generiert werden(Verzögerung durch Rechendauer)
-        beschleunigung = ((aktuellegeschwindigkeit - letzte)/1)/3.6;
+        beschleunigung = ((aktuellegeschwindigkeit - letzte) / 1) / 3.6;
         return beschleunigung;
 
     }
 
     //Neue Tabelle für die aufzuzeichnende Fahrt anlegen
-    public void createFahrtenTabelle(String timestring){
+    public void createFahrtenTabelle(String timestring) {
         //Tabelle für eine Fahrt in der Fahrtendatenbank.db erstellen
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("create table "+timestring+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, Wetter TEXT, Tempolimit REAL)");
-
+        //       db.execSQL("create table " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, Stadt TEXT, Wetter TEXT, Temperatur TEXT, Update TEXT, Sonnenaufgang INTEGER, Sonnenuntergang INTEGER, Tempolimit REAL)");
+        db.execSQL("create table " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, Stadt TEXT, Wetter TEXT, Temperatur TEXT, Sonnenaufgang TEXT, Sonnenuntergang TEXT, Tempolimit REAL)");
 
     }
 
@@ -114,7 +117,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         //Durchschnitt der Geschwindigkeiten auslesen
-        Cursor cursor = db.rawQuery("SELECT avg(Geschwindigkeit) FROM "+aktuelletabelle+"", null);
+        Cursor cursor = db.rawQuery("SELECT avg(Geschwindigkeit) FROM " + aktuelletabelle + "", null);
 
 
         double avg = -1.0;
@@ -139,9 +142,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor2.moveToFirst();
         double s = cursor2.getDouble(0);
 
-        //   cursor1.close();
-        //   cursor2.close();
-
+        //  cursor1.close();
+        //  cursor2.close();
+        //  falls n = 0, Division durch 0 abfangen
         if (n < 1) {
             n = n + 1;
         }
@@ -180,39 +183,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //return Math.abs(lateralebeschleunigung);
     }
 
-
-
-
-/*
-    public static JSONObject getWeatherJSON(String lat, String lon){
-        try {
-            URL url = new URL(String.format(OPEN_WEATHER_MAP_URL, lat, lon));
-            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-
-            connection.addRequestProperty("x-api-key", OPEN_WEATHER_MAP_KEY);
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-            StringBuffer json = new StringBuffer(1024);
-            String tmp="";
-            while((tmp=reader.readLine())!=null)
-                json.append(tmp).append("\n");
-            reader.close();
-
-            JSONObject data = new JSONObject(json.toString());
-
-            // This value will be 404 if the request was not
-            // successful
-            if(data.getInt("cod") != 200){
-                return null;
-            }
-
-            return data;
-
-        }catch(Exception e){
-            return null;
-        }
-    }
-*/
 }
 

@@ -115,13 +115,6 @@
             android:textColor="@android:color/background_light" />
 
         <TextView
-            android:id="@+id/textView10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Wetter: -"
-            android:textColor="@android:color/background_light" />
-
-        <TextView
             android:id="@+id/textView29"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -132,7 +125,35 @@
             android:id="@+id/textView30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Stadt: -"
+            android:textColor="@android:color/background_light" />
+
+        <TextView
+            android:id="@+id/textView31"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="Wetter: -"
+            android:textColor="@android:color/background_light" />
+
+        <TextView
+            android:id="@+id/textView32"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Temperatur: -"
+            android:textColor="@android:color/background_light" />
+
+        <TextView
+            android:id="@+id/textView33"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sonnenaufgang: -"
+            android:textColor="@android:color/background_light" />
+
+        <TextView
+            android:id="@+id/textView34"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sonnenuntergang: -"
             android:textColor="@android:color/background_light" />
 
     </LinearLayout>
