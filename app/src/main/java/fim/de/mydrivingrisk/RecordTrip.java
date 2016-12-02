@@ -207,7 +207,7 @@ public class RecordTrip extends AppCompatActivity {
             t13.setText("Sonnenuntergang: " + sonnenuntergang);
 
             myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, stadt, wetter, temperatur, sonnenaufgang, sonnenuntergang, 0.0);
-            
+
             if (aufnahmelaeuft) {
                 recordTrip();
             }
