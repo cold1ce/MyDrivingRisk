@@ -167,26 +167,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 /*
    public double berechneTimeScore(String aktuelletabelle){
-        double n = 1;
-        double s = 0;
-        String sonnenaufgang = null;
-        String sonnenuntergang = null;
-        long currentTime = new Date().getTime();
-        String zeit = String.valueOf(currentTime);
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor1 = db.rawQuery("SELECT Sonnenaufgang FROM " + aktuelletabelle + "", null);
-        cursor1.moveToLast();
-        sonnenaufgang = cursor1.getString(0);
-
-        Cursor cursor2 = db.rawQuery("SELECT Sonnenuntergang FROM " + aktuelletabelle + "", null);
-        cursor2.moveToLast();
-        sonnenuntergang = cursor2.getString(0);
-
-        if()
-
-
-
+   
     }
 */
 
