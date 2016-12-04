@@ -54,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //  Fahrtdaten einfügen, sammelt alle Daten die in die Tabelle sollen und fügt sie ein.
     //  public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, String stadt, String wetter, String temperatur, String sonnenaufgang, String sonnenuntergang, double tempolimit/*, double zeit*/) {
-    public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, double maxbeschleunigung, String wetter, String wetterkategorie, String sonnenaufgang, String sonnenuntergang, double tempolimit/*, double zeit*/) {
+    public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, double maxbeschleunigung, String wetter, String wetterkategorie, long sonnenaufgang, long sonnenuntergang, double tempolimit/*, double zeit*/) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
         ContentValues contentValues = new ContentValues();
 
@@ -67,7 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("Wetter", wetter);
         contentValues.put("Wetterkategorie", wetterkategorie);
         contentValues.put("Sonnenaufgang", sonnenaufgang);
-        contentValues.put("Sonnenuntergang", sonnenaufgang);
+        contentValues.put("Sonnenuntergang", sonnenuntergang);
         //  contentValues.put("Temperatur", temperatur);
         //  contentValues.put("Stadt", stadt);
         contentValues.put("Tempolimit", tempolimit);
@@ -121,7 +121,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //  Tabelle für eine Fahrt in der Fahrtendatenbank.db erstellen
         SQLiteDatabase db = this.getWritableDatabase();
         //  db.execSQL("create table " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, Stadt TEXT, Wetter TEXT, Temperatur TEXT, Sonnenaufgang TEXT, Sonnenuntergang TEXT, Tempolimit REAL)");
-        db.execSQL("create table " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, MaxBeschleunigung REAL, Wetter TEXT, Wetterkategorie TEXT, Sonnenaufgang TEXT, Sonnenuntergang TEXT, Tempolimit REAL)");
+        db.execSQL("create table " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, MaxBeschleunigung REAL, Wetter TEXT, Wetterkategorie TEXT, Sonnenaufgang INTEGER, Sonnenuntergang INTEGER, Tempolimit REAL)");
 
     }
 
@@ -165,11 +165,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (s / n * 100);
     }
 
-/*
-   public double berechneTimeScore(String aktuelletabelle){
-   
+    public double berechneSpeedingScore(String aktuelletabelle) {
+
+        return 20;
     }
-*/
+
+    public double berechneTimeScore(String aktuelletabelle) {
+
+        double n = 1, s;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor1 = db.rawQuery("SELECT Sonnenaufgang FROM " + aktuelletabelle + "", null);
+        cursor1.moveToLast();
+        long sunrise = cursor1.getLong(0);
+
+        Cursor cursor2 = db.rawQuery("SELECT Sonnenuntergang FROM " + aktuelletabelle + "", null);
+        cursor2.moveToLast();
+        long sunset = cursor2.getLong(0);
+
+        long currentTime = new Date().getTime();
+
+        if ((currentTime >= sunrise) && (currentTime < sunset)) {
+            s = 0;
+        } else {
+            s = 1;
+        }
+
+        return (s / n * 100);
+    }
+
 
     public double berechneBrakingScore(String aktuelletabelle) {
 
@@ -266,6 +290,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return lateralebeschleunigung;
         //  return Math.abs(lateralebeschleunigung);
     }
+    
 
     public String wetterkategorie(String aktuelletabelle) {
         SQLiteDatabase db = this.getWritableDatabase();

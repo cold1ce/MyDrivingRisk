@@ -15,7 +15,7 @@ import static fim.de.mydrivingrisk.R.id.textView;
 
 public class TripResult extends AppCompatActivity {
 
-    public TextView t1, t2, t3, t4, t5;
+    public TextView t1, t2, t3, t4, t5, t6, t7;
     public DatabaseHelper myDB2;
 
     public Button b1, b2;
@@ -39,6 +39,8 @@ public class TripResult extends AppCompatActivity {
         t3 = (TextView) findViewById(R.id.textView25);
         t4 = (TextView) findViewById(R.id.textView26);
         t5 = (TextView) findViewById(R.id.textView27);
+        t6 = (TextView) findViewById(R.id.textView28);
+        t7 = (TextView) findViewById(R.id.textView35);
 
         Bundle zielkorb = getIntent().getExtras();
         aktuelletabelle = zielkorb.getString("datenpaket1");
@@ -56,7 +58,8 @@ public class TripResult extends AppCompatActivity {
         RatingBar r1 = (RatingBar) findViewById(R.id.ratingBar);
         b1.setVisibility(View.GONE);
         r1.setVisibility(View.GONE);
-        t1.setText("Ihr Score beträgt: ?");
+        t1.setText("Ihr Score beträgt: " + berechneGesamtscore(brakingscore, accelerationscore, timescore, corneringscore, speedingscore));
+//       t1.setText("Ihr Score beträgt: ?");
 
         Toast.makeText(TripResult.this, "|" + aktuelletabelle, Toast.LENGTH_LONG).show();
         double average = myDB2.berechneDurschnittsgeschwindigkeit(aktuelletabelle);
@@ -71,13 +74,18 @@ public class TripResult extends AppCompatActivity {
         corneringscore = myDB2.berechneCorneringScore(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
         t5.setText("KurvenScore: " + corneringscore);
 
+        timescore = myDB2.berechneTimeScore(aktuelletabelle);
+        t6.setText("ZeitScore: " + timescore);
+
+        speedingscore = myDB2.berechneSpeedingScore(aktuelletabelle);
+        t7.setText("SpeedingScore: " + speedingscore);
+
     }
 
-    public double berechneGesamtscore(double breakingscore, double accelerationscore, double timescore, double corneringscore, double speedingscore) {
-        gesamtscore = ((breakingscore * 0.3) + (accelerationscore * 0.2) + (timescore * 0.2) + (corneringscore * 0.2) + (speedingscore * 0.1));
-        return gesamtscore;
+    public double berechneGesamtscore(double brakingscore, double accelerationscore, double timescore, double corneringscore, double speedingscore) {
+        gesamtscore = ((brakingscore * 0.3) + (accelerationscore * 0.2) + (timescore * 0.2) + (corneringscore * 0.2) + (speedingscore * 0.1));
+        return speedingscore;
     }
-
 
     public void mainMenuButton(View view) {
         Intent i = new Intent(getApplicationContext(), MainActivity.class);

@@ -23,6 +23,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -49,7 +50,8 @@ public class RecordTrip extends AppCompatActivity {
     public String aktuelletabelle;
     public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14;
     public ProgressBar p1;
-    public String wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, stadt, temperatur;
+    public String wetter, wetterkategorie, stadt, temperatur;
+    public long sonnenaufgang, sonnenuntergang;
 
 
     public RecordTrip() throws JSONException {
@@ -167,7 +169,7 @@ public class RecordTrip extends AppCompatActivity {
 
         //  "Leeren" Startwert einfügen um einen Crash zu verhindern
         //  myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, stadt, wetter, temperatur, sonnenaufgang, sonnenuntergang, 0.0);
-        myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, 0.0);
+        myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0);
 
         //  Timer erstellen, um die Schleife nicht permanent zu wiederholen sondern nur jede Sekunde
         //  Timer timer = new Timer();
@@ -204,10 +206,11 @@ public class RecordTrip extends AppCompatActivity {
 
             Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
             wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
+            DateFormat df = DateFormat.getDateTimeInstance();
             t9.setText("Wetter: " + wetter);
             t10.setText("Wetterkategorie: " + wetterkategorie);
-            t11.setText("Sonnenaufgang: " + sonnenaufgang);
-            t12.setText("Sonnenuntergang: " + sonnenuntergang);
+            t11.setText("Sonnenaufgang: " + df.format(new Date(sonnenaufgang)));
+            t12.setText("Sonnenuntergang: " + df.format(new Date(sonnenuntergang)));
 
             /*
             t9.setText("Stadt: " + stadt);
@@ -259,7 +262,7 @@ public class RecordTrip extends AppCompatActivity {
         Weather.placeIdTask asyncTask = new Weather.placeIdTask(new Weather.AsyncResponse() {
             @Override
             //  public void processFinish(String output1, String output2, String output3, String output4, String output5) {
-            public void processFinish(String output1, String output2, String output3) {
+            public void processFinish(String output1, long output2, long output3) {
 
                 wetter = output1;
                 sonnenaufgang = output2;
