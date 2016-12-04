@@ -75,7 +75,7 @@ public class RecordTrip extends AppCompatActivity {
         t10 = (TextView) findViewById(R.id.textView31);
         t11 = (TextView) findViewById(R.id.textView32);
         t12 = (TextView) findViewById(R.id.textView33);
-        //  t13 = (TextView) findViewById(R.id.textView34);
+        t13 = (TextView) findViewById(R.id.textView34);
         //  t14 = (TextView) findViewById(R.id.textView35);
 
 
@@ -203,14 +203,17 @@ public class RecordTrip extends AppCompatActivity {
             aktuellelateralebeschleunigung = myDB.berechneLateraleBeschleunigung(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
             t8.setText("LateraleBeschleunigung: " + aktuellelateralebeschleunigung + " m/s²");
 
+            aktuellemaxbeschleunigung = myDB.berechneMaximalBeschleunigung(aktuellelateralebeschleunigung);
+            t9.setText("MaximalBeschleunigung: " + aktuellemaxbeschleunigung + " m/s²");
+
 
             Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
             wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
             DateFormat df = DateFormat.getDateTimeInstance();
-            t9.setText("Wetter: " + wetter);
-            t10.setText("Wetterkategorie: " + wetterkategorie);
-            t11.setText("Sonnenaufgang: " + df.format(new Date(sonnenaufgang)));
-            t12.setText("Sonnenuntergang: " + df.format(new Date(sonnenuntergang)));
+            t10.setText("Wetter: " + wetter);
+            t11.setText("Wetterkategorie: " + wetterkategorie);
+            t12.setText("Sonnenaufgang: " + df.format(new Date(sonnenaufgang)));
+            t13.setText("Sonnenuntergang: " + df.format(new Date(sonnenuntergang)));
 
             /*
             t9.setText("Stadt: " + stadt);

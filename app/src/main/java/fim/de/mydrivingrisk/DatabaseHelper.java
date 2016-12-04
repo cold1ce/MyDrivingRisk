@@ -172,23 +172,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public double berechneTimeScore(String aktuelletabelle) {
 
-        double n = 1, s;
+        double n = 1;
+        double s = 0;
+        long currentTime = new Date().getTime();
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor1 = db.rawQuery("SELECT Sonnenaufgang FROM " + aktuelletabelle + "", null);
-        cursor1.moveToLast();
-        long sunrise = cursor1.getLong(0);
-
         Cursor cursor2 = db.rawQuery("SELECT Sonnenuntergang FROM " + aktuelletabelle + "", null);
-        cursor2.moveToLast();
-        long sunset = cursor2.getLong(0);
 
-        long currentTime = new Date().getTime();
-
-        if ((currentTime >= sunrise) && (currentTime < sunset)) {
-            s = 0;
-        } else {
-            s = 1;
+        while(cursor1.moveToNext() && cursor2.moveToNext()){
+            long sunrise = cursor1.getLong(0);
+            long sunset = cursor2.getLong(0);
+            if ((currentTime >= sunrise) && (currentTime < sunset)) {
+                s = 0;
+            } else {
+                s = 1;
+            }
         }
 
         return (s / n * 100);
@@ -228,9 +228,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public double berechneCorneringScore(String aktuelletabelle, double latitude1, double longitude1, double aktuellerspeed, double aktuellerichtungsdifferenz) {
 
-        double lateralebeschleunigung = berechneLateraleBeschleunigung(aktuelletabelle, latitude1, longitude1, aktuellerspeed, aktuellerichtungsdifferenz);
-        double maximalbeschleunigung = 0.509 * Math.pow(lateralebeschleunigung, 2) - 2.351 * lateralebeschleunigung + 2.841;
-
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor1 = db.rawQuery("SELECT count(*) FROM " + aktuelletabelle + " WHERE LateraleBeschleunigung > 0.15 ", null);
@@ -257,6 +254,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return (s / n * 100);
+    }
+
+    public double berechneMaximalBeschleunigung(double lateralebeschleunigung){
+        double maximalbeschleunigung = 0.509 * Math.pow(lateralebeschleunigung, 2) - 2.351 * lateralebeschleunigung + 2.841;
+        return maximalbeschleunigung;
     }
 
 
@@ -290,7 +292,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return lateralebeschleunigung;
         //  return Math.abs(lateralebeschleunigung);
     }
-    
+
 
     public String wetterkategorie(String aktuelletabelle) {
         SQLiteDatabase db = this.getWritableDatabase();
