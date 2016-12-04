@@ -30,7 +30,7 @@ import java.util.Locale;
 
 public class RecordTrip extends AppCompatActivity {
 
-    //Erstellen von Objekten
+    //  Erstellen von Objekten
     public DatabaseHelper myDB;
     private LocationManager locationManager1;
     private LocationListener locationListener1;
@@ -42,13 +42,14 @@ public class RecordTrip extends AppCompatActivity {
     public double aktuellebeschleunigung = 0.0;
     public double aktuellerichtungsdifferenz = 0.0;
     public double aktuellelateralebeschleunigung = 0.0;
+    public double aktuellemaxbeschleunigung = 0.0;
     public int aktuelleanzahlsatelliten = 0;
     public boolean aufnahmelaeuft;
     public String timestring;
     public String aktuelletabelle;
     public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14;
     public ProgressBar p1;
-    public String stadt, wetter, temperatur, sonnenaufgang, sonnenuntergang;
+    public String wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, stadt, temperatur;
 
 
     public RecordTrip() throws JSONException {
@@ -59,7 +60,7 @@ public class RecordTrip extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_trip);
 
-        //TextView Objekte zuordnen
+        //  TextView Objekte zuordnen
         t1 = (TextView) findViewById(R.id.textView3);
         t2 = (TextView) findViewById(R.id.textView4);
         t3 = (TextView) findViewById(R.id.textView5);
@@ -72,21 +73,21 @@ public class RecordTrip extends AppCompatActivity {
         t10 = (TextView) findViewById(R.id.textView31);
         t11 = (TextView) findViewById(R.id.textView32);
         t12 = (TextView) findViewById(R.id.textView33);
-        t13 = (TextView) findViewById(R.id.textView34);
-        //     t14 = (TextView) findViewById(R.id.textView35);
+        //  t13 = (TextView) findViewById(R.id.textView34);
+        //  t14 = (TextView) findViewById(R.id.textView35);
 
 
         p1 = (ProgressBar) findViewById(R.id.marker_progress);
 
-        //Neue Instanz eines Datenbankhelfers, der die Datenbank Fahrdatenbank.db erstellt bzw. verwendet
+        //  Neue Instanz eines Datenbankhelfers, der die Datenbank Fahrdatenbank.db erstellt bzw. verwendet
         myDB = new DatabaseHelper(this, "Fahrtendatenbank.db");
 
-        //GPS Hilfsobjekte erzeugen
+        //  GPS Hilfsobjekte erzeugen
         locationManager1 = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationListener1 = new LocationListener() {
 
-            // Sobald sich die Position verändert oder mindestens jede Sekunde neues zuweisen der
-            // aktuellen Position, Geschwindigkeit und Genauigkeit
+            //  Sobald sich die Position verändert oder mindestens jede Sekunde neues zuweisen der
+            //  aktuellen Position, Geschwindigkeit und Genauigkeit
             @Override
             public void onLocationChanged(Location location) {
                 aktuellerbreitengrad = location.getLatitude();
@@ -110,29 +111,29 @@ public class RecordTrip extends AppCompatActivity {
 
         };
 
-        //Rechte überprüfen ob GPS an ist und ob zugegriffen werden kann(Im Moment nicht funktionsfähig)
+        //  Rechte überprüfen ob GPS an ist und ob zugegriffen werden kann(Im Moment nicht funktionsfähig)
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //  TODO: Consider calling
+            //  ActivityCompat#requestPermissions
+            //  here to request the missing permissions, and then overriding
+            //  public void onRequestPermissionsResult(int requestCode, String[] permissions,
             //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            //  to handle the case where the user grants the permission. See the documentation
+            //  for ActivityCompat#requestPermissions for more details.
             return;
         }
-        //Start der GPS-Aktualisierungen
+        //  Start der GPS-Aktualisierungen
         locationManager1.requestLocationUpdates("gps", 1000, 0, locationListener1);
     }
 
-    //Fahrt aufzeichnen Button
+    //  Fahrt aufzeichnen Button
     public void recordButton(View view) {
         Button b1 = (Button) findViewById(R.id.button6);
-        //Überprüfen ob der Button zum Starten oder zum Stoppen der Aufzeichnung gerade zuständig ist
+        //  Überprüfen ob der Button zum Starten oder zum Stoppen der Aufzeichnung gerade zuständig ist
         if (aufnahmelaeuft == false) {
-            //Überprüfen ob GPS Signal einigermaßen genau ist (+/-10m)
-            //Wenn ja: Beginn der Aufzeichnung einer neuen Fahrt
-            //Wenn nein: Warnung ausgeben
+            //  Überprüfen ob GPS Signal einigermaßen genau ist (+/-10m)
+            //  Wenn ja: Beginn der Aufzeichnung einer neuen Fahrt
+            //  Wenn nein: Warnung ausgeben
             if ((aktuellegenauigkeit > 0.0) && (aktuellegenauigkeit <= 10)) {
                 aufnahmelaeuft = true;
                 addNewTrip();
@@ -144,7 +145,7 @@ public class RecordTrip extends AppCompatActivity {
             }
         } else if (aufnahmelaeuft == true) {
             aufnahmelaeuft = false;
-            //stopRecord();
+            //  stopRecord();
             b1.setText("Fahrt aufzeichnen");
             Toast.makeText(RecordTrip.this, "Aufnahme beendet!", Toast.LENGTH_LONG).show();
             toTripResult();
@@ -165,21 +166,22 @@ public class RecordTrip extends AppCompatActivity {
         myDB.createFahrtenTabelle(aktuelletabelle);
 
         //  "Leeren" Startwert einfügen um einen Crash zu verhindern
-        myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, stadt, wetter, temperatur, sonnenaufgang, sonnenuntergang, 0.0);
+        //  myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, stadt, wetter, temperatur, sonnenaufgang, sonnenuntergang, 0.0);
+        myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, 0.0);
 
-        //Timer erstellen, um die Schleife nicht permanent zu wiederholen sondern nur jede Sekunde
-        //Timer timer = new Timer();
+        //  Timer erstellen, um die Schleife nicht permanent zu wiederholen sondern nur jede Sekunde
+        //  Timer timer = new Timer();
 
         p1.setVisibility(View.VISIBLE);
 
-        //Aufnahmeschleife aufrufen
+        //  Aufnahmeschleife aufrufen
         recordTrip();
     }
 
 
-    //Aufnahmeschleife (Wird permanent wiederholt solange bis aufnahmeläuft auf false gesetzt wird
-    //(Durch stoppen der Aufnahme) - Künstliche Verzögerung von 1s abgebaut da nur alle Sekunde
-    //Daten angelegt werden sollen
+    //  Aufnahmeschleife (Wird permanent wiederholt solange bis aufnahmeläuft auf false gesetzt wird
+    //  (Durch stoppen der Aufnahme) - Künstliche Verzögerung von 1s abgebaut da nur alle Sekunde
+    //  Daten angelegt werden sollen
     private Handler handler = new Handler();
 
     private Runnable runnable = new Runnable() {
@@ -199,14 +201,24 @@ public class RecordTrip extends AppCompatActivity {
             aktuellelateralebeschleunigung = myDB.berechneLateraleBeschleunigung(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
             t8.setText("LateraleBeschleunigung: " + aktuellelateralebeschleunigung + " m/s²");
 
+
             Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
+            wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
+            t9.setText("Wetter: " + wetter);
+            t10.setText("Wetterkategorie: " + wetterkategorie);
+            t11.setText("Sonnenaufgang: " + sonnenaufgang);
+            t12.setText("Sonnenuntergang: " + sonnenuntergang);
+
+            /*
             t9.setText("Stadt: " + stadt);
             t10.setText("Wetter: " + wetter);
             t11.setText("Temperatur: " + temperatur);
             t12.setText("Sonnenaufgang: " + sonnenaufgang);
             t13.setText("Sonnenuntergang: " + sonnenuntergang);
+            */
 
-            myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, stadt, wetter, temperatur, sonnenaufgang, sonnenuntergang, 0.0);
+            //  myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, stadt, wetter, temperatur, sonnenaufgang, sonnenuntergang, 0.0);
+            myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, aktuellemaxbeschleunigung, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, 0.0);
 
             if (aufnahmelaeuft) {
                 recordTrip();
@@ -228,6 +240,10 @@ public class RecordTrip extends AppCompatActivity {
     public void toTripResult() {
         Bundle trip = new Bundle();
         trip.putString("datenpaket1", aktuelletabelle);
+        trip.putDouble("breitengrad", aktuellerbreitengrad);
+        trip.putDouble("laengengrad", aktuellerlaengengrad);
+        trip.putDouble("speed", aktuellerspeed);
+        trip.putDouble("richtungsdifferenz", aktuellerichtungsdifferenz);
 
         Intent i = new Intent(getApplicationContext(), TripResult.class);
         i.putExtras(trip);
@@ -242,12 +258,21 @@ public class RecordTrip extends AppCompatActivity {
     public void Wetter(String latitude, String longitude) {
         Weather.placeIdTask asyncTask = new Weather.placeIdTask(new Weather.AsyncResponse() {
             @Override
-            public void processFinish(String output1, String output2, String output3, String output4, String output5) {
+            //  public void processFinish(String output1, String output2, String output3, String output4, String output5) {
+            public void processFinish(String output1, String output2, String output3) {
+
+                wetter = output1;
+                sonnenaufgang = output2;
+                sonnenuntergang = output3;
+
+                /*
                 stadt = output1;
                 wetter = output2;
                 temperatur = output3;
                 sonnenaufgang = output4;
                 sonnenuntergang = output5;
+                 */
+
             }
         });
         asyncTask.execute(latitude, longitude);

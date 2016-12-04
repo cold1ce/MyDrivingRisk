@@ -27,7 +27,8 @@ public class Weather {
 
     public interface AsyncResponse {
 
-        void processFinish(String output1, String output2, String output3, String output4, String output5);
+        //  void processFinish(String output1, String output2, String output3, String output4, String output5);
+        void processFinish(String output1, String output2, String output3);
     }
 
 
@@ -58,20 +59,23 @@ public class Weather {
             try {
                 if (json != null) {
                     JSONObject details = json.getJSONArray("weather").getJSONObject(0);
-                    JSONObject main = json.getJSONObject("main");
+                    //  JSONObject main = json.getJSONObject("main");
                     DateFormat df = DateFormat.getDateTimeInstance();
 
-                    String city = json.getString("name").toUpperCase(Locale.US) + ", " + json.getJSONObject("sys").getString("country");
-                    String description = details.getString("description").toUpperCase(Locale.US);
-                    String temperature = String.format("%.2f", main.getDouble("temp")) + "°";
+                    String description = details.getString("description");
                     String sunrise = df.format(new Date(json.getJSONObject("sys").getLong("sunrise") * 1000));
                     String sunset = df.format(new Date(json.getJSONObject("sys").getLong("sunset") * 1000));
 
-                    delegate.processFinish(city, description, temperature, sunrise, sunset);
+                    //  String city = json.getString("name").toUpperCase(Locale.US) + ", " + json.getJSONObject("sys").getString("country");
+                    //  String temperature = String.format("%.2f", main.getDouble("temp")) + "°";
+                    //  String description = details.getString("description").toUpperCase(Locale.US);
+
+                    //  delegate.processFinish(city, description, temperature, sunrise, sunset);
+                    delegate.processFinish(description, sunrise, sunset);
 
                 }
             } catch (JSONException e) {
-                //Log.e(LOG_TAG, "Cannot process JSON results", e);
+                //  Log.e(LOG_TAG, "Cannot process JSON results", e);
             }
         }
     }
@@ -94,8 +98,8 @@ public class Weather {
 
             JSONObject data = new JSONObject(json.toString());
 
-            // This value will be 404 if the request was not
-            // successful
+            //  This value will be 404 if the request was not
+            //  successful
             if (data.getInt("cod") != 200) {
                 return null;
             }
