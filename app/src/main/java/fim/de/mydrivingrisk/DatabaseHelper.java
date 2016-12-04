@@ -166,7 +166,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 /*
-    public double berechneTimeScore(String aktuelletabelle){
+   public double berechneTimeScore(String aktuelletabelle){
         double n = 1;
         double s = 0;
         String sonnenaufgang = null;
