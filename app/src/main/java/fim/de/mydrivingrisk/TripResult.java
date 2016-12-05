@@ -10,6 +10,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
+
 import static fim.de.mydrivingrisk.R.id.textView;
 
 
@@ -80,7 +82,15 @@ public class TripResult extends AppCompatActivity {
         speedingscore = myDB2.berechneSpeedingScore(aktuelletabelle);
         t7.setText("SpeedingScore: " + speedingscore);
 
-        t1.setText("Ihr Score beträgt: " + berechneGesamtscore(brakingscore, accelerationscore, timescore, corneringscore, speedingscore));
+        gesamtscore = berechneGesamtscore(brakingscore, accelerationscore, timescore, corneringscore, speedingscore);
+
+        t1.setText("Ihr Score beträgt: " +gesamtscore);
+
+        Date start = new Date();
+        Date ende = new Date();
+        String name = "tripname";
+        double selbstbewertung = 100.0;
+        myDB2.addTripResult(start, ende, name, gesamtscore, selbstbewertung);
     }
 
     public double berechneGesamtscore(double brakingscore, double accelerationscore, double timescore, double corneringscore, double speedingscore) {

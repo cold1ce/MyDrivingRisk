@@ -17,4 +17,9 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), RecordTrip.class);
         startActivity(i);
     }
+
+    public void toTripHistory(View view) {
+        Intent i = new Intent(getApplicationContext(), TripHistory2.class);
+        startActivity(i);
+    }
 }

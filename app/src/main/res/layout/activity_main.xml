@@ -67,7 +67,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@android:drawable/ic_menu_search"
-                android:id="@+id/button2" />
+                android:id="@+id/button2"
+                android:onClick="toTripHistory"/>
+
 
             <Button
                 android:text="Über die App"

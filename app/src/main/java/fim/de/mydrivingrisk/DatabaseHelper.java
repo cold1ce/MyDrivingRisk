@@ -14,9 +14,7 @@ import java.util.Date;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    //  public static final String DATABASE_NAME = "MyDrivingRisk.db"; //Datenbank Name
-    //  public static final String TABLE_NAME = "fahrten_tabelle"; //Tabellen Name
-
+    //Abspeichern, sowie kategorisieren aller möglichen Wetterabfragen in die 3 Kategorien die für die Score-Berechnung gebraucht werden
     private String[] dry = {"broken clouds", "calm", "clear sky", "cold", "dust", "few clouds", "fog", "fresh breeze", "gale",
             "gentle breeze", "haze", "heavy thunderstorm", "high wind, near gale", "hot", "light breeze", "light thunderstorm",
             "mist", "moderate breeze", "overcast clouds", "ragged thunderstorm", "sand", "sand, dust whirls", "scattered clouds",
@@ -30,7 +28,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "light rain and snow", "light shower snow", "rain and snow", "shower sleet", "shower snow", "sleet", "snow",
             "thunderstorm with heavy rain", "tornado", "tropical storm", "very heavy rain"};
 
-    private double R = 6371000;
+    //Abspeichern des Erdradius in einer Konstanten R. Dieser wird für spätere Berechnungen des Kurvenverhaltens benötigt.
+    private final double R = 6371000;
 
 
     //  Diesen Konstruktor aufrufen um Datenbank zu erzeugen
@@ -39,16 +38,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    //Sobald ein DataBaseHelper gestartet wird, wird automatisch eine Tabelle für die Ergebnisse der Fahrten angelegt.
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //  Immer eine Tabelle generieren wenn DatabaseHelper erzeugt wird
-        //  db.execSQL("create table " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, BREITENGRAD REAL, LAENGENGRAD REAL, GESCHWINDIGKEIT REAL)");
+        //db.execSQL("create table TripResultsTabelle (ID INTEGER PRIMARY KEY AUTOINCREMENT, Beginn TEXT, Ende TEXT, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //  db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
-        //  onCreate(db);
     }
 
 
@@ -56,6 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //  public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, String stadt, String wetter, String temperatur, String sonnenaufgang, String sonnenuntergang, double tempolimit/*, double zeit*/) {
     public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, double maxbeschleunigung, String wetter, String wetterkategorie, long sonnenaufgang, long sonnenuntergang, double tempolimit/*, double zeit*/) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("Breitengrad", breitengrad);
@@ -86,6 +84,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     return res;
     }
 */
+
+    public boolean addTripResult(Date tripStartDate, Date tripEndeDate, String tripName, double score,  double selbstBewertung) {
+        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        ContentValues contentValues = new ContentValues();
+        db.execSQL("CREATE TABLE IF NOT EXISTS TripResultsTabelle (ID INTEGER PRIMARY KEY AUTOINCREMENT, Beginn TEXT, Ende TEXT, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
+        double tripStart = 123; //muss von Date gecastet werden
+        double tripEnde = 123; //muss von Date gecastet werden
+        double fahrtDauer = 3.0; //muss hier noch ausgerechnet werden
+        contentValues.put("Beginn", tripStart);
+        contentValues.put("Ende", tripEnde);
+        contentValues.put("Name", tripName);
+        contentValues.put("Score", score);
+        contentValues.put("Fahrtdauer", fahrtDauer);
+        contentValues.put("Selbstbewertung", selbstBewertung);
+
+        long result = db.insert("TripResultsTabelle", null, contentValues);
+
+        if (result == -1)
+            return false;
+        else
+            return true;
+    }
+
+
 
     //  Beschleunigung berechnen, im Konstruktor wird die aktuelle Geschwindigkeit sowie die aktuelle
     //  Fahrtentabelle übergeben.
@@ -317,6 +339,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return kategorie;
     }
+
+
+    public Cursor getListContents(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM TripResultsTabelle", null);
+        return data;
+    }
+
 
 }
 

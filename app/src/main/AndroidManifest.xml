@@ -20,7 +20,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".RecordTrip" />
-        <activity android:name=".TripResult"></activity>
+        <activity android:name=".TripResult" />
+        <activity
+            android:name=".TripHistory"
+            android:label="@string/title_activity_trip_history"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".TripHistory2"></activity>
     </application>
 
 </manifest>
