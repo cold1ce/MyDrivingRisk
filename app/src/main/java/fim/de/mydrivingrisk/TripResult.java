@@ -58,7 +58,7 @@ public class TripResult extends AppCompatActivity {
         RatingBar r1 = (RatingBar) findViewById(R.id.ratingBar);
         b1.setVisibility(View.GONE);
         r1.setVisibility(View.GONE);
-        t1.setText("Ihr Score beträgt: " + berechneGesamtscore(brakingscore, accelerationscore, timescore, corneringscore, speedingscore));
+
 //       t1.setText("Ihr Score beträgt: ?");
 
         Toast.makeText(TripResult.this, "|" + aktuelletabelle, Toast.LENGTH_LONG).show();
@@ -80,11 +80,12 @@ public class TripResult extends AppCompatActivity {
         speedingscore = myDB2.berechneSpeedingScore(aktuelletabelle);
         t7.setText("SpeedingScore: " + speedingscore);
 
+        t1.setText("Ihr Score beträgt: " + berechneGesamtscore(brakingscore, accelerationscore, timescore, corneringscore, speedingscore));
     }
 
     public double berechneGesamtscore(double brakingscore, double accelerationscore, double timescore, double corneringscore, double speedingscore) {
         gesamtscore = ((brakingscore * 0.3) + (accelerationscore * 0.2) + (timescore * 0.2) + (corneringscore * 0.2) + (speedingscore * 0.1));
-        return speedingscore;
+        return gesamtscore;
     }
 
     public void mainMenuButton(View view) {
