@@ -194,30 +194,31 @@ public class RecordTrip extends AppCompatActivity {
         @Override
         public void run() {
 
-            t1.setText("Breitengrad: " + aktuellerbreitengrad);
-            t2.setText("Längengrad: " + aktuellerlaengengrad);
-            t3.setText("Genauigkeit: ±" + (Math.round(100.0 * aktuellegenauigkeit) / 100) + " m");
-            t4.setText("Geschwindigkeit: " + (Math.round(100.0 * aktuellerspeed) / 100) + " m/s | " + (Math.round(100.0 * aktuellerspeed * 3.6) / 100) + " km/h");
-            t5.setText("Aufnahmestatus: " + aufnahmelaeuft);
-            t6.setText("Tabellenname: " + aktuelletabelle);
+            t1.setText(""+aktuellerbreitengrad);
+            t2.setText(""+aktuellerlaengengrad);
+            t3.setText("±"+Math.round(aktuellegenauigkeit)+" m");
+            aktuellerspeedkmh=aktuellerspeed*3.6;
+            t4.setText(""+(Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (Math.round(aktuellerspeedkmh)) + " km/h");
+            t5.setText(""+aufnahmelaeuft);
+            t6.setText(""+aktuelletabelle);
 
             aktuellebeschleunigung = myDB.berechneBeschleunigung(aktuelletabelle, (aktuellerspeed * 3.6));
-            t7.setText("Beschleunigung: " + aktuellebeschleunigung + " m/s²");
+            t7.setText(""+(Math.round(100.0 * aktuellebeschleunigung) / 100.0)+" m/s²");
 
             aktuellelateralebeschleunigung = myDB.berechneLateraleBeschleunigung(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
-            t8.setText("LateraleBeschleunigung: " + aktuellelateralebeschleunigung + " m/s²");
+            t8.setText(""+(Math.round(100.0 * aktuellelateralebeschleunigung) / 100.0)+" m/s²");
 
             aktuellemaxbeschleunigung = myDB.berechneMaximalBeschleunigung(aktuellelateralebeschleunigung);
-            t9.setText("MaximalBeschleunigung: " + aktuellemaxbeschleunigung + " m/s²");
+            t9.setText(""+(Math.round(100.0 * aktuellemaxbeschleunigung) / 100.0)+" m/s²");
 
 
             Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
             wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
             DateFormat df = DateFormat.getDateTimeInstance();
-            t10.setText("Wetter: " + wetter);
-            t11.setText("Wetterkategorie: " + wetterkategorie);
-            t12.setText("Sonnenaufgang: " + df.format(new Date(sonnenaufgang)));
-            t13.setText("Sonnenuntergang: " + df.format(new Date(sonnenuntergang)));
+            t10.setText(""+wetter);
+            t11.setText(""+wetterkategorie);
+            t12.setText(""+df.format(new Date(sonnenaufgang)));
+            t13.setText(""+df.format(new Date(sonnenuntergang)));
 
             /*
             t9.setText("Stadt: " + stadt);

@@ -58,39 +58,40 @@ public class TripResult extends AppCompatActivity {
         Button b1 = (Button) findViewById(R.id.button8);
 
         RatingBar r1 = (RatingBar) findViewById(R.id.ratingBar);
-        b1.setVisibility(View.GONE);
-        r1.setVisibility(View.GONE);
+        b1.setVisibility(View.INVISIBLE);
+        r1.setVisibility(View.INVISIBLE);
 
 //       t1.setText("Ihr Score beträgt: ?");
 
-        Toast.makeText(TripResult.this, "|" + aktuelletabelle, Toast.LENGTH_LONG).show();
+
         double average = myDB2.berechneDurschnittsgeschwindigkeit(aktuelletabelle);
-        t2.setText("Durchschnittsgeschw.: " + average + " km/h");
+        t2.setText(""+(Math.round(100.0*average)/100.0)+" km/h");
 
         accelerationscore = myDB2.berechneAccelarationScore(aktuelletabelle);
-        t3.setText("BeschleunigungsScore: " + accelerationscore);
+        t3.setText(""+accelerationscore);
 
         brakingscore = myDB2.berechneBrakingScore(aktuelletabelle);
-        t4.setText("BremsenScore: " + brakingscore);
+        t4.setText(""+brakingscore);
 
         corneringscore = myDB2.berechneCorneringScore(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
-        t5.setText("KurvenScore: " + corneringscore);
+        t5.setText(""+corneringscore);
 
         timescore = myDB2.berechneTimeScore(aktuelletabelle);
-        t6.setText("ZeitScore: " + timescore);
+        t6.setText(""+timescore);
 
         speedingscore = myDB2.berechneSpeedingScore(aktuelletabelle);
-        t7.setText("SpeedingScore: " + speedingscore);
+        t7.setText(""+speedingscore);
 
         gesamtscore = berechneGesamtscore(brakingscore, accelerationscore, timescore, corneringscore, speedingscore);
 
-        t1.setText("Ihr Score beträgt: " +gesamtscore);
+        t1.setText("Ihr Score beträgt: "+(Math.round(10.0*gesamtscore)/10.0));
 
         Date start = new Date();
         Date ende = new Date();
         String name = "tripname";
         double selbstbewertung = 100.0;
         myDB2.addTripResult(start, ende, name, gesamtscore, selbstbewertung);
+        Toast.makeText(TripResult.this, "Fahrt gespeichert unter:" + aktuelletabelle, Toast.LENGTH_LONG).show();
     }
 
     public double berechneGesamtscore(double brakingscore, double accelerationscore, double timescore, double corneringscore, double speedingscore) {
