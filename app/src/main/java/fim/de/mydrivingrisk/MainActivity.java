@@ -28,8 +28,9 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
         }
 
-
     }
+
+
 
     public void toRecordTrip(View view) {
         Intent i = new Intent(getApplicationContext(), RecordTrip.class);
@@ -40,4 +41,5 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), TripHistory.class);
         startActivity(i);
     }
+
 }

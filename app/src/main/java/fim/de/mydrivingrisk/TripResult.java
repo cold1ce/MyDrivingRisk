@@ -1,10 +1,14 @@
 package fim.de.mydrivingrisk;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -30,10 +34,13 @@ public class TripResult extends AppCompatActivity {
     public double corneringscore;
     public double speedingscore;
     public double timescore;
+    public String fahrtName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setTitle("myDrivingRisk - Fahrtergebnisse");
+
         myDB2 = new DatabaseHelper(this, "Fahrtendatenbank.db");
         setContentView(R.layout.activity_trip_result);
         t1 = (TextView) findViewById(R.id.textView23);
@@ -55,6 +62,7 @@ public class TripResult extends AppCompatActivity {
 
     //Fahrt berechnen Button
     public void calcButton(View view) {
+
         Button b1 = (Button) findViewById(R.id.button8);
 
         RatingBar r1 = (RatingBar) findViewById(R.id.ratingBar);
@@ -68,30 +76,61 @@ public class TripResult extends AppCompatActivity {
         t2.setText(""+(Math.round(100.0*average)/100.0)+" km/h");
 
         accelerationscore = myDB2.berechneAccelarationScore(aktuelletabelle);
-        t3.setText(""+accelerationscore);
+        t3.setText(""+Math.round(10.0*accelerationscore)/10.0);
 
         brakingscore = myDB2.berechneBrakingScore(aktuelletabelle);
-        t4.setText(""+brakingscore);
+        t4.setText(""+Math.round(10.0*brakingscore)/10.0);
 
         corneringscore = myDB2.berechneCorneringScore(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
-        t5.setText(""+corneringscore);
+        t5.setText(""+Math.round(10.0*corneringscore)/10.0);
 
         timescore = myDB2.berechneTimeScore(aktuelletabelle);
-        t6.setText(""+timescore);
+        t6.setText(""+Math.round(10.0*timescore)/10.0);
 
         speedingscore = myDB2.berechneSpeedingScore(aktuelletabelle);
-        t7.setText(""+speedingscore);
+        t7.setText(""+Math.round(10.0*speedingscore)/10.0);
 
         gesamtscore = berechneGesamtscore(brakingscore, accelerationscore, timescore, corneringscore, speedingscore);
 
         t1.setText("Ihr Score beträgt: "+(Math.round(10.0*gesamtscore)/10.0));
 
-        Date start = new Date();
-        Date ende = new Date();
-        String name = "tripname";
-        double selbstbewertung = 100.0;
-        myDB2.addTripResult(start, ende, name, gesamtscore, selbstbewertung);
-        Toast.makeText(TripResult.this, "Fahrt gespeichert unter:" + aktuelletabelle, Toast.LENGTH_LONG).show();
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Fahrt benennen");
+        alert.setMessage("Geben Sie einen Fahrt-Namen ein!");
+
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+
+        input.setText("Unbenannte Fahrt");
+        input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(25) });
+        alert.setView(input);
+
+        alert.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+                fahrtName = input.getText().toString();
+                Date start = new Date();
+                Date ende = new Date();
+                double selbstbewertung = 100.0;
+                double gesamtScoreGerundet = (Math.round(10.0*gesamtscore)/10.0);
+                myDB2.addTripResult(start, ende, fahrtName, gesamtScoreGerundet, selbstbewertung);
+                Toast.makeText(TripResult.this, "Fahrt gespeichert unter:\n" + fahrtName, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        alert.setNegativeButton("Nicht speichern", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                Toast.makeText(TripResult.this, "Fahrt verworfen!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        alert.show();
+
+
+
+
+
+
     }
 
     public double berechneGesamtscore(double brakingscore, double accelerationscore, double timescore, double corneringscore, double speedingscore) {

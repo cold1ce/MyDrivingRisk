@@ -348,8 +348,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getListContents(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM TripResultsTabelle", null);
+        Cursor data = db.rawQuery("SELECT * FROM TripResultsTabelle ORDER BY ID DESC", null);
         return data;
+    }
+
+    public void deleteTripResult(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.rawQuery("DELTE "+id+" FROM TripResultsTabelle", null);
     }
 
 
