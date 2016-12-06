@@ -84,11 +84,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     return res;
     }
 */
+    public void createTripResultsTabelle() {
+        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        db.execSQL("CREATE TABLE IF NOT EXISTS TripResultsTabelle (ID INTEGER PRIMARY KEY AUTOINCREMENT, Beginn TEXT, Ende TEXT, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
+    }
+
 
     public boolean addTripResult(Date tripStartDate, Date tripEndeDate, String tripName, double score,  double selbstBewertung) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        createTripResultsTabelle();
         ContentValues contentValues = new ContentValues();
-        db.execSQL("CREATE TABLE IF NOT EXISTS TripResultsTabelle (ID INTEGER PRIMARY KEY AUTOINCREMENT, Beginn TEXT, Ende TEXT, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
         double tripStart = 123; //muss von Date gecastet werden
         double tripEnde = 123; //muss von Date gecastet werden
         double fahrtDauer = 3.0; //muss hier noch ausgerechnet werden
