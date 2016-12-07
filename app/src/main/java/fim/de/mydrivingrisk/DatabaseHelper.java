@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Julian on 21.11.2016.
@@ -91,13 +93,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean addTripResult(long tripStartDate, long tripEndeDate, String tripName, double score,  double selbstBewertung) {
+    public boolean addTripResult(long tripStartDate, long tripEndeDate, String tripName, double score, double selbstBewertung) {
+        DateFormat df = DateFormat.getDateTimeInstance();
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
         createTripResultsTabelle();
         ContentValues contentValues = new ContentValues();
         long tripStart = tripStartDate; //muss von Date gecastet werden
         long tripEnde = tripEndeDate; //muss von Date gecastet werden
-        double fahrtDauer = 3.0; //muss hier noch ausgerechnet werden
+        String fahrtDauer = "-";
+
+        Date startDate = new Date(tripStartDate);
+        Date endDate = new Date(tripEndeDate);
+
+        long duration  = endDate.getTime() - startDate.getTime();
+
+        long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
+        long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+        long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
+
+        fahrtDauer = (diffInHours+"h "+diffInMinutes+"min "+diffInSeconds+"sec ");
+
         contentValues.put("Beginn", tripStart);
         contentValues.put("Ende", tripEnde);
         contentValues.put("Name", tripName);
