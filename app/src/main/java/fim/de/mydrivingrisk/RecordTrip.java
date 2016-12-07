@@ -3,6 +3,7 @@ package fim.de.mydrivingrisk;
 //Einbinden von anderen Klassen
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -11,6 +12,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -48,10 +50,10 @@ public class RecordTrip extends AppCompatActivity {
     public boolean aufnahmelaeuft;
     public String timestring;
     public String aktuelletabelle;
-    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14;
+    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16;
     public ProgressBar p1;
     public String wetter, wetterkategorie, stadt, temperatur;
-    public long sonnenaufgang, sonnenuntergang;
+    public long sonnenaufgang, sonnenuntergang, aktuellezeit;
 
 
 
@@ -80,6 +82,8 @@ public class RecordTrip extends AppCompatActivity {
         t11 = (TextView) findViewById(R.id.textView32);
         t12 = (TextView) findViewById(R.id.textView33);
         t13 = (TextView) findViewById(R.id.textView34);
+        t15 = (TextView) findViewById(R.id.textView2);
+        t16 = (TextView) findViewById(R.id.textView10);
         //  t14 = (TextView) findViewById(R.id.textView35);
 
 
@@ -125,12 +129,27 @@ public class RecordTrip extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
         }
-        else {
-            //  Start der GPS-Aktualisierungen
-            locationManager1.requestLocationUpdates("gps", 1000, 0, locationListener1);
+        else if (!locationManager1.isProviderEnabled( LocationManager.GPS_PROVIDER )) {
+            //final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+            Toast.makeText(RecordTrip.this, "Bitte aktivieren sie die Standort-Funktion auf Ihrem Gerät!", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
         }
-
+        else {
+                locationManager1.requestLocationUpdates("gps", 1000, 0, locationListener1);
+            }
     }
+
+
+
+
+
+
+
+
+
+
+
 
     //  Fahrt aufzeichnen Button
     public void recordButton(View view) {
@@ -173,7 +192,7 @@ public class RecordTrip extends AppCompatActivity {
 
         //  "Leeren" Startwert einfügen um einen Crash zu verhindern
         //  myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, stadt, wetter, temperatur, sonnenaufgang, sonnenuntergang, 0.0);
-        myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0);
+        myDB.insertFahrtDaten(aktuellezeit, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0);
 
         //  Timer erstellen, um die Schleife nicht permanent zu wiederholen sondern nur jede Sekunde
         //  Timer timer = new Timer();
@@ -193,7 +212,9 @@ public class RecordTrip extends AppCompatActivity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-
+            DateFormat df = DateFormat.getDateTimeInstance();
+            aktuellezeit = new Date().getTime();
+            t16.setText(""+aktuellezeit+" | "+df.format(new Date(aktuellezeit)));
             t1.setText(""+aktuellerbreitengrad);
             t2.setText(""+aktuellerlaengengrad);
             t3.setText("±"+Math.round(aktuellegenauigkeit)+" m");
@@ -214,7 +235,7 @@ public class RecordTrip extends AppCompatActivity {
 
             Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
             wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
-            DateFormat df = DateFormat.getDateTimeInstance();
+
             t10.setText(""+wetter);
             t11.setText(""+wetterkategorie);
             t12.setText(""+df.format(new Date(sonnenaufgang)));
@@ -229,7 +250,7 @@ public class RecordTrip extends AppCompatActivity {
             */
 
             //  myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, stadt, wetter, temperatur, sonnenaufgang, sonnenuntergang, 0.0);
-            myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, aktuellemaxbeschleunigung, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, 0.0);
+            myDB.insertFahrtDaten(aktuellezeit, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, aktuellemaxbeschleunigung, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, 0.0);
 
             if (aufnahmelaeuft) {
                 recordTrip();

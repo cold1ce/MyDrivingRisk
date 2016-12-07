@@ -18,7 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TripHistory extends ListActivity {
 
@@ -73,7 +75,13 @@ public class TripHistory extends ListActivity {
         else {
             Toast.makeText(this, "Anzahl aufgezeichneter Fahrten: "+data.getCount(), Toast.LENGTH_LONG).show();
             while (data.moveToNext()) {
-                mAdapter.addItem("ID: "+data.getString(0),"Beginn: "+data.getString(1),"Ende: "+data.getString(2),data.getString(3), data.getDouble(4),"Fahrtdauer: "+data.getString(5),"Selbstbewertung: "+data.getString(6)/*, data.getString(7)*/);
+
+                DateFormat df = DateFormat.getDateTimeInstance();
+
+               // String beginS = df.format(new Date(begin));
+               // String endS = df.format(new Date(end));
+
+                mAdapter.addItem("ID: "+data.getString(0),"Beginn: "+df.format(data.getLong(1)),"Ende: "+df.format(data.getLong(2)),data.getString(3), data.getDouble(4),"Fahrtdauer: "+data.getString(5),"Selbstbewertung: "+data.getString(6)/*, data.getString(7)*/);
                // mAdapter.addItem("Startzeit: " + data.getString(1));
                // mAdapter.addItem("Endzeit: " + data.getString(2));
                // mAdapter.addItem("Fahrtbezeichnung: " + data.getString(3));

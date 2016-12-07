@@ -51,11 +51,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //  Fahrtdaten einfügen, sammelt alle Daten die in die Tabelle sollen und fügt sie ein.
     //  public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, String stadt, String wetter, String temperatur, String sonnenaufgang, String sonnenuntergang, double tempolimit/*, double zeit*/) {
-    public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, double maxbeschleunigung, String wetter, String wetterkategorie, long sonnenaufgang, long sonnenuntergang, double tempolimit/*, double zeit*/) {
+    public boolean insertFahrtDaten(long meineZeit, String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, double maxbeschleunigung, String wetter, String wetterkategorie, long sonnenaufgang, long sonnenuntergang, double tempolimit/*, double zeit*/) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
 
         ContentValues contentValues = new ContentValues();
 
+        contentValues.put("Zeit", meineZeit);
         contentValues.put("Breitengrad", breitengrad);
         contentValues.put("Laengengrad", laengengrad);
         contentValues.put("Geschwindigkeit", geschwindigkeit);
@@ -86,16 +87,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 */
     public void createTripResultsTabelle() {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
-        db.execSQL("CREATE TABLE IF NOT EXISTS TripResultsTabelle (ID INTEGER PRIMARY KEY AUTOINCREMENT, Beginn TEXT, Ende TEXT, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS TripResultsTabelle (ID INTEGER PRIMARY KEY AUTOINCREMENT, Beginn DATETIME, Ende DATETIME, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
     }
 
 
-    public boolean addTripResult(Date tripStartDate, Date tripEndeDate, String tripName, double score,  double selbstBewertung) {
+    public boolean addTripResult(long tripStartDate, long tripEndeDate, String tripName, double score,  double selbstBewertung) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
         createTripResultsTabelle();
         ContentValues contentValues = new ContentValues();
-        double tripStart = 123; //muss von Date gecastet werden
-        double tripEnde = 123; //muss von Date gecastet werden
+        long tripStart = tripStartDate; //muss von Date gecastet werden
+        long tripEnde = tripEndeDate; //muss von Date gecastet werden
         double fahrtDauer = 3.0; //muss hier noch ausgerechnet werden
         contentValues.put("Beginn", tripStart);
         contentValues.put("Ende", tripEnde);
@@ -148,8 +149,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //  Tabelle für eine Fahrt in der Fahrtendatenbank.db erstellen
         SQLiteDatabase db = this.getWritableDatabase();
         //  db.execSQL("create table " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, Stadt TEXT, Wetter TEXT, Temperatur TEXT, Sonnenaufgang TEXT, Sonnenuntergang TEXT, Tempolimit REAL)");
-        db.execSQL("create table " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, MaxBeschleunigung REAL, Wetter TEXT, Wetterkategorie TEXT, Sonnenaufgang INTEGER, Sonnenuntergang INTEGER, Tempolimit REAL)");
+        db.execSQL("create table " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Zeit INTEGER, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, MaxBeschleunigung REAL, Wetter TEXT, Wetterkategorie TEXT, Sonnenaufgang INTEGER, Sonnenuntergang INTEGER, Tempolimit REAL)");
 
+    }
+
+    public long getFahrtBeginn(String aktuelletab) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT Zeit FROM "+aktuelletab+" ORDER BY ID ASC LIMIT 1 OFFSET 2;", null);
+        cursor.moveToLast();
+        long ret = cursor.getLong(0);
+        return ret;
+    }
+
+    public long getFahrtEnde(String aktuelletab) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT Zeit FROM "+aktuelletab+" ORDER BY ID DESC LIMIT 1", null);
+        cursor.moveToLast();
+        long ret = cursor.getLong(0);
+        return ret;
     }
 
     public double berechneDurschnittsgeschwindigkeit(String aktuelletabelle) {

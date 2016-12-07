@@ -1,5 +1,6 @@
 package fim.de.mydrivingrisk;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +15,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static fim.de.mydrivingrisk.R.id.textView;
@@ -113,7 +116,21 @@ public class TripResult extends AppCompatActivity {
                 Date ende = new Date();
                 double selbstbewertung = 100.0;
                 double gesamtScoreGerundet = (Math.round(10.0*gesamtscore)/10.0);
-                myDB2.addTripResult(start, ende, fahrtName, gesamtScoreGerundet, selbstbewertung);
+
+                Date aktuellesDatum = new Date();
+                SimpleDateFormat MeinFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                String timestring = MeinFormat.format(aktuellesDatum);
+
+                long begin = myDB2.getFahrtBeginn(aktuelletabelle);
+                long end = myDB2.getFahrtEnde(aktuelletabelle);
+                DateFormat df = DateFormat.getDateTimeInstance();
+
+               // String beginS = df.format(new Date(begin));
+               // String endS = df.format(new Date(end));
+               // Toast.makeText(TripResult.this, "time1: "+beginS+" time2: "+endS+".", Toast.LENGTH_LONG).show();
+
+
+                myDB2.addTripResult(begin, end, fahrtName, gesamtScoreGerundet, selbstbewertung);
                 Toast.makeText(TripResult.this, "Fahrt gespeichert unter:\n" + fahrtName, Toast.LENGTH_LONG).show();
             }
         });

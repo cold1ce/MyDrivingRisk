@@ -307,6 +307,7 @@
                 android:textColor="@android:color/holo_red_light"
                 android:layout_weight="1"
                 android:textAlignment="viewEnd" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -331,6 +332,7 @@
                 android:textColor="@android:color/holo_red_light"
                 android:layout_weight="1"
                 android:textAlignment="viewEnd" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -355,6 +357,7 @@
                 android:textColor="@android:color/holo_red_light"
                 android:layout_weight="1"
                 android:textAlignment="viewEnd" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -379,6 +382,33 @@
                 android:textColor="@android:color/holo_red_light"
                 android:layout_weight="1"
                 android:textAlignment="viewEnd" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:text="Erfassungszeit:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2"
+                android:layout_weight="1"
+                android:textStyle="normal|bold"
+                android:textColor="@android:color/holo_red_light" />
+
+            <TextView
+                android:text="-"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView10"
+                android:layout_weight="1"
+                android:textColor="@android:color/holo_red_light"
+                android:textAlignment="viewEnd" />
+
         </LinearLayout>
 
 

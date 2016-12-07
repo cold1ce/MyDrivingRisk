@@ -1,9 +1,13 @@
 package fim.de.mydrivingrisk;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,12 +18,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean ALLOWED_TO_ACCESS_COARSE_LOCATION = false;
     public int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION ;
     public int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION;
-
+    private LocationManager locationManager5;
+    private LocationManager locationListener5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        locationManager5 = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
@@ -27,10 +35,24 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
         }
-
+        if (!locationManager5.isProviderEnabled( LocationManager.GPS_PROVIDER )) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Standort-Funktion deaktiviert oder auf niedriger Genauigkeit. Bitte aktivieren Sie die Standort-Funktion um eine Fahrt aufzeichnen zu können!")
+                    .setCancelable(false)
+                    .setPositiveButton("Standort-Einstellungen", new DialogInterface.OnClickListener() {
+                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+                    })
+                    .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            dialog.cancel();
+                        }
+                    });
+            final AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
-
-
 
     public void toRecordTrip(View view) {
         Intent i = new Intent(getApplicationContext(), RecordTrip.class);
