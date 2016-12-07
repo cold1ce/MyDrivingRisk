@@ -20,11 +20,12 @@
             android:id="@+id/imageView" />
 
         <ListView
-            android:id="@id/listViewGilt"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:headerDividersEnabled="true"
-            android:footerDividersEnabled="true">
+            android:footerDividersEnabled="true"
+            android:id="@android:id/list">
         </ListView>
     </RelativeLayout>
 
