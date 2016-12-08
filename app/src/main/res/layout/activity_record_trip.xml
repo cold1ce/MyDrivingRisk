@@ -388,8 +388,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_height="20dp">
 
             <TextView
                 android:text="Erfassungszeit:"
@@ -409,6 +408,30 @@
                 android:textColor="@android:color/holo_red_light"
                 android:textAlignment="viewEnd" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="20dp">
+
+            <TextView
+                android:text="Rechenzeit: (Soll 1000ms)"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView14"
+                android:layout_weight="1"
+                android:textStyle="normal|bold"
+                android:textColor="@android:color/holo_red_light" />
+
+            <TextView
+                android:text="-"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView13"
+                android:layout_weight="1"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/holo_red_light" />
         </LinearLayout>
 
 

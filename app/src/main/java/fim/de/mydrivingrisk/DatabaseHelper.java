@@ -53,12 +53,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //  Fahrtdaten einfügen, sammelt alle Daten die in die Tabelle sollen und fügt sie ein.
     //  public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, String stadt, String wetter, String temperatur, String sonnenaufgang, String sonnenuntergang, double tempolimit/*, double zeit*/) {
-    public boolean insertFahrtDaten(long meineZeit, String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, double maxbeschleunigung, String wetter, String wetterkategorie, long sonnenaufgang, long sonnenuntergang, double tempolimit/*, double zeit*/) {
+    public boolean insertFahrtDaten(long meineZeit, long rechenZeit, String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, double maxbeschleunigung, String wetter, String wetterkategorie, long sonnenaufgang, long sonnenuntergang, double tempolimit/*, double zeit*/) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
 
         ContentValues contentValues = new ContentValues();
 
         contentValues.put("Zeit", meineZeit);
+        contentValues.put("Rechenzeit", rechenZeit);
         contentValues.put("Breitengrad", breitengrad);
         contentValues.put("Laengengrad", laengengrad);
         contentValues.put("Geschwindigkeit", geschwindigkeit);
@@ -92,6 +93,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS TripResultsTabelle (ID INTEGER PRIMARY KEY AUTOINCREMENT, Beginn DATETIME, Ende DATETIME, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
     }
 
+    public void deleteFahrtentabelle(String aktuelletabelle) {
+        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        db.execSQL("DROP TABLE IF EXISTS "+aktuelletabelle);
+    }
 
     public boolean addTripResult(long tripStartDate, long tripEndeDate, String tripName, double score, double selbstBewertung) {
         DateFormat df = DateFormat.getDateTimeInstance();
@@ -105,14 +110,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Date startDate = new Date(tripStartDate);
         Date endDate = new Date(tripEndeDate);
 
-        long duration  = endDate.getTime() - startDate.getTime();
+        //long duration  = endDate.getTime() - startDate.getTime();
 
-        long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
-        long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-        long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
+        // long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
+        // long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+        // long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
 
-        fahrtDauer = (diffInHours+"h "+diffInMinutes+"min "+diffInSeconds+"sec ");
+            String diff = "";
+            long timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+            if (timeDiff >= 0 && timeDiff <60000) {
+                diff = TimeUnit.MILLISECONDS.toSeconds(timeDiff)+"s";
+            }
+            else if (timeDiff >= 60000 && timeDiff <3600000) {
+                diff = TimeUnit.MILLISECONDS.toMinutes(timeDiff)+"min";
+            }
+            else {
+                diff = String.format("%dh %dmin", TimeUnit.MILLISECONDS.toHours(timeDiff),
+                        TimeUnit.MILLISECONDS.toMinutes(timeDiff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeDiff)));
+            }
 
+
+
+
+       // fahrtDauer = (diffInHours+"h "+diffInMinutes+"min "+diffInSeconds+"sec ");
+        fahrtDauer = diff;
         contentValues.put("Beginn", tripStart);
         contentValues.put("Ende", tripEnde);
         contentValues.put("Name", tripName);
@@ -132,7 +153,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //  Beschleunigung berechnen, im Konstruktor wird die aktuelle Geschwindigkeit sowie die aktuelle
     //  Fahrtentabelle übergeben.
-    public double berechneBeschleunigung(String aktuelletabelle, double aktuellegeschwindigkeit) {
+    public double berechneBeschleunigung(String aktuelletabelle, double aktuellegeschwindigkeit, long rechenZeit) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         //  Letzte abgespeicherte Geschwindigkeit aus der Tabelle abfragen
@@ -144,6 +165,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //  double vorletzte = 0.0;
         double beschleunigung = 0.0;
 
+        double zeitPeriode = rechenZeit/1000;
+
         //  Zuvor abgefragte letzte Geschwindigkeit in Variable speichern
         cursor.moveToLast();
         letzte = cursor.getDouble(0);
@@ -153,8 +176,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //  vorletzte = cursor2.getDouble(0);
 
         //  Berechnen der Beschleunigung (Geteilt durch 1 für eine Sekunde, sollte man evtl. noch nachbessern da manchmal zwischen zwei
-        //  Spalten 2 Sekunden abstand generiert werden(Verzögerung durch Rechendauer)
-        beschleunigung = ((aktuellegeschwindigkeit - letzte) / 1) / 3.6;
+        //  Spalten 2 Sekunden abstand generiert werden(Verzögerung durch Rechendauer) Edit: durch zeitPeriode versucht zu beheben
+        beschleunigung = ((aktuellegeschwindigkeit - letzte) / zeitPeriode) / 3.6;
         return beschleunigung;
 
     }
@@ -164,7 +187,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //  Tabelle für eine Fahrt in der Fahrtendatenbank.db erstellen
         SQLiteDatabase db = this.getWritableDatabase();
         //  db.execSQL("create table " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, Stadt TEXT, Wetter TEXT, Temperatur TEXT, Sonnenaufgang TEXT, Sonnenuntergang TEXT, Tempolimit REAL)");
-        db.execSQL("create table " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Zeit INTEGER, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, MaxBeschleunigung REAL, Wetter TEXT, Wetterkategorie TEXT, Sonnenaufgang INTEGER, Sonnenuntergang INTEGER, Tempolimit REAL)");
+        db.execSQL("create table " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Zeit INTEGER, Rechenzeit REAL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, MaxBeschleunigung REAL, Wetter TEXT, Wetterkategorie TEXT, Sonnenaufgang INTEGER, Sonnenuntergang INTEGER, Tempolimit REAL)");
 
     }
 
@@ -177,6 +200,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public long getFahrtEnde(String aktuelletab) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT Zeit FROM "+aktuelletab+" ORDER BY ID DESC LIMIT 1", null);
+        cursor.moveToLast();
+        long ret = cursor.getLong(0);
+        return ret;
+    }
+
+    //Eigentlich gleiche Funktion wie getFahrtEnde :-D
+    public long getLetzteZeit(String aktuelletab) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT Zeit FROM "+aktuelletab+" ORDER BY ID DESC LIMIT 1", null);
         cursor.moveToLast();
@@ -384,10 +416,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public void deleteTripResult(int id){
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.rawQuery("DELTE "+id+" FROM TripResultsTabelle", null);
-    }
+    //public void deleteTripResult(int id){
+    //    SQLiteDatabase db = this.getWritableDatabase();
+    //    db.rawQuery("DELTE "+id+" FROM TripResultsTabelle", null);
+   // }
 
 
 }

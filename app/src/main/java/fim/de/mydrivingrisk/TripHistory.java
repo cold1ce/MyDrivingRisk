@@ -252,8 +252,8 @@ public class TripHistory extends ListActivity {
     }
 
 
-    public void deleteTripResultFunction(int id) {
-        myDB3.deleteTripResult(id);
-    }
+    //public void deleteTripResultFunction(int id) {
+     //   myDB3.deleteTripResult(id);
+  //  }
 
 }

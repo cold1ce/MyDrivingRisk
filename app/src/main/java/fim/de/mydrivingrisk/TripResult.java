@@ -107,7 +107,7 @@ public class TripResult extends AppCompatActivity {
         input.setText("Unbenannte Fahrt");
         input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(25) });
         alert.setView(input);
-
+        alert.setCancelable(false);
         alert.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 

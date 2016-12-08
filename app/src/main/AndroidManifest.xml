@@ -19,8 +19,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RecordTrip" />
+
+
         <activity android:name=".TripResult" />
+
+
+
+        <!-- A child of the main activity -->
+        <activity
+            android:name=".RecordTrip"
+            android:label="myDrivingRisk - Fahrt aufzeichnen"
+            android:parentActivityName=".MainActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name=".MainActivity"
+                android:value="de.fim.mydrivingrisk.MainActivity" />
+        </activity>
+
+
+
+
 
         <activity
             android:name=".About"
