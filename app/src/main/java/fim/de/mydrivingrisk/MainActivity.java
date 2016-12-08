@@ -70,4 +70,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    //Wird bei Klick auf den Über-die-App-Button ausgeführt und öffnet
+    //eine Bedienungsanleitung und Infos über die Funktionsweise
+    public void toAboutTheApp(View view) {
+        Intent i = new Intent(getApplicationContext(), About.class);
+        startActivity(i);
+    }
+
 }

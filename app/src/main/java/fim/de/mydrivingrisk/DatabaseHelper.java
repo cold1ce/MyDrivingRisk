@@ -285,7 +285,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (s / n * 100);
     }
 
-
     public double berechneBrakingScore(String aktuelletabelle) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -315,7 +314,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return (s / n * 100);
     }
-
 
     public double berechneCorneringScore(String aktuelletabelle, double latitude1, double longitude1, double aktuellerspeed, double aktuellerichtungsdifferenz) {
 
@@ -352,7 +350,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return maximalbeschleunigung;
     }
 
-
     public double berechneLateraleBeschleunigung(String aktuelletabelle, double latitude1, double longitude1, double aktuellerspeed, double aktuellerichtungsdifferenz) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -384,7 +381,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //  return Math.abs(lateralebeschleunigung);
     }
 
-
     public String wetterkategorie(String aktuelletabelle) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT Wetter FROM " + aktuelletabelle + " ORDER BY ID DESC LIMIT 1", null);
@@ -408,7 +404,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return kategorie;
     }
-
 
     public Cursor getListContents(){
         SQLiteDatabase db = this.getWritableDatabase();
