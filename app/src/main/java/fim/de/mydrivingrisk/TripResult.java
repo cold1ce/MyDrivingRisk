@@ -38,6 +38,7 @@ public class TripResult extends AppCompatActivity {
     public double speedingscore;
     public double timescore;
     public String fahrtName;
+    public boolean aktuellerTripGespeichert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,44 @@ public class TripResult extends AppCompatActivity {
         aktuellerspeed = zielkorb.getDouble("speed");
         aktuellerichtungsdifferenz = zielkorb.getDouble("richtungsdifferenz");
 
+        aktuellerTripGespeichert = false;
     }
+
+    public void onBackPressed() {
+        cancelResultsDialog();
+    }
+
+    public void cancelResultsDialog() {
+        if (aktuellerTripGespeichert == false) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Die Fahrt wurde noch nicht gespeichert! Wollen Sie sicher zum Hauptmenü zurückkehren?")
+                    .setCancelable(false)
+                    .setPositiveButton("Zum Hauptmenü", new DialogInterface.OnClickListener() {
+                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            myDB2.deleteFahrtentabelle(aktuelletabelle);
+                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(i);
+                        }
+                    })
+                    .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            dialog.cancel();
+                        }
+                    });
+            final AlertDialog alert = builder.create();
+            alert.show();
+        }
+        else {
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
+        }
+    }
+
+
+
+
+
+
 
     //Fahrt berechnen Button
     public void calcButton(View view) {
@@ -131,6 +169,7 @@ public class TripResult extends AppCompatActivity {
 
 
                 myDB2.addTripResult(begin, end, fahrtName, gesamtScoreGerundet, selbstbewertung);
+                aktuellerTripGespeichert = true;
                 Toast.makeText(TripResult.this, "Fahrt gespeichert unter:\n" + fahrtName, Toast.LENGTH_LONG).show();
             }
         });

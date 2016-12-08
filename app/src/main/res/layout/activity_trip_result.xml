@@ -25,7 +25,11 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="30dp"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp">
 
         <TextView
             android:id="@+id/textView16"
@@ -280,15 +284,31 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.74" />
+            android:layout_height="65dp" />
 
-        <Button
-            android:id="@+id/button9"
-            android:layout_width="153dp"
-            android:layout_height="wrap_content"
-            android:onClick="mainMenuButton"
-            android:text="Zurück zum Hauptmenü" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="347dp"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/button9"
+                android:layout_width="153dp"
+                android:layout_height="wrap_content"
+                android:onClick="mainMenuButton"
+                android:text="Zurück zum Hauptmenü"
+                android:layout_weight="0.32"
+                android:layout_gravity="center_vertical|center_horizontal" />
+
+            <Button
+                android:text="Fahrt speichern"
+                android:layout_width="157dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_save"
+                android:drawableLeft="@android:drawable/ic_menu_save"
+                android:layout_gravity="center_vertical|center_horizontal" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

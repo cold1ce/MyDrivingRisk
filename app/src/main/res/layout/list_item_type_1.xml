@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list_item_type1_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@android:color/transparent"
+    android:cacheColorHint="@android:color/transparent"
     android:layout_marginLeft="10dp"
     android:weightSum="1">
 
@@ -12,13 +16,19 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:weightSum="1"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:background="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
+        android:layout_marginTop="2dp">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:background="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
             android:weightSum="1">
 
             <TextView
@@ -40,9 +50,9 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingRight="5dp">
+                android:paddingRight="5dp"
+                android:layout_width="105dp">
 
                 <TextView
                     android:text="Score:"
@@ -56,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/list_item_type1_text_view_2"
-                    android:textSize="40dp"
+                    android:textSize="36sp"
                     android:textColor="@android:color/holo_red_light"
                     android:textStyle="normal|bold"
                     android:layout_marginRight="7dp" />
@@ -64,14 +74,15 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_width="260dp"
+                android:weightSum="1">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:layout_width="190dp">
+                    android:layout_width="180dp">
 
                     <TextView
                         android:text="Beginn: 01.01.01 01:01 Uhr"
@@ -97,8 +108,10 @@
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="63dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_width="53dp"
+                    android:foregroundGravity="right"
+                    android:gravity="right">
 
                     <TextView
                         android:text="ID:"
@@ -112,7 +125,8 @@
                         android:id="@+id/button11"
                         android:drawableTop="@android:drawable/ic_menu_delete"
                         android:layout_height="50dp"
-                        android:layout_width="wrap_content" />
+                        android:layout_width="50dp"
+                        android:layout_gravity="right" />
                 </LinearLayout>
 
             </LinearLayout>

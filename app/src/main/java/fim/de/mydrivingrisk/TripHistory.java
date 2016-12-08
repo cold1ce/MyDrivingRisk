@@ -1,5 +1,6 @@
 package fim.de.mydrivingrisk;
 
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +34,7 @@ public class TripHistory extends ListActivity {
     // and the last five will be list item type 2
     //private static final int LIST_ITEM_TYPE_1_COUNT = 5;
 
-    private MyCustomAdapter mAdapter;
+    public MyCustomAdapter mAdapter;
     public DatabaseHelper myDB3;
 
 
@@ -45,6 +46,7 @@ public class TripHistory extends ListActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_history);
+
 
         this.setTitle("myDrivingRisk - Aufgezeichnete Fahrten");
 

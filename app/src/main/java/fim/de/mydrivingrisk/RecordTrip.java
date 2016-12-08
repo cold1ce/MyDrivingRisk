@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -190,18 +191,19 @@ public class RecordTrip extends AppCompatActivity {
         else {
                 locationManager1.requestLocationUpdates("gps", 1000, 0, locationListener1);
             }
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        String s = "<b>Bolded text</b>, <i>italic text</i>, even <u>underlined</u>!";
+        builder.setMessage(R.string.caution_message)
+                .setCancelable(false)
+                .setPositiveButton("Verstanden und weiter", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
-
-
-
-
-
-
-
-
-
-
-
 
     //  Fahrt aufzeichnen Button
     public void recordButton(View view) {
@@ -216,6 +218,11 @@ public class RecordTrip extends AppCompatActivity {
                 addNewTrip();
                 Toast.makeText(RecordTrip.this, "Neue Fahrt wird aufgezeichnet!", Toast.LENGTH_LONG).show();
                 b1.setText("Aufzeichnung beenden");
+                //b1.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_media_rew, 0, 0, 0);
+                b1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_media_stop, 0, 0, 0);
+
+
+
             } else {
                 Toast.makeText(RecordTrip.this, "GPS zu ungenau, bitte etwas warten und erneut versuchen!", Toast.LENGTH_LONG).show();
                 t3.setText("Genauigkeit: ±" + aktuellegenauigkeit + " m (Beim letzten Versuch)");
@@ -223,8 +230,9 @@ public class RecordTrip extends AppCompatActivity {
         } else if (aufnahmelaeuft == true) {
             aufnahmelaeuft = false;
             //  stopRecord();
-            b1.setText("Fahrt aufzeichnen");
             Toast.makeText(RecordTrip.this, "Aufnahme beendet!", Toast.LENGTH_LONG).show();
+            b1.setText("Aufzeichnung starten");
+            b1.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_edit, 0, 0, 0);
             toTripResult();
         }
     }

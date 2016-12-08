@@ -10,6 +10,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:background="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
         android:layout_height="match_parent">
 
         <ImageView
@@ -25,8 +27,11 @@
             android:layout_height="match_parent"
             android:headerDividersEnabled="true"
             android:footerDividersEnabled="true"
+            android:background="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
             android:id="@android:id/list">
         </ListView>
+
     </RelativeLayout>
 
 </LinearLayout>
