@@ -52,7 +52,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     //  Fahrtdaten einfügen, sammelt alle Daten die in die Tabelle sollen und fügt sie ein.
-    //  public boolean insertFahrtDaten(String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, String stadt, String wetter, String temperatur, String sonnenaufgang, String sonnenuntergang, double tempolimit/*, double zeit*/) {
     public boolean insertFahrtDaten(long meineZeit, long rechenZeit, String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, double maxbeschleunigung, String wetter, String wetterkategorie, long sonnenaufgang, long sonnenuntergang, double tempolimit/*, double zeit*/) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
 
@@ -70,8 +69,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("Wetterkategorie", wetterkategorie);
         contentValues.put("Sonnenaufgang", sonnenaufgang);
         contentValues.put("Sonnenuntergang", sonnenuntergang);
-        //  contentValues.put("Temperatur", temperatur);
-        //  contentValues.put("Stadt", stadt);
         contentValues.put("Tempolimit", tempolimit);
         //  contentValues.put("Zeit", zeit);
         long result = db.insert(aktuelletabelle, null, contentValues);
@@ -81,13 +78,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else
             return true;
     }
-/*
-    public Cursor getAllData() {
-    SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
-    Cursor res = db.rawQuery("select * from "+TABLE_NAME, null);
-    return res;
-    }
-*/
+
+    /*
+        public Cursor getAllData() {
+        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME, null);
+        return res;
+        }
+    */
     public void createTripResultsTabelle() {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
         db.execSQL("CREATE TABLE IF NOT EXISTS TripResultsTabelle (ID INTEGER PRIMARY KEY AUTOINCREMENT, Beginn DATETIME, Ende DATETIME, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
@@ -95,7 +93,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteFahrtentabelle(String aktuelletabelle) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
-        db.execSQL("DROP TABLE IF EXISTS "+aktuelletabelle);
+        db.execSQL("DROP TABLE IF EXISTS " + aktuelletabelle);
     }
 
     public String getFahrtdauerAsString(String aktuelletabelle, long fahrtBeginn, long fahrtEnde) {
@@ -116,18 +114,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String diff = "";
         long timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
-        if (timeDiff >= 0 && timeDiff <60000) {
-            diff = TimeUnit.MILLISECONDS.toSeconds(timeDiff)+"s";
-        }
-        else if (timeDiff >= 60000 && timeDiff <3600000) {
-            diff = TimeUnit.MILLISECONDS.toMinutes(timeDiff)+"min";
-        }
-        else {
+        if (timeDiff >= 0 && timeDiff < 60000) {
+            diff = TimeUnit.MILLISECONDS.toSeconds(timeDiff) + "s";
+        } else if (timeDiff >= 60000 && timeDiff < 3600000) {
+            diff = TimeUnit.MILLISECONDS.toMinutes(timeDiff) + "min";
+        } else {
             diff = String.format("%dh %dmin", TimeUnit.MILLISECONDS.toHours(timeDiff),
                     TimeUnit.MILLISECONDS.toMinutes(timeDiff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeDiff)));
         }
-
-
 
 
         // fahrtDauer = (diffInHours+"h "+diffInMinutes+"min "+diffInSeconds+"sec ");
@@ -162,7 +156,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
     //  Beschleunigung berechnen, im Konstruktor wird die aktuelle Geschwindigkeit sowie die aktuelle
     //  Fahrtentabelle übergeben.
     public double berechneBeschleunigung(String aktuelletabelle, double aktuellegeschwindigkeit, long rechenZeit) {
@@ -171,13 +164,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //  Letzte abgespeicherte Geschwindigkeit aus der Tabelle abfragen
         Cursor cursor = db.rawQuery("SELECT Geschwindigkeit FROM " + aktuelletabelle + " ORDER BY ID DESC LIMIT 1", null); //Letzte Geschwindigkeit auslesen
 
-        //  Cursor cursor2 = db.rawQuery("SELECT Geschwindigkeit FROM "+aktuelletabelle+" ORDER BY ID DESC LIMIT 1,1;", null); //Vorletzte Geschwindigkeit auslesen
-
         double letzte = 0.0;
         //  double vorletzte = 0.0;
         double beschleunigung = 0.0;
 
-        double zeitPeriode = rechenZeit/1000;
+        double zeitPeriode = rechenZeit / 1000;
 
         //  Zuvor abgefragte letzte Geschwindigkeit in Variable speichern
         cursor.moveToLast();
@@ -205,7 +196,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public long getFahrtBeginn(String aktuelletab) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT Zeit FROM "+aktuelletab+" ORDER BY ID ASC LIMIT 1 OFFSET 2;", null);
+        Cursor cursor = db.rawQuery("SELECT Zeit FROM " + aktuelletab + " ORDER BY ID ASC LIMIT 1 OFFSET 2;", null);
         cursor.moveToLast();
         long ret = cursor.getLong(0);
         return ret;
@@ -213,7 +204,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public long getFahrtEnde(String aktuelletab) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT Zeit FROM "+aktuelletab+" ORDER BY ID DESC LIMIT 1", null);
+        Cursor cursor = db.rawQuery("SELECT Zeit FROM " + aktuelletab + " ORDER BY ID DESC LIMIT 1", null);
         cursor.moveToLast();
         long ret = cursor.getLong(0);
         return ret;
@@ -222,7 +213,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Eigentlich gleiche Funktion wie getFahrtEnde :-D
     public long getLetzteZeit(String aktuelletab) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT Zeit FROM "+aktuelletab+" ORDER BY ID DESC LIMIT 1", null);
+        Cursor cursor = db.rawQuery("SELECT Zeit FROM " + aktuelletab + " ORDER BY ID DESC LIMIT 1", null);
         cursor.moveToLast();
         long ret = cursor.getLong(0);
         return ret;
@@ -301,7 +292,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor1 = db.rawQuery("SELECT Sonnenaufgang FROM " + aktuelletabelle + "", null);
         Cursor cursor2 = db.rawQuery("SELECT Sonnenuntergang FROM " + aktuelletabelle + "", null);
 
-        while(cursor1.moveToNext() && cursor2.moveToNext()){
+        while (cursor1.moveToNext() && cursor2.moveToNext()) {
             long sunrise = cursor1.getLong(0);
             long sunset = cursor2.getLong(0);
             if ((currentTime >= sunrise) && (currentTime < sunset)) {
@@ -374,7 +365,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (s / n * 100);
     }
 
-    public double berechneMaximalBeschleunigung(double lateralebeschleunigung){
+    public double berechneMaximalBeschleunigung(double lateralebeschleunigung) {
         double maximalbeschleunigung = 0.509 * Math.pow(lateralebeschleunigung, 2) - 2.351 * lateralebeschleunigung + 2.841;
         return maximalbeschleunigung;
     }
@@ -434,7 +425,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return kategorie;
     }
 
-    public Cursor getListContents(){
+    public Cursor getListContents() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM TripResultsTabelle ORDER BY ID DESC", null);
         return data;
@@ -443,7 +434,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //public void deleteTripResult(int id){
     //    SQLiteDatabase db = this.getWritableDatabase();
     //    db.rawQuery("DELTE "+id+" FROM TripResultsTabelle", null);
-   // }
+    // }
 
 
 }

@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     //public boolean ALLOWED_TO_ACCESS_FINE_LOCATION = false;
     //public boolean ALLOWED_TO_ACCESS_COARSE_LOCATION = false;
-    public int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION ;
+    public int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
     public int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION;
     private LocationManager locationManager5;
     private LocationManager locationListener5;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Überprüfen ob GPS angeschaltet ist. Wenn nicht, anbieten GPS einzuschalten.
-        if (!locationManager5.isProviderEnabled( LocationManager.GPS_PROVIDER )) {
+        if (!locationManager5.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Standort-Funktion deaktiviert oder auf niedriger Genauigkeit. Bitte aktivieren Sie die Standort-Funktion um eine Fahrt aufzeichnen zu können!")
                     .setCancelable(false)

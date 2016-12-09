@@ -27,7 +27,6 @@ public class Weather {
 
     public interface AsyncResponse {
 
-        //  void processFinish(String output1, String output2, String output3, String output4, String output5);
         void processFinish(String output1, long output2, long output3);
     }
 
@@ -59,18 +58,12 @@ public class Weather {
             try {
                 if (json != null) {
                     JSONObject details = json.getJSONArray("weather").getJSONObject(0);
-                    //  JSONObject main = json.getJSONObject("main");
                     DateFormat df = DateFormat.getDateTimeInstance();
 
                     String description = details.getString("description");
                     long sunrise = json.getJSONObject("sys").getLong("sunrise") * 1000;
                     long sunset = json.getJSONObject("sys").getLong("sunset") * 1000;
-
-                    //  String city = json.getString("name").toUpperCase(Locale.US) + ", " + json.getJSONObject("sys").getString("country");
-                    //  String temperature = String.format("%.2f", main.getDouble("temp")) + "°";
-                    //  String description = details.getString("description").toUpperCase(Locale.US);
-
-                    //  delegate.processFinish(city, description, temperature, sunrise, sunset);
+                    
                     delegate.processFinish(description, sunrise, sunset);
 
                 }

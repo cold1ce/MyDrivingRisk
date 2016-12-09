@@ -25,8 +25,10 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -54,9 +56,8 @@ public class RecordTrip extends AppCompatActivity {
     public String aktuelletabelle;
     public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17;
     public ProgressBar p1;
-    public String wetter, wetterkategorie, stadt, temperatur;
+    public String wetter, wetterkategorie;
     public long sonnenaufgang, sonnenuntergang, aktuellezeit, aktuelleRechenzeit;
-
 
 
     //?Stefan: Bitte erklären?
@@ -67,16 +68,13 @@ public class RecordTrip extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                //NavUtils.navigateUpFromSameTask(this);
-                //Toast.makeText(RecordTrip.this, "asd", Toast.LENGTH_LONG).show();
+                //  NavUtils.navigateUpFromSameTask(this);
+                //  Toast.makeText(RecordTrip.this, "asd", Toast.LENGTH_LONG).show();
                 cancelRecordDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 
     @Override
@@ -105,8 +103,7 @@ public class RecordTrip extends AppCompatActivity {
                     });
             final AlertDialog alert = builder.create();
             alert.show();
-        }
-        else {
+        } else {
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
         }
@@ -121,7 +118,7 @@ public class RecordTrip extends AppCompatActivity {
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setAc
+        //  getSupportActionBar().setAc
         //  Oberflächen-Objekte zuordnen
         t1 = (TextView) findViewById(R.id.textView3);
         t2 = (TextView) findViewById(R.id.textView4);
@@ -181,16 +178,14 @@ public class RecordTrip extends AppCompatActivity {
             Toast.makeText(RecordTrip.this, "Bitte erlauben Sie der App Zugriff auf den aktuellen Standort!", Toast.LENGTH_LONG).show();
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
-        }
-        else if (!locationManager1.isProviderEnabled( LocationManager.GPS_PROVIDER )) {
+        } else if (!locationManager1.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             //final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
             Toast.makeText(RecordTrip.this, "Bitte aktivieren sie die Standort-Funktion auf Ihrem Gerät!", Toast.LENGTH_LONG).show();
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
+        } else {
+            locationManager1.requestLocationUpdates("gps", 1000, 0, locationListener1);
         }
-        else {
-                locationManager1.requestLocationUpdates("gps", 1000, 0, locationListener1);
-            }
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         String s = "<b>Bolded text</b>, <i>italic text</i>, even <u>underlined</u>!";
@@ -222,7 +217,6 @@ public class RecordTrip extends AppCompatActivity {
                 b1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_media_stop, 0, 0, 0);
 
 
-
             } else {
                 Toast.makeText(RecordTrip.this, "GPS zu ungenau, bitte etwas warten und erneut versuchen!", Toast.LENGTH_LONG).show();
                 t3.setText("Genauigkeit: ±" + aktuellegenauigkeit + " m (Beim letzten Versuch)");
@@ -251,7 +245,6 @@ public class RecordTrip extends AppCompatActivity {
         myDB.createFahrtenTabelle(aktuelletabelle);
 
         //  "Leeren" Startwert einfügen um einen Crash zu verhindern
-        //  myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, stadt, wetter, temperatur, sonnenaufgang, sonnenuntergang, 0.0);
         DateFormat df = DateFormat.getDateTimeInstance();
         aktuellezeit = new Date().getTime();
 
@@ -281,43 +274,34 @@ public class RecordTrip extends AppCompatActivity {
             Date aktuelleZeitDate = new Date(aktuellezeit);
             Date letzteZeitDate = new Date(myDB.getLetzteZeit(aktuelletabelle));
             aktuelleRechenzeit = Math.abs(aktuelleZeitDate.getTime() - letzteZeitDate.getTime());
-            t17.setText(""+aktuelleRechenzeit+"ms");
-            t16.setText(""+aktuellezeit+" | "+df.format(new Date(aktuellezeit)));
-            t1.setText(""+aktuellerbreitengrad);
-            t2.setText(""+aktuellerlaengengrad);
-            t3.setText("±"+Math.round(aktuellegenauigkeit)+" m");
-            aktuellerspeedkmh=aktuellerspeed*3.6;
-            t4.setText(""+(Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (Math.round(aktuellerspeedkmh)) + " km/h");
-            t5.setText(""+aufnahmelaeuft);
-            t6.setText(""+aktuelletabelle);
+            t17.setText("" + aktuelleRechenzeit + "ms");
+            t16.setText("" + aktuellezeit + " | " + df.format(new Date(aktuellezeit)));
+            t1.setText("" + aktuellerbreitengrad);
+            t2.setText("" + aktuellerlaengengrad);
+            t3.setText("±" + Math.round(aktuellegenauigkeit) + " m");
+            aktuellerspeedkmh = aktuellerspeed * 3.6;
+            t4.setText("" + (Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (Math.round(aktuellerspeedkmh)) + " km/h");
+            t5.setText("" + aufnahmelaeuft);
+            t6.setText("" + aktuelletabelle);
 
             aktuellebeschleunigung = myDB.berechneBeschleunigung(aktuelletabelle, (aktuellerspeed * 3.6), aktuelleRechenzeit);
-            t7.setText(""+(Math.round(100.0 * aktuellebeschleunigung) / 100.0)+" m/s²");
+            t7.setText("" + (Math.round(100.0 * aktuellebeschleunigung) / 100.0) + " m/s²");
 
             aktuellelateralebeschleunigung = myDB.berechneLateraleBeschleunigung(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
-            t8.setText(""+(Math.round(100.0 * aktuellelateralebeschleunigung) / 100.0)+" m/s²");
+            t8.setText("" + (Math.round(100.0 * aktuellelateralebeschleunigung) / 100.0) + " m/s²");
 
             aktuellemaxbeschleunigung = myDB.berechneMaximalBeschleunigung(aktuellelateralebeschleunigung);
-            t9.setText(""+(Math.round(100.0 * aktuellemaxbeschleunigung) / 100.0)+" m/s²");
+            t9.setText("" + (Math.round(100.0 * aktuellemaxbeschleunigung) / 100.0) + " m/s²");
 
 
             Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
             wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
 
-            t10.setText(""+wetter);
-            t11.setText(""+wetterkategorie);
-            t12.setText(""+df.format(new Date(sonnenaufgang)));
-            t13.setText(""+df.format(new Date(sonnenuntergang)));
+            t10.setText("" + wetter);
+            t11.setText("" + wetterkategorie);
+            t12.setText("" + df.format(new Date(sonnenaufgang)));
+            t13.setText("" + df.format(new Date(sonnenuntergang)));
 
-            /*
-            t9.setText("Stadt: " + stadt);
-            t10.setText("Wetter: " + wetter);
-            t11.setText("Temperatur: " + temperatur);
-            t12.setText("Sonnenaufgang: " + sonnenaufgang);
-            t13.setText("Sonnenuntergang: " + sonnenuntergang);
-            */
-
-            //  myDB.insertFahrtDaten(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, stadt, wetter, temperatur, sonnenaufgang, sonnenuntergang, 0.0);
             myDB.insertFahrtDaten(aktuellezeit, aktuelleRechenzeit, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, aktuellemaxbeschleunigung, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, 0.0);
 
             if (aufnahmelaeuft) {
@@ -364,14 +348,6 @@ public class RecordTrip extends AppCompatActivity {
                 wetter = output1;
                 sonnenaufgang = output2;
                 sonnenuntergang = output3;
-
-                /*
-                stadt = output1;
-                wetter = output2;
-                temperatur = output3;
-                sonnenaufgang = output4;
-                sonnenuntergang = output5;
-                 */
 
             }
         });
