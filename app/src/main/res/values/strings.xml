@@ -4,6 +4,9 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_trip_history">TripHistory</string>
     <string name="caution_message"><b>HINWEIS VOR DER FAHRT</b>\n\nPlatzieren Sie ihr Gerät sicher an der Frontscheibe und sorgen Sie für Zugang zum Internet sowie GPS-Empfang.\n\nBitte halten Sie sich an die Straßenverkehrsordnung und bedienen Sie ihr Gerät nicht während der Fahrt!\n</string>
+    <string name="selbstbewertung"><b>Bewerten Sie ihre Fahrt!</b>\n\nSchätzen Sie Ihre Fahrweise bitte selbst ein. Bewerten Sie hierbei mit je mehr Sternen umso sicherer Sie Ihre Fahrt empfunden haben.\n</string>
+    <string name="selbstbewertung_2"><b>Ihre Fahrt wurde analysiert!</b>\n\nIhre Fahrt gilt als\n\n"</string>
+
 
 
 

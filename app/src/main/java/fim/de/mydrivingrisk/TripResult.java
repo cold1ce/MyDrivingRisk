@@ -24,7 +24,7 @@ import static fim.de.mydrivingrisk.R.id.textView;
 
 public class TripResult extends AppCompatActivity {
 
-    public TextView t1, t2, t3, t4, t5, t6, t7;
+    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17;
     public DatabaseHelper myDB2;
 
     public Button b1, b2;
@@ -39,11 +39,12 @@ public class TripResult extends AppCompatActivity {
     public double timescore;
     public String fahrtName;
     public boolean aktuellerTripGespeichert;
+    public String aktuelleRisikoKlasse = "Risiko 123";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setTitle("myDrivingRisk - Fahrtergebnisse");
+        this.setTitle("Fahrtergebnis");
 
         myDB2 = new DatabaseHelper(this, "Fahrtendatenbank.db");
         setContentView(R.layout.activity_trip_result);
@@ -54,6 +55,16 @@ public class TripResult extends AppCompatActivity {
         t5 = (TextView) findViewById(R.id.textView27);
         t6 = (TextView) findViewById(R.id.textView28);
         t7 = (TextView) findViewById(R.id.textView35);
+        t8 = (TextView) findViewById(R.id.textView16);
+
+        t9 = (TextView) findViewById(R.id.textView59);
+        t10 = (TextView) findViewById(R.id.textView49);
+        t11 = (TextView) findViewById(R.id.textView62);
+        t12 = (TextView) findViewById(R.id.textView55);
+        t13 = (TextView) findViewById(R.id.textView53);
+        t14 = (TextView) findViewById(R.id.textView52);
+        t15 = (TextView) findViewById(R.id.textView51);
+        t16 = (TextView) findViewById(R.id.textView54);
 
         Bundle zielkorb = getIntent().getExtras();
         aktuelletabelle = zielkorb.getString("datenpaket1");
@@ -63,6 +74,17 @@ public class TripResult extends AppCompatActivity {
         aktuellerichtungsdifferenz = zielkorb.getDouble("richtungsdifferenz");
 
         aktuellerTripGespeichert = false;
+
+        t1.setVisibility(View.INVISIBLE);
+        t2.setVisibility(View.INVISIBLE);
+        t3.setVisibility(View.INVISIBLE);
+        t4.setVisibility(View.INVISIBLE);
+        t5.setVisibility(View.INVISIBLE);
+        t6.setVisibility(View.INVISIBLE);
+        t7.setVisibility(View.INVISIBLE);
+
+
+
     }
 
     public void onBackPressed() {
@@ -134,7 +156,32 @@ public class TripResult extends AppCompatActivity {
         gesamtscore = berechneGesamtscore(brakingscore, accelerationscore, timescore, corneringscore, speedingscore);
 
         t1.setText("Ihr Score beträgt: "+(Math.round(10.0*gesamtscore)/10.0));
+        if (gesamtscore >= 0 && gesamtscore < 10.0) {
+            aktuelleRisikoKlasse = "Sehr sicher";
+        }
+        else if (gesamtscore >= 10.0 && gesamtscore < 20.0) {
+            aktuelleRisikoKlasse = "Sicher";
+        }
+        else if (gesamtscore >= 20.0 && gesamtscore < 30.0) {
+            aktuelleRisikoKlasse = "Neutral";
+        }
+        else if (gesamtscore >= 30.0 && gesamtscore < 40.0) {
+            aktuelleRisikoKlasse = "Risikoreich";
+        }
+        else if (gesamtscore >= 40.0 && gesamtscore < 50.0) {
+            aktuelleRisikoKlasse = "Sehr Risikoreich";
+        }
+        else if (gesamtscore >= 50.0 && gesamtscore <140.0) {
+            aktuelleRisikoKlasse = "Extrem Risikoreich";
+        }
+        else if (gesamtscore == 140.0) {
+            aktuelleRisikoKlasse = "Lebensmüde";
+        }
+        else {
+            aktuelleRisikoKlasse = "Unbekannt";
+        }
 
+        t8.setText(R.string.selbstbewertung_2+aktuelleRisikoKlasse+"!");
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Fahrt benennen");
         alert.setMessage("Geben Sie einen Fahrt-Namen ein!");
