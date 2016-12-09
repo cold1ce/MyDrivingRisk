@@ -26,8 +26,14 @@
         android:paddingRight="20dp"
         android:paddingTop="30dp"
         android:weightSum="1"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/ll1">
 
         <LinearLayout
             android:orientation="vertical"
@@ -78,10 +84,12 @@
                 android:id="@+id/textView23"
                 android:layout_width="match_parent"
                 android:textColor="@android:color/holo_red_dark"
-                android:textSize="32sp"
+                android:textSize="30sp"
                 android:textStyle="normal|bold"
-                android:text="Ihr Score beträgt:"
-                android:layout_height="51dp" />
+                android:text="Ihr Score beträgt: 123.4"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textAllCaps="false" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -280,30 +288,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="11dp" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="71dp"
+            android:gravity="bottom|center_vertical">
+
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="1">
+                android:layout_height="match_parent"
+                android:gravity="bottom|center_vertical">
 
-                <Button
-                    android:id="@+id/button9"
-                    android:layout_height="wrap_content"
-                    android:onClick="mainMenuButton"
-                    android:text="Zurück zum Hauptmenü"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_width="129dp"
-                    android:layout_weight="0.81"
-                    android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="337dp"
+                    android:layout_height="match_parent"
+                    android:weightSum="1">
 
-                <Button
-                    android:text="Fahrt speichern"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/button_save"
-                    android:drawableLeft="@android:drawable/ic_menu_save"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_width="wrap_content" />
+                    <Button
+                        android:id="@+id/button9"
+                        android:layout_height="wrap_content"
+                        android:onClick="mainMenuButton"
+                        android:text="Zurück zum Hauptmenü"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
+                        android:layout_width="150dp"
+                        android:textAlignment="textStart"
+                        android:gravity="bottom|center_horizontal" />
 
+                    <Button
+                        android:text="Fahrt speichern"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button_save"
+                        android:drawableLeft="@android:drawable/ic_menu_save"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_width="150dp"
+                        android:textAlignment="textStart"
+                        android:gravity="bottom|center_horizontal" />
+
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

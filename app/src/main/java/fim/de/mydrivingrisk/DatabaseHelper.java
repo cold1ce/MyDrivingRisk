@@ -98,17 +98,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+aktuelletabelle);
     }
 
-    public boolean addTripResult(long tripStartDate, long tripEndeDate, String tripName, double score, double selbstBewertung) {
+    public String getFahrtdauerAsString(String aktuelletabelle, long fahrtBeginn, long fahrtEnde) {
         DateFormat df = DateFormat.getDateTimeInstance();
-        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
-        createTripResultsTabelle();
-        ContentValues contentValues = new ContentValues();
-        long tripStart = tripStartDate; //muss von Date gecastet werden
-        long tripEnde = tripEndeDate; //muss von Date gecastet werden
+
+        //long tripStart = tripStartDate; //muss von Date gecastet werden
+        //long tripEnde = tripEndeDate; //muss von Date gecastet werden
         String fahrtDauer = "-";
 
-        Date startDate = new Date(tripStartDate);
-        Date endDate = new Date(tripEndeDate);
+        Date startDate = new Date(fahrtBeginn);
+        Date endDate = new Date(fahrtEnde);
 
         //long duration  = endDate.getTime() - startDate.getTime();
 
@@ -116,24 +114,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
         // long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
 
-            String diff = "";
-            long timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
-            if (timeDiff >= 0 && timeDiff <60000) {
-                diff = TimeUnit.MILLISECONDS.toSeconds(timeDiff)+"s";
-            }
-            else if (timeDiff >= 60000 && timeDiff <3600000) {
-                diff = TimeUnit.MILLISECONDS.toMinutes(timeDiff)+"min";
-            }
-            else {
-                diff = String.format("%dh %dmin", TimeUnit.MILLISECONDS.toHours(timeDiff),
-                        TimeUnit.MILLISECONDS.toMinutes(timeDiff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeDiff)));
-            }
+        String diff = "";
+        long timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+        if (timeDiff >= 0 && timeDiff <60000) {
+            diff = TimeUnit.MILLISECONDS.toSeconds(timeDiff)+"s";
+        }
+        else if (timeDiff >= 60000 && timeDiff <3600000) {
+            diff = TimeUnit.MILLISECONDS.toMinutes(timeDiff)+"min";
+        }
+        else {
+            diff = String.format("%dh %dmin", TimeUnit.MILLISECONDS.toHours(timeDiff),
+                    TimeUnit.MILLISECONDS.toMinutes(timeDiff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeDiff)));
+        }
 
 
 
 
-       // fahrtDauer = (diffInHours+"h "+diffInMinutes+"min "+diffInSeconds+"sec ");
-        fahrtDauer = diff;
+        // fahrtDauer = (diffInHours+"h "+diffInMinutes+"min "+diffInSeconds+"sec ");
+        return diff;
+    }
+
+    public boolean addTripResult(long tripStartDate, long tripEndeDate, String tripName, double score, String fahrtDauer, double selbstBewertung) {
+
+        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        createTripResultsTabelle();
+        ContentValues contentValues = new ContentValues();
+
+        DateFormat df = DateFormat.getDateTimeInstance();
+
+        long tripStart = tripStartDate; //muss von Date gecastet werden
+        long tripEnde = tripEndeDate; //muss von Date gecastet werden
+
+
         contentValues.put("Beginn", tripStart);
         contentValues.put("Ende", tripEnde);
         contentValues.put("Name", tripName);
@@ -230,6 +242,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         avg = cursor.getDouble(0);
 
         return avg;
+
+    }
+
+    public double berechneHöchstgeschwindigkeit(String aktuelletabelle) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //  Durchschnitt der Geschwindigkeiten auslesen
+
+        Cursor cursor = db.rawQuery("SELECT MAX(Geschwindigkeit) FROM " + aktuelletabelle + "", null);
+
+        double max = -1.0;
+
+        //  in Variable speichern
+        cursor.moveToLast();
+        max = cursor.getDouble(0);
+
+        return max;
 
     }
 

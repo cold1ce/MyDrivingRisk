@@ -24,12 +24,12 @@ import static fim.de.mydrivingrisk.R.id.textView;
 
 public class TripResult extends AppCompatActivity {
 
-    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17;
+    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17,t18;
     public DatabaseHelper myDB2;
-
+    public RatingBar r1;
     public Button b1, b2;
     public String aktuelletabelle;
-    public double aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz;
+    public double aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz, averagespeed, maxspeed, selbstbewertung;
 
     public double gesamtscore;
     public double brakingscore;
@@ -40,21 +40,36 @@ public class TripResult extends AppCompatActivity {
     public String fahrtName;
     public boolean aktuellerTripGespeichert;
     public String aktuelleRisikoKlasse = "Risiko 123";
+    public String fahrtDauerString;
+    public long fahrtBeginn, fahrtEnde;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setTitle("Fahrtergebnis");
 
-        myDB2 = new DatabaseHelper(this, "Fahrtendatenbank.db");
         setContentView(R.layout.activity_trip_result);
+
+        myDB2 = new DatabaseHelper(this, "Fahrtendatenbank.db");
+
+        Bundle zielkorb = getIntent().getExtras();
+        aktuelletabelle = zielkorb.getString("datenpaket1");
+        aktuellerbreitengrad = zielkorb.getDouble("breitengrad");
+        aktuellerlaengengrad = zielkorb.getDouble("laengengrad");
+        aktuellerspeed = zielkorb.getDouble("speed");
+        aktuellerichtungsdifferenz = zielkorb.getDouble("richtungsdifferenz");
+
+
+
         t1 = (TextView) findViewById(R.id.textView23);
+
         t2 = (TextView) findViewById(R.id.textView24);
         t3 = (TextView) findViewById(R.id.textView25);
         t4 = (TextView) findViewById(R.id.textView26);
         t5 = (TextView) findViewById(R.id.textView27);
         t6 = (TextView) findViewById(R.id.textView28);
         t7 = (TextView) findViewById(R.id.textView35);
+
         t8 = (TextView) findViewById(R.id.textView16);
 
         t9 = (TextView) findViewById(R.id.textView59);
@@ -66,24 +81,19 @@ public class TripResult extends AppCompatActivity {
         t15 = (TextView) findViewById(R.id.textView51);
         t16 = (TextView) findViewById(R.id.textView54);
 
-        Bundle zielkorb = getIntent().getExtras();
-        aktuelletabelle = zielkorb.getString("datenpaket1");
-        aktuellerbreitengrad = zielkorb.getDouble("breitengrad");
-        aktuellerlaengengrad = zielkorb.getDouble("laengengrad");
-        aktuellerspeed = zielkorb.getDouble("speed");
-        aktuellerichtungsdifferenz = zielkorb.getDouble("richtungsdifferenz");
+        t17 = (TextView) findViewById(R.id.textView60);
+        t18 = (TextView) findViewById(R.id.textView61);
+
+        t9.setVisibility(View.INVISIBLE);
+        t10.setVisibility(View.INVISIBLE);
+        t11.setVisibility(View.INVISIBLE);
+        t12.setVisibility(View.INVISIBLE);
+        t13.setVisibility(View.INVISIBLE);
+        t14.setVisibility(View.INVISIBLE);
+        t15.setVisibility(View.INVISIBLE);
+        t16.setVisibility(View.INVISIBLE);
 
         aktuellerTripGespeichert = false;
-
-        t1.setVisibility(View.INVISIBLE);
-        t2.setVisibility(View.INVISIBLE);
-        t3.setVisibility(View.INVISIBLE);
-        t4.setVisibility(View.INVISIBLE);
-        t5.setVisibility(View.INVISIBLE);
-        t6.setVisibility(View.INVISIBLE);
-        t7.setVisibility(View.INVISIBLE);
-
-
 
     }
 
@@ -125,63 +135,53 @@ public class TripResult extends AppCompatActivity {
 
     //Fahrt berechnen Button
     public void calcButton(View view) {
-
         Button b1 = (Button) findViewById(R.id.button8);
 
         RatingBar r1 = (RatingBar) findViewById(R.id.ratingBar);
+
         b1.setVisibility(View.INVISIBLE);
         r1.setVisibility(View.INVISIBLE);
 
-//       t1.setText("Ihr Score beträgt: ?");
+        t9.setVisibility(View.VISIBLE);
+        t10.setVisibility(View.VISIBLE);
+        t11.setVisibility(View.VISIBLE);
+        t12.setVisibility(View.VISIBLE);
+        t13.setVisibility(View.VISIBLE);
+        t14.setVisibility(View.VISIBLE);
+        t15.setVisibility(View.VISIBLE);
+        t16.setVisibility(View.VISIBLE);
 
-
-        double average = myDB2.berechneDurschnittsgeschwindigkeit(aktuelletabelle);
-        t2.setText(""+(Math.round(100.0*average)/100.0)+" km/h");
-
+        averagespeed = myDB2.berechneDurschnittsgeschwindigkeit(aktuelletabelle);
+        maxspeed = myDB2.berechneHöchstgeschwindigkeit(aktuelletabelle);
         accelerationscore = myDB2.berechneAccelarationScore(aktuelletabelle);
-        t3.setText(""+Math.round(10.0*accelerationscore)/10.0);
-
         brakingscore = myDB2.berechneBrakingScore(aktuelletabelle);
-        t4.setText(""+Math.round(10.0*brakingscore)/10.0);
-
         corneringscore = myDB2.berechneCorneringScore(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
-        t5.setText(""+Math.round(10.0*corneringscore)/10.0);
-
         timescore = myDB2.berechneTimeScore(aktuelletabelle);
-        t6.setText(""+Math.round(10.0*timescore)/10.0);
-
         speedingscore = myDB2.berechneSpeedingScore(aktuelletabelle);
-        t7.setText(""+Math.round(10.0*speedingscore)/10.0);
-
+        fahrtBeginn = myDB2.getFahrtBeginn(aktuelletabelle);
+        fahrtEnde = myDB2.getFahrtEnde(aktuelletabelle);
+        fahrtDauerString = myDB2.getFahrtdauerAsString(aktuelletabelle, fahrtBeginn, fahrtEnde);
+        selbstbewertung = 100.0;
+        aktuelleRisikoKlasse = getRisikoklasse(gesamtscore);
         gesamtscore = berechneGesamtscore(brakingscore, accelerationscore, timescore, corneringscore, speedingscore);
 
+        t8.setText(R.string.selbstbewertung_2+""+aktuelleRisikoKlasse+"!");
         t1.setText("Ihr Score beträgt: "+(Math.round(10.0*gesamtscore)/10.0));
-        if (gesamtscore >= 0 && gesamtscore < 10.0) {
-            aktuelleRisikoKlasse = "Sehr sicher";
-        }
-        else if (gesamtscore >= 10.0 && gesamtscore < 20.0) {
-            aktuelleRisikoKlasse = "Sicher";
-        }
-        else if (gesamtscore >= 20.0 && gesamtscore < 30.0) {
-            aktuelleRisikoKlasse = "Neutral";
-        }
-        else if (gesamtscore >= 30.0 && gesamtscore < 40.0) {
-            aktuelleRisikoKlasse = "Risikoreich";
-        }
-        else if (gesamtscore >= 40.0 && gesamtscore < 50.0) {
-            aktuelleRisikoKlasse = "Sehr Risikoreich";
-        }
-        else if (gesamtscore >= 50.0 && gesamtscore <140.0) {
-            aktuelleRisikoKlasse = "Extrem Risikoreich";
-        }
-        else if (gesamtscore == 140.0) {
-            aktuelleRisikoKlasse = "Lebensmüde";
-        }
-        else {
-            aktuelleRisikoKlasse = "Unbekannt";
-        }
+        t2.setText(""+(Math.round(10.0*averagespeed)/10.0)+" km/h");
+        t3.setText(""+Math.round(10.0*accelerationscore)/10.0);
+        t4.setText(""+Math.round(10.0*brakingscore)/10.0);
+        t5.setText(""+Math.round(10.0*corneringscore)/10.0);
+        t6.setText(""+Math.round(10.0*timescore)/10.0);
+        t7.setText(""+Math.round(10.0*speedingscore)/10.0);
+        t18.setText(""+(Math.round(maxspeed)+" km/h"));
+        t17.setText(""+fahrtDauerString);
 
-        t8.setText(R.string.selbstbewertung_2+aktuelleRisikoKlasse+"!");
+
+
+
+
+
+
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Fahrt benennen");
         alert.setMessage("Geben Sie einen Fahrt-Namen ein!");
@@ -195,27 +195,24 @@ public class TripResult extends AppCompatActivity {
         alert.setCancelable(false);
         alert.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-
+                DateFormat df = DateFormat.getDateTimeInstance();
                 fahrtName = input.getText().toString();
-                Date start = new Date();
-                Date ende = new Date();
-                double selbstbewertung = 100.0;
+
                 double gesamtScoreGerundet = (Math.round(10.0*gesamtscore)/10.0);
 
-                Date aktuellesDatum = new Date();
-                SimpleDateFormat MeinFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-                String timestring = MeinFormat.format(aktuellesDatum);
+                //Date aktuellesDatum = new Date();
+                //SimpleDateFormat MeinFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                //String timestring = MeinFormat.format(aktuellesDatum);
 
-                long begin = myDB2.getFahrtBeginn(aktuelletabelle);
-                long end = myDB2.getFahrtEnde(aktuelletabelle);
-                DateFormat df = DateFormat.getDateTimeInstance();
+
+
 
                // String beginS = df.format(new Date(begin));
                // String endS = df.format(new Date(end));
                // Toast.makeText(TripResult.this, "time1: "+beginS+" time2: "+endS+".", Toast.LENGTH_LONG).show();
+                //String fahrtDauerString = myDB2.getFahrtdauerAsString(aktuelletabelle, begin, end);
 
-
-                myDB2.addTripResult(begin, end, fahrtName, gesamtScoreGerundet, selbstbewertung);
+                myDB2.addTripResult(fahrtBeginn, fahrtEnde, fahrtName, gesamtScoreGerundet, fahrtDauerString, selbstbewertung);
                 aktuellerTripGespeichert = true;
                 Toast.makeText(TripResult.this, "Fahrt gespeichert unter:\n" + fahrtName, Toast.LENGTH_LONG).show();
             }
@@ -245,6 +242,36 @@ public class TripResult extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
     }
+
+    public String getRisikoklasse(double gesamtscore) {
+        if (gesamtscore >= 0 && gesamtscore < 10.0) {
+            aktuelleRisikoKlasse = "Sehr sicher";
+        }
+        else if (gesamtscore >= 10.0 && gesamtscore < 20.0) {
+            aktuelleRisikoKlasse = "Sicher";
+        }
+        else if (gesamtscore >= 20.0 && gesamtscore < 30.0) {
+            aktuelleRisikoKlasse = "Neutral";
+        }
+        else if (gesamtscore >= 30.0 && gesamtscore < 40.0) {
+            aktuelleRisikoKlasse = "Risikoreich";
+        }
+        else if (gesamtscore >= 40.0 && gesamtscore < 50.0) {
+            aktuelleRisikoKlasse = "Sehr Risikoreich";
+        }
+        else if (gesamtscore >= 50.0 && gesamtscore <140.0) {
+            aktuelleRisikoKlasse = "Extrem Risikoreich";
+        }
+        else if (gesamtscore == 140.0) {
+            aktuelleRisikoKlasse = "Lebensmüde";
+        }
+        else {
+            aktuelleRisikoKlasse = "Unbekannt";
+        }
+
+        return aktuelleRisikoKlasse;
+    }
+
 
 
 }
