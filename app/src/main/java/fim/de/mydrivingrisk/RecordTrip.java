@@ -29,6 +29,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,15 +53,23 @@ public class RecordTrip extends AppCompatActivity {
     public double aktuellemaxbeschleunigung = 0.0;
     public int aktuelleanzahlsatelliten = 0;
     public boolean aufnahmelaeuft;
+    public boolean test = true;
     public String timestring;
     public String aktuelletabelle;
-    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17;
+    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20;
     public ProgressBar p1;
-    public String wetter, wetterkategorie;
+    public String wetter, wetterkategorie, aktuellestrasse, aktuellerstrassentyp;
+    public String aktuellehoechstgeschwindigkeitstring;
+    public double aktuellestempolimit;
     public long sonnenaufgang, sonnenuntergang, aktuellezeit, aktuelleRechenzeit;
+    public MyOSM osm2;
+
+    //  "altezeit" dient als referenz zur aktuellenzeit, um Wetterabfragen alle x Minuten auszuführen
+    public long altezeit = (new Date().getTime()) - 1;
+    //  "altezeit" dient als referenz zur aktuellenzeit, um OS M Abfragen alle x Minuten auszuführen
+    public long altezeitOSM = (new Date().getTime()) - 1;
 
 
-    //?Stefan: Bitte erklären?
     public RecordTrip() throws JSONException {
     }
 
@@ -117,6 +126,9 @@ public class RecordTrip extends AppCompatActivity {
         this.setTitle("Fahrt aufzeichnen");
 
 
+        //osm2 = new MyOSM();
+
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //  getSupportActionBar().setAc
         //  Oberflächen-Objekte zuordnen
@@ -137,6 +149,9 @@ public class RecordTrip extends AppCompatActivity {
         t15 = (TextView) findViewById(R.id.textView2);
         t16 = (TextView) findViewById(R.id.textView10);
         t17 = (TextView) findViewById(R.id.textView13);
+        t18 = (TextView) findViewById(R.id.textView11);
+        t19 = (TextView) findViewById(R.id.textView15);
+        t20 = (TextView) findViewById(R.id.textView18);
         p1 = (ProgressBar) findViewById(R.id.marker_progress);
 
         //  Neue Instanz eines Datenbankhelfers, der die Datenbank Fahrdatenbank.db erstellt bzw. verwendet
@@ -249,7 +264,8 @@ public class RecordTrip extends AppCompatActivity {
         aktuellezeit = new Date().getTime();
 
 
-        myDB.insertFahrtDaten(aktuellezeit, 0, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0);
+        myDB.insertFahrtDaten(aktuellezeit, 0, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0, "startwert", "startwert");
+        myDB.insertFahrtDaten(aktuellezeit, 0, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0, "startwert", "startwert");
 
         //  Timer erstellen, um die Schleife nicht permanent zu wiederholen sondern nur jede Sekunde
         //  Timer timer = new Timer();
@@ -276,8 +292,8 @@ public class RecordTrip extends AppCompatActivity {
             aktuelleRechenzeit = Math.abs(aktuelleZeitDate.getTime() - letzteZeitDate.getTime());
             t17.setText("" + aktuelleRechenzeit + "ms");
             t16.setText("" + aktuellezeit + " | " + df.format(new Date(aktuellezeit)));
-            t1.setText("" + aktuellerbreitengrad);
-            t2.setText("" + aktuellerlaengengrad);
+            t2.setText("" + aktuellerbreitengrad);
+            t1.setText("" + aktuellerlaengengrad);
             t3.setText("±" + Math.round(aktuellegenauigkeit) + " m");
             aktuellerspeedkmh = aktuellerspeed * 3.6;
             t4.setText("" + (Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (Math.round(aktuellerspeedkmh)) + " km/h");
@@ -293,16 +309,46 @@ public class RecordTrip extends AppCompatActivity {
             aktuellemaxbeschleunigung = myDB.berechneMaximalBeschleunigung(aktuellelateralebeschleunigung);
             t9.setText("" + (Math.round(100.0 * aktuellemaxbeschleunigung) / 100.0) + " m/s²");
 
+            //  Wetterkategorie wird als letztes gesetzt, daher wird dass überprüft
+            //  wenn Wetterkategorie einen Wert hat, nicht mehr nach dem Wetter fragen
+            if (wetterkategorie == "keine Kategorie" || wetterkategorie == null) {
+                Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
+                wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
+            }
 
-            Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
-            wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
+            //  altezeit wird oben mit (new Date().getTime())-1 initialiesiert, beide Werte sind in ms
+            //  wenn Differenz > als 1000*60*10 ms = 10 min, dann wieder Wetter abfragen
+            if ((aktuellezeit - altezeit) > (1000 * 60 * 10)) {
+                Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
+                wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
+                altezeit = (new Date().getTime()) - 1;
+            }
+
+            //Abfrage alle 5Sek
+            if ((aktuellezeit - altezeitOSM) > (5000)) {
+                //aktuellehoechstgeschwindigkeit = osm1.matchOSM(aktuellerbreitengrad, aktuellerlaengengrad);
+                if (aktuellegenauigkeit <= 8.0) {
+                    Tempolimit(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
+                } else {
+                    aktuellestempolimit = 0.0;
+                    aktuellestrasse = "GPS zu ungenau!";
+                    aktuellerstrassentyp = "GPS zu ungenau!";
+                }
+                altezeitOSM = (new Date().getTime()) - 1;
+            }
+
+
+            t18.setText("" + aktuellestempolimit);
+            t19.setText(""+ aktuellestrasse);
+            t20.setText(""+ aktuellerstrassentyp);
+
 
             t10.setText("" + wetter);
             t11.setText("" + wetterkategorie);
             t12.setText("" + df.format(new Date(sonnenaufgang)));
             t13.setText("" + df.format(new Date(sonnenuntergang)));
 
-            myDB.insertFahrtDaten(aktuellezeit, aktuelleRechenzeit, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, aktuellemaxbeschleunigung, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, 0.0);
+            myDB.insertFahrtDaten(aktuellezeit, aktuelleRechenzeit, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, aktuellemaxbeschleunigung, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, aktuellestempolimit, aktuellestrasse, aktuellerstrassentyp);
 
             if (aufnahmelaeuft) {
                 recordTrip();
@@ -342,12 +388,26 @@ public class RecordTrip extends AppCompatActivity {
     public void Wetter(String latitude, String longitude) {
         Weather.placeIdTask asyncTask = new Weather.placeIdTask(new Weather.AsyncResponse() {
             @Override
-            //  public void processFinish(String output1, String output2, String output3, String output4, String output5) {
             public void processFinish(String output1, long output2, long output3) {
 
                 wetter = output1;
                 sonnenaufgang = output2;
                 sonnenuntergang = output3;
+
+            }
+        });
+        asyncTask.execute(latitude, longitude);
+    }
+
+    public void Tempolimit(String latitude, String longitude) {
+        MyOSM.placeIdTask asyncTask = new MyOSM.placeIdTask(new MyOSM.AsyncResponse() {
+            @Override
+            public void processFinish(double output1, String output2, String output3) {
+
+                aktuellestempolimit = output1;
+                aktuellestrasse = output2;
+                aktuellerstrassentyp = output3;
+
 
             }
         });

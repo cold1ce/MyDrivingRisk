@@ -77,4 +77,25 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void onBackPressed() {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("App vollständig beenden?")
+                    .setCancelable(false)
+                    .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            finish(); System.exit(0);
+                        }
+                    })
+                    .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            dialog.cancel();
+                        }
+                    });
+            final AlertDialog alert = builder.create();
+            alert.show();
+    }
+
+
+
+
 }

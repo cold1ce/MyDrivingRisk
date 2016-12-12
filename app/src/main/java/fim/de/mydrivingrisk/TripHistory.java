@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,11 +37,13 @@ public class TripHistory extends ListActivity {
 
     public MyCustomAdapter mAdapter;
     public DatabaseHelper myDB3;
+    public Button delbutton;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
+        delbutton = (Button) findViewById(R.id.list_item_type1_button_delete);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_history);
@@ -167,6 +170,7 @@ public class TripHistory extends ListActivity {
             View convertView5 = convertView;
             View convertView6 = convertView;
             //  View convertView7 = convertView;
+            //View convertView8 = convertView;
 
             ViewHolder holder = null;
             ViewHolder holder2 = null;
@@ -175,6 +179,7 @@ public class TripHistory extends ListActivity {
             ViewHolder holder5 = null;
             ViewHolder holder6 = null;
             //  ViewHolder holder7 = null;
+            //ViewHolder holder8 = null;
 
             int type = getItemViewType(position);
             int type2 = getItemViewType(position);
@@ -183,6 +188,8 @@ public class TripHistory extends ListActivity {
             int type5 = getItemViewType(position);
             int type6 = getItemViewType(position);
             //  int type7 = getItemViewType(position);
+            //int type8 = getItemViewType(position);
+
             if (convertView == null) {
                 holder = new ViewHolder();
                 holder2 = new ViewHolder();
@@ -191,6 +198,8 @@ public class TripHistory extends ListActivity {
                 holder5 = new ViewHolder();
                 holder6 = new ViewHolder();
                 //holder7 = new ViewHolder();
+                //holder8 = new ViewHolder();
+
                 switch (type) {
                     case LIST_ITEM_TYPE_1:
                         convertView = mInflater.inflate(R.layout.list_item_type_1, null);
@@ -201,6 +210,8 @@ public class TripHistory extends ListActivity {
                         convertView5 = convertView;
                         convertView6 = convertView;
                         //convertView7 = convertView;
+                        //convertView8 = convertView;
+
                         holder.textView = (TextView) convertView.findViewById(R.id.list_item_type1_text_view_3);
                         holder2.textView = (TextView) convertView2.findViewById(R.id.list_item_type1_text_view_4);
                         holder3.textView = (TextView) convertView2.findViewById(R.id.list_item_type1_text_view_5);
@@ -208,6 +219,8 @@ public class TripHistory extends ListActivity {
                         holder5.textView = (TextView) convertView2.findViewById(R.id.list_item_type1_text_view_2);
                         holder6.textView = (TextView) convertView2.findViewById(R.id.list_item_type1_text_view_6);
                         // holder7.textView = (TextView)convertView2.findViewById(R.id.list_item_type1_text_view_7); Selbstbewertung
+                        //delbutton = (Button) convertView8.findViewById(R.id.list_item_type1_button_delete) ;
+
                         break;
                     case LIST_ITEM_TYPE_2:
                         // convertView = mInflater.inflate(R.layout.list_item_type_2, null);
@@ -221,6 +234,8 @@ public class TripHistory extends ListActivity {
                 convertView.setTag(holder5);
                 convertView.setTag(holder6);
                 //  convertView.setTag(holder7);
+                //convertView.setTag(holder8);
+
             } else {
                 holder = (ViewHolder) convertView.getTag();
                 holder2 = (ViewHolder) convertView2.getTag();
@@ -229,6 +244,7 @@ public class TripHistory extends ListActivity {
                 holder5 = (ViewHolder) convertView5.getTag();
                 holder6 = (ViewHolder) convertView6.getTag();
                 //  holder7 = (ViewHolder)convertView7.getTag();
+                //holder8 = (ViewHolder)convertView8.getTag();
             }
             holder.textView.setText(mData.get(position));
             holder2.textView.setText(mData2.get(position));
@@ -237,6 +253,10 @@ public class TripHistory extends ListActivity {
             holder5.textView.setText("" + mData5.get(position));
             holder6.textView.setText(mData6.get(position));
             //  holder7.textView.setText(mData7.get(position));
+
+            //delbutton = (Button) convertView8.findViewById(R.id.list_item_type1_button_delete) ;
+            //delbutton.setText("asd");
+
             return convertView;
         }
 

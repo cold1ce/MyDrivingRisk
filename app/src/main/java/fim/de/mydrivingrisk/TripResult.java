@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +28,7 @@ public class TripResult extends AppCompatActivity {
     public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17,t18;
     public DatabaseHelper myDB2;
     public RatingBar r1;
-    public Button b1, b2;
+    public Button b1, b2, b3;
     public String aktuelletabelle;
     public double aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz, averagespeed, maxspeed, selbstbewertung;
 
@@ -84,6 +85,7 @@ public class TripResult extends AppCompatActivity {
         t17 = (TextView) findViewById(R.id.textView60);
         t18 = (TextView) findViewById(R.id.textView61);
 
+        t1.setVisibility(View.INVISIBLE);
         t9.setVisibility(View.INVISIBLE);
         t10.setVisibility(View.INVISIBLE);
         t11.setVisibility(View.INVISIBLE);
@@ -93,18 +95,57 @@ public class TripResult extends AppCompatActivity {
         t15.setVisibility(View.INVISIBLE);
         t16.setVisibility(View.INVISIBLE);
 
+        t17.setVisibility(View.INVISIBLE);
+        t2.setVisibility(View.INVISIBLE);
+        t18.setVisibility(View.INVISIBLE);
+        t7.setVisibility(View.INVISIBLE);
+        t5.setVisibility(View.INVISIBLE);
+        t4.setVisibility(View.INVISIBLE);
+        t3.setVisibility(View.INVISIBLE);
+        t6.setVisibility(View.INVISIBLE);
+
+        Button b2 = (Button) findViewById(R.id.button9);
+        Button b3 = (Button) findViewById(R.id.button_save);
+        b2.setVisibility(View.INVISIBLE);
+        b3.setVisibility(View.INVISIBLE);
+
         aktuellerTripGespeichert = false;
 
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //  NavUtils.navigateUpFromSameTask(this);
+                //  Toast.makeText(RecordTrip.this, "asd", Toast.LENGTH_LONG).show();
+                if (aktuellerTripGespeichert == false) {
+                    cancelResultsDialog();
+                } else {
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(i);
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+
     public void onBackPressed() {
-        cancelResultsDialog();
+        if (aktuellerTripGespeichert == false) {
+            cancelResultsDialog();
+        } else {
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
+        }
     }
 
     public void cancelResultsDialog() {
         if (aktuellerTripGespeichert == false) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Die Fahrt wurde noch nicht gespeichert! Wollen Sie sicher zum Hauptmenü zurückkehren?")
+            builder.setMessage("Die Fahrt wurde noch nicht gespeichert! Wollen Sie wirklich zum Hauptmenü zurückkehren?")
                     .setCancelable(false)
                     .setPositiveButton("Zum Hauptmenü", new DialogInterface.OnClickListener() {
                         public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
@@ -127,15 +168,20 @@ public class TripResult extends AppCompatActivity {
         }
     }
 
-    
+
     //Fahrt berechnen Button
     public void calcButton(View view) {
+        Button b2 = (Button) findViewById(R.id.button9);
+        Button b3 = (Button) findViewById(R.id.button_save);
         Button b1 = (Button) findViewById(R.id.button8);
-
+        b2.setVisibility(View.VISIBLE);
+        b3.setVisibility(View.VISIBLE);
         RatingBar r1 = (RatingBar) findViewById(R.id.ratingBar);
 
         b1.setVisibility(View.INVISIBLE);
         r1.setVisibility(View.INVISIBLE);
+
+        t1.setVisibility(View.VISIBLE);
 
         t9.setVisibility(View.VISIBLE);
         t10.setVisibility(View.VISIBLE);
@@ -145,6 +191,15 @@ public class TripResult extends AppCompatActivity {
         t14.setVisibility(View.VISIBLE);
         t15.setVisibility(View.VISIBLE);
         t16.setVisibility(View.VISIBLE);
+
+        t17.setVisibility(View.VISIBLE);
+        t2.setVisibility(View.VISIBLE);
+        t18.setVisibility(View.VISIBLE);
+        t7.setVisibility(View.VISIBLE);
+        t5.setVisibility(View.VISIBLE);
+        t4.setVisibility(View.VISIBLE);
+        t3.setVisibility(View.VISIBLE);
+        t6.setVisibility(View.VISIBLE);
 
         averagespeed = myDB2.berechneDurschnittsgeschwindigkeit(aktuelletabelle);
         maxspeed = myDB2.berechneHöchstgeschwindigkeit(aktuelletabelle);
@@ -173,57 +228,11 @@ public class TripResult extends AppCompatActivity {
 
 
 
+    }
 
+    public void saveButton(View view) {
 
-
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Fahrt benennen");
-        alert.setMessage("Geben Sie einen Fahrt-Namen ein!");
-
-        // Set an EditText view to get user input
-        final EditText input = new EditText(this);
-
-        input.setText("Unbenannte Fahrt");
-        input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(25) });
-        alert.setView(input);
-        alert.setCancelable(false);
-        alert.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                DateFormat df = DateFormat.getDateTimeInstance();
-                fahrtName = input.getText().toString();
-
-                double gesamtScoreGerundet = (Math.round(10.0*gesamtscore)/10.0);
-
-                //Date aktuellesDatum = new Date();
-                //SimpleDateFormat MeinFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-                //String timestring = MeinFormat.format(aktuellesDatum);
-
-
-
-
-               // String beginS = df.format(new Date(begin));
-               // String endS = df.format(new Date(end));
-               // Toast.makeText(TripResult.this, "time1: "+beginS+" time2: "+endS+".", Toast.LENGTH_LONG).show();
-                //String fahrtDauerString = myDB2.getFahrtdauerAsString(aktuelletabelle, begin, end);
-
-                myDB2.addTripResult(fahrtBeginn, fahrtEnde, fahrtName, gesamtScoreGerundet, fahrtDauerString, selbstbewertung);
-                aktuellerTripGespeichert = true;
-                Toast.makeText(TripResult.this, "Fahrt gespeichert unter:\n" + fahrtName, Toast.LENGTH_LONG).show();
-            }
-        });
-
-        alert.setNegativeButton("Nicht speichern", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                Toast.makeText(TripResult.this, "Fahrt verworfen!", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        alert.show();
-
-
-
-
+        saveTrip();
 
 
     }
@@ -234,8 +243,12 @@ public class TripResult extends AppCompatActivity {
     }
 
     public void mainMenuButton(View view) {
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(i);
+        if (aktuellerTripGespeichert == false) {
+            cancelResultsDialog();
+        } else {
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
+        }
     }
 
     public String getRisikoklasse(double gesamtscore) {
@@ -267,6 +280,58 @@ public class TripResult extends AppCompatActivity {
         return aktuelleRisikoKlasse;
     }
 
+    public void saveTrip() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Fahrt benennen");
+        alert.setMessage("Geben Sie einen Fahrt-Namen ein!");
 
+        // Set an EditText view to get user input
+        final EditText input = new EditText(this);
+
+        input.setText("Unbenannte Fahrt");
+        input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(25) });
+        alert.setView(input);
+        alert.setCancelable(false);
+        alert.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                DateFormat df = DateFormat.getDateTimeInstance();
+                fahrtName = input.getText().toString();
+
+                double gesamtScoreGerundet = (Math.round(10.0*gesamtscore)/10.0);
+
+                //Date aktuellesDatum = new Date();
+                //SimpleDateFormat MeinFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                //String timestring = MeinFormat.format(aktuellesDatum);
+
+
+
+
+                // String beginS = df.format(new Date(begin));
+                // String endS = df.format(new Date(end));
+                // Toast.makeText(TripResult.this, "time1: "+beginS+" time2: "+endS+".", Toast.LENGTH_LONG).show();
+                //String fahrtDauerString = myDB2.getFahrtdauerAsString(aktuelletabelle, begin, end);
+
+                myDB2.addTripResult(fahrtBeginn, fahrtEnde, fahrtName, gesamtScoreGerundet, fahrtDauerString, selbstbewertung);
+                aktuellerTripGespeichert = true;
+                Button b2 = (Button) findViewById(R.id.button9);
+                Button b3 = (Button) findViewById(R.id.button_save);
+                Button b1 = (Button) findViewById(R.id.button8);
+
+                b3.setVisibility(View.INVISIBLE);
+                Toast.makeText(TripResult.this, "Fahrt gespeichert unter:\n" + fahrtName, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alert.setNegativeButton("Nicht speichern", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+
+
+                Toast.makeText(TripResult.this, "Nicht gespeichert!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alert.show();
+    }
 
 }

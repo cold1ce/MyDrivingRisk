@@ -74,7 +74,7 @@
             android:layout_height="20dp">
 
             <TextView
-                android:text="Längengrad:"
+                android:text="Breitengrad:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView36"
@@ -99,7 +99,7 @@
             android:layout_height="20dp" >
 
             <TextView
-                android:text="Breitengrad:"
+                android:text="Längengrad:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView37"
@@ -430,6 +430,79 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView13"
+                android:layout_weight="1"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/holo_red_light" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="20dp">
+
+            <TextView
+                android:text="Aktuell erlaubte Höchstgeschw.:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView12"
+                android:layout_weight="1"
+                android:textStyle="normal|bold"
+                android:textColor="@android:color/holo_red_light" />
+
+            <TextView
+                android:text="-"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView11"
+                android:layout_weight="1"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/holo_red_light" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="20dp">
+
+            <TextView
+                android:text="Aktuelle Straße:"
+                android:layout_width="wrap_content"
+                android:id="@+id/textView17"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_red_light" />
+
+            <TextView
+                android:text="-"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView15"
+                android:layout_weight="1"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/holo_red_light" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="20dp">
+
+            <TextView
+                android:text="Aktueller Straßentyp:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView19"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textColor="@android:color/holo_red_light" />
+
+            <TextView
+                android:text="-"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView18"
                 android:layout_weight="1"
                 android:textAlignment="viewEnd"
                 android:textColor="@android:color/holo_red_light" />
