@@ -1,3 +1,4 @@
+//change
 package fim.de.mydrivingrisk;
 
 import android.app.ActionBar;
@@ -141,7 +142,7 @@ public class TripHistory extends ListActivity {
             //  else
             //  return LIST_ITEM_TYPE_1; // war davoer 2
         }
-
+        //asd
         @Override
         public int getViewTypeCount() {
             return LIST_ITEM_TYPE_COUNT;
