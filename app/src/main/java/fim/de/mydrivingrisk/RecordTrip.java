@@ -64,10 +64,11 @@ public class RecordTrip extends AppCompatActivity {
     public long sonnenaufgang, sonnenuntergang, aktuellezeit, aktuelleRechenzeit;
     public MyOSM osm2;
 
-    //  "altezeit" dient als referenz zur aktuellenzeit, um Wetterabfragen alle x Minuten auszuführen
-    public long altezeit = (new Date().getTime()) - 1;
+
     //  "altezeit" dient als referenz zur aktuellenzeit, um OS M Abfragen alle x Minuten auszuführen
     public long altezeitOSM = (new Date().getTime()) - 1;
+    //  "altezeit" dient als referenz zur aktuellenzeit, um Wetterabfragen alle x Minuten auszuführen
+    public long altezeit = (new Date().getTime()) - 1;
 
 
     public RecordTrip() throws JSONException {
