@@ -127,7 +127,7 @@ public class TripResult extends AppCompatActivity {
         }
     }
 
-    
+
     //Fahrt berechnen Button
     public void calcButton(View view) {
         Button b1 = (Button) findViewById(R.id.button8);

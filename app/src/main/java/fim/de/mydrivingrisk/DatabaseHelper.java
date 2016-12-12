@@ -189,8 +189,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void createFahrtenTabelle(String timestring) {
         //  Tabelle für eine Fahrt in der Fahrtendatenbank.db erstellen
         SQLiteDatabase db = this.getWritableDatabase();
-        //  db.execSQL("create table " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, Stadt TEXT, Wetter TEXT, Temperatur TEXT, Sonnenaufgang TEXT, Sonnenuntergang TEXT, Tempolimit REAL)");
-        db.execSQL("create table " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Zeit INTEGER, Rechenzeit REAL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, MaxBeschleunigung REAL, Wetter TEXT, Wetterkategorie TEXT, Sonnenaufgang INTEGER, Sonnenuntergang INTEGER, Tempolimit REAL)");
+        db.execSQL("CREATE TABLE " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Zeit INTEGER, Rechenzeit REAL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, MaxBeschleunigung REAL, Wetter TEXT, Wetterkategorie TEXT, Sonnenaufgang INTEGER, Sonnenuntergang INTEGER, Tempolimit REAL)");
 
     }
 
@@ -398,7 +397,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return lateralebeschleunigung;
-        //  return Math.abs(lateralebeschleunigung);
     }
 
     public String wetterkategorie(String aktuelletabelle) {
@@ -406,23 +404,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT Wetter FROM " + aktuelletabelle + " ORDER BY ID DESC LIMIT 1", null);
         cursor.moveToLast();
         String wetter = cursor.getString(0);
-        String kategorie = null;
         for (int i = 0; i < dry.length; ++i) {
             if (dry[i].equals(wetter)) {
-                kategorie = "dry";
+                return "dry";
             }
         }
         for (int i = 0; i < wet.length; ++i) {
             if (wet[i].equals(wetter)) {
-                kategorie = "wet";
+                return "wet";
             }
         }
         for (int i = 0; i < extreme.length; ++i) {
             if (extreme[i].equals(wetter)) {
-                kategorie = "extreme";
+                return "extreme";
             }
         }
-        return kategorie;
+        return "keine Kategorie";
     }
 
     public Cursor getListContents() {

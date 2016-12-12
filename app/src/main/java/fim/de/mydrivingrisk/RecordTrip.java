@@ -52,6 +52,7 @@ public class RecordTrip extends AppCompatActivity {
     public double aktuellemaxbeschleunigung = 0.0;
     public int aktuelleanzahlsatelliten = 0;
     public boolean aufnahmelaeuft;
+    public boolean test = true;
     public String timestring;
     public String aktuelletabelle;
     public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17;
@@ -59,8 +60,10 @@ public class RecordTrip extends AppCompatActivity {
     public String wetter, wetterkategorie;
     public long sonnenaufgang, sonnenuntergang, aktuellezeit, aktuelleRechenzeit;
 
+    //  "altezeit" dient als referenz zur aktuellenzeit, um Wetterabfragen alle x Minuten auszuführen
+    public long altezeit = (new Date().getTime()) - 1;
 
-    //?Stefan: Bitte erklären?
+
     public RecordTrip() throws JSONException {
     }
 
@@ -293,9 +296,21 @@ public class RecordTrip extends AppCompatActivity {
             aktuellemaxbeschleunigung = myDB.berechneMaximalBeschleunigung(aktuellelateralebeschleunigung);
             t9.setText("" + (Math.round(100.0 * aktuellemaxbeschleunigung) / 100.0) + " m/s²");
 
+            //  Wetterkategorie wird als letztes gesetzt, daher wird dass überprüft
+            //  wenn Wetterkategorie einen Wert hat, nicht mehr nach dem Wetter fragen
+            if (wetterkategorie == "keine Kategorie" || wetterkategorie == null) {
+                Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
+                wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
+            }
 
-            Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
-            wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
+            //  altezeit wird oben mit (new Date().getTime())-1 initialiesiert, beide Werte sind in ms
+            //  wenn Differenz > als 1000*60*10 ms = 10 min, dann wieder Wetter abfragen
+            if ((aktuellezeit - altezeit) > (1000 * 60 * 10)) {
+                Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
+                wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
+                altezeit = (new Date().getTime()) - 1;
+            }
+
 
             t10.setText("" + wetter);
             t11.setText("" + wetterkategorie);
@@ -342,7 +357,6 @@ public class RecordTrip extends AppCompatActivity {
     public void Wetter(String latitude, String longitude) {
         Weather.placeIdTask asyncTask = new Weather.placeIdTask(new Weather.AsyncResponse() {
             @Override
-            //  public void processFinish(String output1, String output2, String output3, String output4, String output5) {
             public void processFinish(String output1, long output2, long output3) {
 
                 wetter = output1;
