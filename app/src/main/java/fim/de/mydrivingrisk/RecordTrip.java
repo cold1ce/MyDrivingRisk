@@ -1,40 +1,28 @@
-//change
 package fim.de.mydrivingrisk;
 
-//Einbinden von anderen Klassen
-
 import android.Manifest;
-import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
+
 
 
 public class RecordTrip extends AppCompatActivity {
@@ -52,35 +40,30 @@ public class RecordTrip extends AppCompatActivity {
     public double aktuellerichtungsdifferenz = 0.0;
     public double aktuellelateralebeschleunigung = 0.0;
     public double aktuellemaxbeschleunigung = 0.0;
-    public int aktuelleanzahlsatelliten = 0;
     public boolean aufnahmelaeuft;
     public boolean test = true;
-    public String timestring;
     public String aktuelletabelle;
     public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20;
     public ProgressBar p1;
     public String wetter, wetterkategorie, aktuellestrasse, aktuellerstrassentyp;
-    public String aktuellehoechstgeschwindigkeitstring;
     public double aktuellestempolimit;
     public long sonnenaufgang, sonnenuntergang, aktuellezeit, aktuelleRechenzeit;
-    public MyOSM osm2;
 
-
-    //  "altezeit" dient als referenz zur aktuellenzeit, um OS M Abfragen alle x Minuten auszuführen
+    // "altezeit" dient als Referenz zur aktuellenzeit, um OSM Abfragen alle x Minuten auszuführen
     public long altezeitOSM = (new Date().getTime()) - 1;
-    //  "altezeit" dient als referenz zur aktuellenzeit, um Wetterabfragen alle x Minuten auszuführen
+    // "altezeit" dient als Referenz zur aktuellenzeit, um Wetterabfragen alle x Minuten auszuführen
     public long altezeit = (new Date().getTime()) - 1;
 
-
+    //Kann man evtl. löschen?
     public RecordTrip() throws JSONException {
     }
 
-    @Override
+    @Override //Falls in der ActionBar der Zurück-Pfeil angeklickt wird,
+    //ausführen des cancelRecordDialogs. Dieser überprüft ob eine Aufnahme
+    //läuft und warnt davor eine Aufnahme ohne Speichern zu beenden.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                //  NavUtils.navigateUpFromSameTask(this);
-                //  Toast.makeText(RecordTrip.this, "asd", Toast.LENGTH_LONG).show();
                 cancelRecordDialog();
                 return true;
         }
@@ -88,11 +71,14 @@ public class RecordTrip extends AppCompatActivity {
     }
 
 
-    @Override
+    @Override //Falls er Zurück-Knopf  angeklickt wird,
+    //ausführen des cancelRecordDialogs. Dieser überprüft ob eine Aufnahme
+    //läuft und warnt davor eine Aufnahme ohne Speichern zu beenden.
     public void onBackPressed() {
         cancelRecordDialog();
     }
 
+    //Überprüft ob eine Aufnahme läuft und warnt davor eine Aufnahme ohne Speichern zu beenden.
     public void cancelRecordDialog() {
         if (aufnahmelaeuft == true) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -125,15 +111,11 @@ public class RecordTrip extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_trip);
+
         this.setTitle("Fahrt aufzeichnen");
 
-
-        //osm2 = new MyOSM();
-
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //  getSupportActionBar().setAc
-        //  Oberflächen-Objekte zuordnen
+
         t1 = (TextView) findViewById(R.id.textView3);
         t2 = (TextView) findViewById(R.id.textView4);
         t3 = (TextView) findViewById(R.id.textView5);
@@ -188,9 +170,7 @@ public class RecordTrip extends AppCompatActivity {
 
         };
 
-        // Here, thisActivity is the current activity
-
-
+        //Überprüfen ob Zugriff auf Standort erlaubt ist und ob GPS eingeschaltet ist, wenn nicht jeweils entsprechend abfangen und zurück ins Hauptmenü
         if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) || (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             Toast.makeText(RecordTrip.this, "Bitte erlauben Sie der App Zugriff auf den aktuellen Standort!", Toast.LENGTH_LONG).show();
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
@@ -204,6 +184,7 @@ public class RecordTrip extends AppCompatActivity {
             locationManager1.requestLocationUpdates("gps", 1000, 0, locationListener1);
         }
 
+        //Sicherheitshinweis vor der Fahrt einblenden
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         String s = "<b>Bolded text</b>, <i>italic text</i>, even <u>underlined</u>!";
         builder.setMessage(R.string.caution_message)
@@ -220,7 +201,8 @@ public class RecordTrip extends AppCompatActivity {
     //  Fahrt aufzeichnen Button
     public void recordButton(View view) {
         Button b1 = (Button) findViewById(R.id.button6);
-        //  Überprüfen ob der Button zum Starten oder zum Stoppen der Aufzeichnung gerade zuständig ist
+        //  Überprüfen ob der Button gerade zum Starten oder zum Stoppen der Aufzeichnung gerade zuständig ist
+        // Wenn keine Aufnahme läuft, versuchen eine Aufnahme zu starten
         if (aufnahmelaeuft == false) {
             //  Überprüfen ob GPS Signal einigermaßen genau ist (+/-10m)
             //  Wenn ja: Beginn der Aufzeichnung einer neuen Fahrt
@@ -232,12 +214,12 @@ public class RecordTrip extends AppCompatActivity {
                 b1.setText("Aufzeichnung beenden");
                 //b1.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_media_rew, 0, 0, 0);
                 b1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_media_stop, 0, 0, 0);
-
-
             } else {
                 Toast.makeText(RecordTrip.this, "GPS zu ungenau, bitte etwas warten und erneut versuchen!", Toast.LENGTH_LONG).show();
                 t3.setText("Genauigkeit: ±" + aktuellegenauigkeit + " m (Beim letzten Versuch)");
             }
+        // Wenn eine Aufnahme läuft, diese beenden und auf die Ergebnisseite weiterleiten.
+        // Zudem den Aufnahme Button wieder zurücksetzen
         } else if (aufnahmelaeuft == true) {
             aufnahmelaeuft = false;
             //  stopRecord();
@@ -247,7 +229,6 @@ public class RecordTrip extends AppCompatActivity {
             toTripResult();
         }
     }
-
 
     //  Neue Fahrt anlegen
     public void addNewTrip() {
@@ -261,37 +242,42 @@ public class RecordTrip extends AppCompatActivity {
         //  Tabelle erstellen in der Fahrtendatenbank.db, mit der Aktuellen Zeit als Tabellenname
         myDB.createFahrtenTabelle(aktuelletabelle);
 
-        //  "Leeren" Startwert einfügen um einen Crash zu verhindern
+
         DateFormat df = DateFormat.getDateTimeInstance();
         aktuellezeit = new Date().getTime();
 
-
+        //  "Leere" Startwerte einfügen um einen Crash zu verhindern
         myDB.insertFahrtDaten(aktuellezeit, 0, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0, "startwert", "startwert");
         myDB.insertFahrtDaten(aktuellezeit, 0, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0, "startwert", "startwert");
 
-        //  Timer erstellen, um die Schleife nicht permanent zu wiederholen sondern nur jede Sekunde
-        //  Timer timer = new Timer();
-
+        //Drehender Kreis sichtbar machen um "Aufnahme" zu signalisieren
         p1.setVisibility(View.VISIBLE);
 
-        //  Aufnahmeschleife aufrufen
+        //  Aufnahmeschleife starten
         recordTrip();
     }
 
 
-    //  Aufnahmeschleife (Wird permanent wiederholt solange bis aufnahmeläuft auf false gesetzt wird
-    //  (Durch stoppen der Aufnahme) - Künstliche Verzögerung von 1s abgebaut da nur alle Sekunde
+    //  Aufnahmeschleife (Wird permanent wiederholt solange bis "aufnahmeläuft" auf false gesetzt wird
+    //  (Durch stoppen der Aufnahme) - Künstliche Verzögerung von 1s eingebaut da nur alle Sekunde
     //  Daten angelegt werden sollen
     private Handler handler = new Handler();
 
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
+
+            //Abrufen der aktuellen Uhrzeit für weitere Berechnungen
             DateFormat df = DateFormat.getDateTimeInstance();
             aktuellezeit = new Date().getTime();
+
+            //Rechenzeit berechnen, da die Eintragung nicht genau alle 1000ms stattfindet und somit
+            //für das Berechnen eines genauen Scores die genaue Zeit zwischen zwei Messpunkten benötigt wird
             Date aktuelleZeitDate = new Date(aktuellezeit);
             Date letzteZeitDate = new Date(myDB.getLetzteZeit(aktuelletabelle));
             aktuelleRechenzeit = Math.abs(aktuelleZeitDate.getTime() - letzteZeitDate.getTime());
+
+            //Anzeigen und Ausrechnen der nun sekündlich ermittelten Werte
             t17.setText("" + aktuelleRechenzeit + "ms");
             t16.setText("" + aktuellezeit + " | " + df.format(new Date(aktuellezeit)));
             t2.setText("" + aktuellerbreitengrad);
@@ -311,7 +297,7 @@ public class RecordTrip extends AppCompatActivity {
             aktuellemaxbeschleunigung = myDB.berechneMaximalBeschleunigung(aktuellelateralebeschleunigung);
             t9.setText("" + (Math.round(100.0 * aktuellemaxbeschleunigung) / 100.0) + " m/s²");
 
-            //  Wetterkategorie wird als letztes gesetzt, daher wird dass überprüft
+            //  Wetterkategorie wird als letztes gesetzt, daher wird das überprüft
             //  wenn Wetterkategorie einen Wert hat, nicht mehr nach dem Wetter fragen
             if (wetterkategorie == "keine Kategorie" || wetterkategorie == null) {
                 Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
@@ -326,7 +312,7 @@ public class RecordTrip extends AppCompatActivity {
                 altezeit = (new Date().getTime()) - 1;
             }
 
-            //Abfrage alle 5Sek
+            //Analog wie Wetterabfrage: OSM-Abfrage des Tempolimits, aktuell 5000ms, das heißt alle 5 Sekunden
             if ((aktuellezeit - altezeitOSM) > (5000)) {
                 //aktuellehoechstgeschwindigkeit = osm1.matchOSM(aktuellerbreitengrad, aktuellerlaengengrad);
                 if (aktuellegenauigkeit <= 8.0) {
@@ -339,17 +325,15 @@ public class RecordTrip extends AppCompatActivity {
                 altezeitOSM = (new Date().getTime()) - 1;
             }
 
-
             t18.setText("" + aktuellestempolimit);
             t19.setText(""+ aktuellestrasse);
             t20.setText(""+ aktuellerstrassentyp);
-
-
             t10.setText("" + wetter);
             t11.setText("" + wetterkategorie);
             t12.setText("" + df.format(new Date(sonnenaufgang)));
             t13.setText("" + df.format(new Date(sonnenuntergang)));
 
+            //Alle ermittelten Daten des aktuellen Datenpunktes in die Datenbank schreiben
             myDB.insertFahrtDaten(aktuellezeit, aktuelleRechenzeit, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, aktuellemaxbeschleunigung, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, aktuellestempolimit, aktuellestrasse, aktuellerstrassentyp);
 
             if (aufnahmelaeuft) {
@@ -369,6 +353,8 @@ public class RecordTrip extends AppCompatActivity {
     }
 
 
+    //Wenn die Aufnahme beendet wird, zur Ergebnisseite weiterleiten,
+    //hierbei müssen einige Werte dieser Activitiy als Bundle weitergegeben werden
     public void toTripResult() {
         Bundle trip = new Bundle();
         trip.putString("datenpaket1", aktuelletabelle);
@@ -382,11 +368,13 @@ public class RecordTrip extends AppCompatActivity {
         startActivity(i);
     }
 
+    //Gibt den Namen der aktuellen Tabelle zurück die verwendet wird
     public String getAktuelleTabelle() {
         return aktuelletabelle;
     }
 
-
+    //Wetter-Abfrage als paralleler Task, um das Speichern der anderen Daten nicht zu behindern oder zu
+    //verzögern
     public void Wetter(String latitude, String longitude) {
         Weather.placeIdTask asyncTask = new Weather.placeIdTask(new Weather.AsyncResponse() {
             @Override
@@ -401,6 +389,8 @@ public class RecordTrip extends AppCompatActivity {
         asyncTask.execute(latitude, longitude);
     }
 
+    //Tempolimit-Abfrage als paralleler Task, um das Speichern der anderen Daten nicht zu behindern oder zu
+    //verzögern
     public void Tempolimit(String latitude, String longitude) {
         MyOSM.placeIdTask asyncTask = new MyOSM.placeIdTask(new MyOSM.AsyncResponse() {
             @Override

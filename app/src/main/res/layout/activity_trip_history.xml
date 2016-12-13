@@ -29,7 +29,7 @@
             android:footerDividersEnabled="true"
             android:background="@android:color/transparent"
             android:cacheColorHint="@android:color/transparent"
-            android:id="@android:id/list">
+            android:id="@+id/listview_3">
         </ListView>
 
     </RelativeLayout>

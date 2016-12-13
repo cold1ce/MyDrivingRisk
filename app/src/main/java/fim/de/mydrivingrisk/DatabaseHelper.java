@@ -6,9 +6,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.icu.util.ULocale;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -44,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Sobald ein DataBaseHelper gestartet wird, wird automatisch eine Tabelle für die Ergebnisse der Fahrten angelegt.
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //db.execSQL("create table TripResultsTabelle (ID INTEGER PRIMARY KEY AUTOINCREMENT, Beginn TEXT, Ende TEXT, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
+        //db.execSQL("create table tripResultsTabelle2 (ID INTEGER PRIMARY KEY AUTOINCREMENT, Beginn TEXT, Ende TEXT, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
     }
 
     @Override
@@ -89,14 +92,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
         }
     */
-    public void createTripResultsTabelle() {
+    public void createtripResultsTabelle2() {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
-        db.execSQL("CREATE TABLE IF NOT EXISTS TripResultsTabelle (ID INTEGER PRIMARY KEY AUTOINCREMENT, Beginn DATETIME, Ende DATETIME, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS TripResultsTabelle2 (_id INTEGER PRIMARY KEY AUTOINCREMENT, Beginn DATETIME, Ende DATETIME, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
     }
 
     public void deleteFahrtentabelle(String aktuelletabelle) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
         db.execSQL("DROP TABLE IF EXISTS " + aktuelletabelle);
+    }
+
+    public void deleteTripResult(int id) {
+        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        db.execSQL("DELETE FROM TripResultsTabelle2 WHERE _id = "+id);
+    }
+
+    public void deleteAllTripResults() {
+        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        db.execSQL("DELETE * FROM TripResultsTabelle2");
     }
 
     public String getFahrtdauerAsString(String aktuelletabelle, long fahrtBeginn, long fahrtEnde) {
@@ -134,7 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean addTripResult(long tripStartDate, long tripEndeDate, String tripName, double score, String fahrtDauer, double selbstBewertung) {
 
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
-        createTripResultsTabelle();
+        createtripResultsTabelle2();
         ContentValues contentValues = new ContentValues();
 
         DateFormat df = DateFormat.getDateTimeInstance();
@@ -150,7 +163,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("Fahrtdauer", fahrtDauer);
         contentValues.put("Selbstbewertung", selbstBewertung);
 
-        long result = db.insert("TripResultsTabelle", null, contentValues);
+        long result = db.insert("tripResultsTabelle2", null, contentValues);
 
         if (result == -1)
             return false;
@@ -193,7 +206,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //  Tabelle für eine Fahrt in der Fahrtendatenbank.db erstellen
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("CREATE TABLE " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Zeit INTEGER, Rechenzeit REAL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, MaxBeschleunigung REAL, Wetter TEXT, Wetterkategorie TEXT, Sonnenaufgang INTEGER, Sonnenuntergang INTEGER, Tempolimit REAL, AktuelleStrasse TEXT, AktuellerStrassentyp TEXT)");
-        db.execSQL("CREATE TABLE " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Zeit INTEGER, Rechenzeit REAL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, MaxBeschleunigung REAL, Wetter TEXT, Wetterkategorie TEXT, Sonnenaufgang INTEGER, Sonnenuntergang INTEGER, Tempolimit REAL)");
+
 
     }
 
@@ -428,15 +441,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getListContents() {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM TripResultsTabelle ORDER BY ID DESC", null);
+        Cursor data = db.rawQuery("SELECT * FROM tripResultsTabelle2 ORDER BY _id DESC", null);
         return data;
     }
-
-    //public void deleteTripResult(int id){
-    //    SQLiteDatabase db = this.getWritableDatabase();
-    //    db.rawQuery("DELTE "+id+" FROM TripResultsTabelle", null);
-    // }
-
 
 }
 

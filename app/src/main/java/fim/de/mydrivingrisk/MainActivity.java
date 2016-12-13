@@ -1,33 +1,44 @@
-//change
 package fim.de.mydrivingrisk;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-    //public boolean ALLOWED_TO_ACCESS_FINE_LOCATION = false;
-    //public boolean ALLOWED_TO_ACCESS_COARSE_LOCATION = false;
     public int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
     public int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION;
-    private LocationManager locationManager5;
-    private LocationManager locationListener5;
+    public LocationManager locationManager5;
+
+
+    @Override //Aktivieren des 3-Punkte-Optionsmenüs
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main_activity, menu);
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Überprüfen ob die App die Rechte hat um auf den Standort zuzugreifen, dies geschieht vor Android 6 über die Manifest Datei und schon
+        //Menügestaltung, Buttons deaktivieren/aktivieren
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+
+        //Überprüfen ob die App die Rechte hat um auf den Standort zuzugreifen, dies geschieht vor Android 6 über die Manifest-Datei und schon
         //bei der Installation. Allerdings ab Android 6 einzeln während des Betriebs. Daher diese Abfrage.
         locationManager5 = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -37,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
         }
 
-        //Überprüfen ob GPS angeschaltet ist. Wenn nicht, anbieten GPS einzuschalten.
+        //Überprüfen ob GPS angeschaltet ist. Wenn nicht, dem Benutzer anbieten GPS einzuschalten.
         if (!locationManager5.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Standort-Funktion deaktiviert oder auf niedriger Genauigkeit. Bitte aktivieren Sie die Standort-Funktion um eine Fahrt aufzeichnen zu können!")
@@ -73,12 +84,16 @@ public class MainActivity extends AppCompatActivity {
 
     //Wird bei Klick auf den Über-die-App-Button ausgeführt und öffnet
     //eine Bedienungsanleitung und Infos über die Funktionsweise
-    public void toAboutTheApp(View view) {
-        Intent i = new Intent(getApplicationContext(), About.class);
-        startActivity(i);
-    }
+    //public void toAboutTheApp(View view) {
+      //  Intent i = new Intent(getApplicationContext(), About.class);
+      //  startActivity(i);
+    //}
 
+    //Fals der Zurück-Knopf am Handy gedrückt wird, fragen ob App beendet werden soll.
     public void onBackPressed() {
+        Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+        // Vibrate for 500 milliseconds
+        v.vibrate(100);
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("App vollständig beenden?")
                     .setCancelable(false)

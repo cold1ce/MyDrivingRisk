@@ -1,7 +1,5 @@
-//change
 package fim.de.mydrivingrisk;
 
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -12,17 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import static fim.de.mydrivingrisk.R.id.textView;
-
 
 public class TripResult extends AppCompatActivity {
 
@@ -213,10 +204,11 @@ public class TripResult extends AppCompatActivity {
         fahrtEnde = myDB2.getFahrtEnde(aktuelletabelle);
         fahrtDauerString = myDB2.getFahrtdauerAsString(aktuelletabelle, fahrtBeginn, fahrtEnde);
         selbstbewertung = 100.0;
-        aktuelleRisikoKlasse = getRisikoklasse(gesamtscore);
         gesamtscore = berechneGesamtscore(brakingscore, accelerationscore, timescore, corneringscore, speedingscore);
 
-        t8.setText(R.string.selbstbewertung_2+""+aktuelleRisikoKlasse+"!");
+        aktuelleRisikoKlasse = getRisikoklasse(gesamtscore);
+
+        t8.setText(getString(R.string.selbstbewertung_2)+""+aktuelleRisikoKlasse+"!");
         t1.setText("Ihr Score beträgt: "+(Math.round(10.0*gesamtscore)/10.0));
         t2.setText(""+(Math.round(10.0*averagespeed)/10.0)+" km/h");
         t3.setText(""+Math.round(10.0*accelerationscore)/10.0);
@@ -254,28 +246,28 @@ public class TripResult extends AppCompatActivity {
 
     public String getRisikoklasse(double gesamtscore) {
         if (gesamtscore >= 0 && gesamtscore < 10.0) {
-            aktuelleRisikoKlasse = "Sehr sicher";
+            aktuelleRisikoKlasse = "sehr sicher";
         }
         else if (gesamtscore >= 10.0 && gesamtscore < 20.0) {
-            aktuelleRisikoKlasse = "Sicher";
+            aktuelleRisikoKlasse = "sicher";
         }
         else if (gesamtscore >= 20.0 && gesamtscore < 30.0) {
-            aktuelleRisikoKlasse = "Neutral";
+            aktuelleRisikoKlasse = "neutral";
         }
         else if (gesamtscore >= 30.0 && gesamtscore < 40.0) {
-            aktuelleRisikoKlasse = "Risikoreich";
+            aktuelleRisikoKlasse = "risikoreich";
         }
         else if (gesamtscore >= 40.0 && gesamtscore < 50.0) {
-            aktuelleRisikoKlasse = "Sehr Risikoreich";
+            aktuelleRisikoKlasse = "sehr Risikoreich";
         }
         else if (gesamtscore >= 50.0 && gesamtscore <140.0) {
-            aktuelleRisikoKlasse = "Extrem Risikoreich";
+            aktuelleRisikoKlasse = "extrem Risikoreich";
         }
         else if (gesamtscore == 140.0) {
-            aktuelleRisikoKlasse = "Lebensmüde";
+            aktuelleRisikoKlasse = "lebensmüde";
         }
         else {
-            aktuelleRisikoKlasse = "Unbekannt";
+            aktuelleRisikoKlasse = "Fahrt mit unbekanntem Risiko";
         }
 
         return aktuelleRisikoKlasse;

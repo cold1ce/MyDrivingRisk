@@ -26,7 +26,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:background="@android:color/transparent"
             android:cacheColorHint="@android:color/transparent"
             android:weightSum="1">
@@ -58,7 +58,7 @@
                     android:text="Score:"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView64"
+                    android:id="@+id/list_item_type1_text_view_7"
                     android:textColor="@android:color/holo_red_light" />
 
                 <TextView

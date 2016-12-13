@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:allowBackup="true"
@@ -19,8 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TripHistory"
-            android:label="Gespeicherte Fahrten"/>
 
         <!-- A child of the main activity -->
         <activity
@@ -45,10 +44,7 @@
                 android:name=".MainActivity"
                 android:value="de.fim.mydrivingrisk.MainActivity" />
         </activity>
-        <activity
-            android:name=".About"
-            android:label="@string/title_activity_about"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".TripHistory"></activity>
     </application>
 
 </manifest>
