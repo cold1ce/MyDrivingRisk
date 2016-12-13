@@ -122,4 +122,31 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="title_activity_trip_history_new">TripHistoryNew</string>
+
+    <string name="impressum_text">
+        Impressum:
+
+        myDrivingRisk
+
+        Autoren: Julian Ruppert, Benedikt Neubert, Stefan Rasche, Tobias Wittmeir
+        Betreuer: Sebastian Heger, Marco Schmidt
+
+        FIM Kernkompetenzzentrum
+        Universität Augsburg
+        86135 Augsburg
+
+        www.fim-rc.de
+
+        mobile@fim-rc.de
+
+        Für einen Einblick in den Quellcode können Sie uns gerne kontaktieren.
+
+        Die Anwendung wurde im Rahmen des „Projektstudium Wirtschaftsinformatik“ am Kernkompetenzzentrum Finanz- und Informationsmanagement der Universität Augsburg entwickelt. Das Kernkompetenzzentrum Finanz- und Informationsmanagement kooperiert eng mit der Projektgruppe Wirtschaftsinformatik des Fraunhofer Instituts für Angewandte Informationstechnik FIT. Als Vorlage diente die Bachelorarbeit „Utilization of driving-related data for customized insurance premiums“, welche von Moritz Wöhl vorgelegt wurde.
+        Während der Aufzeichnungen von myDrivingRisk wird durch ein Symbol in der oberen Statusleiste auf die Erfassung von Daten hingewiesen. Die Autoren und Betreuer übernehmen keinerlei Gewähr für die Aktualität, Richtigkeit und Vollständigkeit der bereitgestellten Informationen durch die Applikation. Haftungsansprüche gegen die Autoren oder Betreuer, welche sich auf Schäden materieller oder ideeller Art beziehen, die durch die Nutzung oder Nichtnutzung der dargebotenen Applikation bzw. durch die Nutzung fehlerhafter und unvollständiger Informationen verursacht werden, sind grundsätzlich ausgeschlossen, sofern seitens der Autoren kein nachweislich vorsätzliches oder grob fahrlässiges Verschulden vorliegt. Alle Angebote sind freibleibend und unverbindlich. Die Autoren behalten es sich ausdrücklich vor, Teile der Applikation oder das gesamte Angebot ohne gesonderte Ankündigung zu verändern, zu ergänzen, zu löschen oder die Veröffentlichung zeitweise oder endgültig einzustellen.
+
+        Genutzte Application Programming Interfaces:
+        www.openstreetmap.org
+        www.openweathermap.org
+
+    </string>
 </resources>

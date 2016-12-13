@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -88,6 +89,15 @@ public class MainActivity extends AppCompatActivity {
       //  Intent i = new Intent(getApplicationContext(), About.class);
       //  startActivity(i);
     //}
+
+    //Wird bei Klick auf den Impressum Button im 3-Punkte-Menü ausgeführt und öffnet
+    //die Oberfläche für das Impressum
+    public boolean toImpressum(MenuItem item) {
+            Intent i = new Intent(getApplicationContext(), Impressum.class);
+            startActivity(i);
+            return true;
+    }
+
 
     //Fals der Zurück-Knopf am Handy gedrückt wird, fragen ob App beendet werden soll.
     public void onBackPressed() {

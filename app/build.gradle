@@ -28,6 +28,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta3'
     compile 'com.android.support:design:25.0.0'
     testCompile 'junit:junit:4.12'
-    compile files('C:/android-play-location-master/myDrivingRisk/libs/opencsv-3.8.jar')
-    compile files('C:/android-play-location-master/myDrivingRisk/libs/gson-2.8.0.jar')
+
 }

@@ -3,17 +3,14 @@ package fim.de.mydrivingrisk;
 
 import android.os.AsyncTask;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+
 
 import org.json.*;
 
-import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
+
 import java.net.URL;
 
 
@@ -24,12 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
+
 
 
 public class MyOSM {
@@ -176,7 +168,7 @@ public class MyOSM {
             System.out.println("getTempoJSON gestartet");
 
             //String sURL3 = "http://freegeoip.net/json/"; //just a string
-            String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json];node(around:50,"+lat+","+lon+");way(bn)[highway];out;";
+            String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json];node(around:5,"+lat+","+lon+");way(bn)[highway];out;";
             //String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json];node(around:50,48.167006,%209.511681);way(bn)[highway];out;";
 
             String version = "nix";
