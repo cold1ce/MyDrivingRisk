@@ -92,6 +92,7 @@ public class MyOSM {
                         }
                         catch (JSONException e){
                             System.out.println("kein maxspeed-wert erhalten");
+                            maxspeed = 0.0;
                         }
 
                         try {
@@ -100,6 +101,13 @@ public class MyOSM {
                         }
                         catch (JSONException e){
                             System.out.println("kein strasse-wert erhalten");
+                            try {
+                                strasse = object4.getString("ref");
+                                System.out.println("Straße: "+strasse);
+                            }
+                            catch (JSONException f){
+                                System.out.println("kein ref-wert erhalten");
+                            }
                         }
 
                         try {
@@ -156,7 +164,7 @@ public class MyOSM {
                 }
             } catch (JSONException e) {
                   Log.e("FEHLER", "Cannot process JSON results", e);
-                    System.out.println("onPostExecuteException Yoo!");
+                    System.out.println("OSM-Abfrage-Exception");
 
             }
         }
@@ -168,9 +176,12 @@ public class MyOSM {
             System.out.println("getTempoJSON gestartet");
 
             //String sURL3 = "http://freegeoip.net/json/"; //just a string
-            String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json];node(around:5,"+lat+","+lon+");way(bn)[highway];out;";
+            //String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json];node(around:10,"+lat+","+lon+");way(bn)[highway];out;";
+            //String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json][timeout:25];(node[\"source:maxspeed\"](around:5,"+lat+","+lon+");way[\"source:maxspeed\"](around:5,"+lat+","+lon+");relation[\"source:maxspeed\"](around:5,"+lat+","+lon+"););out body;>;out skel qt;";
             //String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json];node(around:50,48.167006,%209.511681);way(bn)[highway];out;";
-
+            //String sURL3 = "http://overpass-api.de/api/way[\"highway\"](around:5.0,48.165553,9.519322);out;"
+            //String sURL3 = ("http://overpass-api.de/api/interpreter?data=[out:json];way[highway](around:5.0,"+lat+","+lon+");out;");
+            String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json];way[\"highway\"~\"motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|living_street\"][\"maxspeed\"](around:5.0,"+lat+","+lon+");out;";
             String version = "nix";
             String zipcode = "nix";
 

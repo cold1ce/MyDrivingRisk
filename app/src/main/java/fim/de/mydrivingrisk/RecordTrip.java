@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -252,6 +253,9 @@ public class RecordTrip extends AppCompatActivity {
 
         //Drehender Kreis sichtbar machen um "Aufnahme" zu signalisieren
         p1.setVisibility(View.VISIBLE);
+
+        //Voerst mal dafür sorgen dass das Display nicht ausgeht
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         //  Aufnahmeschleife starten
         recordTrip();

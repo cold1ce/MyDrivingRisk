@@ -10,6 +10,7 @@
     android:background="@android:color/transparent"
     android:cacheColorHint="@android:color/transparent"
     android:layout_marginLeft="10dp"
+    android:screenOrientation="portrait"
     android:weightSum="1">
 
     <LinearLayout

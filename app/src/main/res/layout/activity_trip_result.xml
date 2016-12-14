@@ -8,6 +8,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
+    android:screenOrientation="portrait"
     tools:context="fim.de.mydrivingrisk.TripResult">
 
     <ImageView

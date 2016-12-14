@@ -8,6 +8,7 @@
     android:paddingLeft="15dp"
     android:paddingRight="5dp"
     android:paddingTop="0dp"
+    android:screenOrientation="portrait"
     tools:context="fim.de.mydrivingrisk.Impressum">
 
     <ScrollView

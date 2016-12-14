@@ -197,6 +197,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //  Berechnen der Beschleunigung (Geteilt durch 1 für eine Sekunde, sollte man evtl. noch nachbessern da manchmal zwischen zwei
         //  Spalten 2 Sekunden abstand generiert werden(Verzögerung durch Rechendauer) Edit: durch zeitPeriode versucht zu beheben
         beschleunigung = ((aktuellegeschwindigkeit - letzte) / zeitPeriode) / 3.6;
+        cursor.close();
         return beschleunigung;
 
     }
@@ -223,6 +224,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT Zeit FROM " + aktuelletab + " ORDER BY ID DESC LIMIT 1", null);
         cursor.moveToLast();
         long ret = cursor.getLong(0);
+        cursor.close();
         return ret;
     }
 
@@ -232,6 +234,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT Zeit FROM " + aktuelletab + " ORDER BY ID DESC LIMIT 1", null);
         cursor.moveToLast();
         long ret = cursor.getLong(0);
+        cursor.close();
         return ret;
     }
 
@@ -247,7 +250,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //  in Variable speichern
         cursor.moveToLast();
         avg = cursor.getDouble(0);
-
+        cursor.close();
         return avg;
 
     }
@@ -264,7 +267,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //  in Variable speichern
         cursor.moveToLast();
         max = cursor.getDouble(0);
-
+        cursor.close();
         return max;
 
     }
@@ -288,7 +291,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (n < 1) {
             n = n + 1;
         }
-
+        cursor1.close();
+        cursor2.close();
         return (s / n * 100);
     }
 
@@ -317,7 +321,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 s = 1;
             }
         }
-
+        cursor1.close();
+        cursor2.close();
         return (s / n * 100);
     }
 
@@ -347,7 +352,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (n < 1) {
             n = n + 1;
         }
-
+        cursor1.close();
+        cursor2.close();
+        cursor3.close();
+        cursor4.close();
         return (s / n * 100);
     }
 
@@ -377,7 +385,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (n < 1) {
             n = n + 1;
         }
-
+        cursor1.close();
+        cursor2.close();
+        cursor3.close();
+        cursor4.close();
         return (s / n * 100);
     }
 
@@ -412,7 +423,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (lateralebeschleunigung > 50 || lateralebeschleunigung < -50) {
             lateralebeschleunigung = 0;
         }
-
+        cursor1.close();
+        cursor2.close();
         return lateralebeschleunigung;
     }
 
@@ -436,6 +448,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 return "extreme";
             }
         }
+        cursor.close();
         return "keine Kategorie";
     }
 
