@@ -1,9 +1,11 @@
 package fim.de.mydrivingrisk;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,11 +44,8 @@ public class TripHistory extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_trip_history, menu);
 
-        // return true so that the menu pop up is opened
         return true;
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,7 @@ public class TripHistory extends AppCompatActivity {
         this.setTitle("Aufgezeichnete Fahrten");
 
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
 
         myDB3 = new DatabaseHelper(this, "Fahrtendatenbank.db");
@@ -77,5 +76,29 @@ public class TripHistory extends AppCompatActivity {
             lvItems.setAdapter(todoAdapter);
         }
     }
+
+    public boolean deleteAllButton(MenuItem item) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Wollen Sie wirklich alle Fahrten löschen? Dies kann nicht rückgängig gemacht werden!")
+                .setCancelable(false)
+                .setPositiveButton("Alle löschen", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        myDB3.deleteAllTripResults();
+                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(i);
+                    }
+                })
+                .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+
+        return true;
+    }
+
+
 }
 

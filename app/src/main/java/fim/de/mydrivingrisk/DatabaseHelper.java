@@ -109,7 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteAllTripResults() {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
-        db.execSQL("DELETE * FROM TripResultsTabelle2");
+        db.execSQL("DELETE FROM TripResultsTabelle2");
     }
 
     public String getFahrtdauerAsString(String aktuelletabelle, long fahrtBeginn, long fahrtEnde) {

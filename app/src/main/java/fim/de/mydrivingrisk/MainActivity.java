@@ -111,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
                     .setCancelable(false)
                     .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                         public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                            finish(); System.exit(0);
+                            moveTaskToBack(true);
+                            android.os.Process.killProcess(android.os.Process.myPid());
+                            System.exit(1);
                         }
                     })
                     .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {

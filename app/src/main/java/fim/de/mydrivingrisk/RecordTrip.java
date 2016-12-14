@@ -117,6 +117,8 @@ public class RecordTrip extends AppCompatActivity {
 
         this.setTitle("Fahrt aufzeichnen");
 
+
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         t1 = (TextView) findViewById(R.id.textView3);
@@ -141,11 +143,20 @@ public class RecordTrip extends AppCompatActivity {
         t20 = (TextView) findViewById(R.id.textView18);
         p1 = (ProgressBar) findViewById(R.id.marker_progress);
 
+        if (aktuellegenauigkeit > 10.0 || aktuellegenauigkeit <= 0.0) {
+            Button b1 = (Button) findViewById(R.id.button6);
+            b1.setEnabled(false);
+            b1.setText("Suche GPS-Signal...");
+            b1.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            p1.setVisibility(View.VISIBLE);
+        }
+
         //  Neue Instanz eines Datenbankhelfers, der die Datenbank Fahrdatenbank.db erstellt bzw. verwendet
         myDB = new DatabaseHelper(this, "Fahrtendatenbank.db");
 
         //  GPS Hilfsobjekte erzeugen
         locationManager1 = (LocationManager) getSystemService(LOCATION_SERVICE);
+
         locationListener1 = new LocationListener() {
 
             //  Sobald sich die Position verändert(oder mindestens jede Sekunde) werden die in der
@@ -156,19 +167,41 @@ public class RecordTrip extends AppCompatActivity {
                 aktuellerlaengengrad = location.getLongitude();
                 aktuellerspeed = location.getSpeed();
                 aktuellegenauigkeit = location.getAccuracy();
+                t3.setText("±" + Math.round(aktuellegenauigkeit) + " m");
+                if (aktuellegenauigkeit <= 10.0) {
+                    if (aufnahmelaeuft == false) {
+                        Button b1 = (Button) findViewById(R.id.button6);
+                        b1.setEnabled(true);
+                        b1.setText("Aufzeichnung starten");
+                        p1.setVisibility(View.INVISIBLE);
+                        b1.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_edit, 0, 0, 0);
+                    }
+                }
+                else {
+                    if (aufnahmelaeuft == false) {
+                        Button b1 = (Button) findViewById(R.id.button6);
+                        b1.setEnabled(false);
+                        b1.setText("Suche GPS-Signal...");
+                        p1.setVisibility(View.VISIBLE);
+                        b1.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    }
+                }
                 aktuellerichtungsdifferenz = location.getBearing();
             }
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
+                Toast.makeText(RecordTrip.this, "Status changed!", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onProviderEnabled(String s) {
+                Toast.makeText(RecordTrip.this, "Provider enabled!", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onProviderDisabled(String s) {
+                Toast.makeText(RecordTrip.this, "Provider disabled!", Toast.LENGTH_LONG).show();
             }
 
         };
@@ -219,7 +252,7 @@ public class RecordTrip extends AppCompatActivity {
                 b1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_media_stop, 0, 0, 0);
             } else {
                 Toast.makeText(RecordTrip.this, "GPS zu ungenau, bitte etwas warten und erneut versuchen!", Toast.LENGTH_LONG).show();
-                t3.setText("Genauigkeit: ±" + aktuellegenauigkeit + " m (Beim letzten Versuch)");
+                //t3.setText("Genauigkeit: ±" + aktuellegenauigkeit + " m (Beim letzten Versuch)");
             }
         // Wenn eine Aufnahme läuft, diese beenden und auf die Ergebnisseite weiterleiten.
         // Zudem den Aufnahme Button wieder zurücksetzen
@@ -272,76 +305,98 @@ public class RecordTrip extends AppCompatActivity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
+            if (aktuellegenauigkeit <=10.0) {
+                //Abrufen der aktuellen Uhrzeit für weitere Berechnungen
+                DateFormat df = DateFormat.getDateTimeInstance();
+                aktuellezeit = new Date().getTime();
 
-            //Abrufen der aktuellen Uhrzeit für weitere Berechnungen
-            DateFormat df = DateFormat.getDateTimeInstance();
-            aktuellezeit = new Date().getTime();
+                //Rechenzeit berechnen, da die Eintragung nicht genau alle 1000ms stattfindet und somit
+                //für das Berechnen eines genauen Scores die genaue Zeit zwischen zwei Messpunkten benötigt wird
+                Date aktuelleZeitDate = new Date(aktuellezeit);
+                Date letzteZeitDate = new Date(myDB.getLetzteZeit(aktuelletabelle));
+                aktuelleRechenzeit = Math.abs(aktuelleZeitDate.getTime() - letzteZeitDate.getTime());
 
-            //Rechenzeit berechnen, da die Eintragung nicht genau alle 1000ms stattfindet und somit
-            //für das Berechnen eines genauen Scores die genaue Zeit zwischen zwei Messpunkten benötigt wird
-            Date aktuelleZeitDate = new Date(aktuellezeit);
-            Date letzteZeitDate = new Date(myDB.getLetzteZeit(aktuelletabelle));
-            aktuelleRechenzeit = Math.abs(aktuelleZeitDate.getTime() - letzteZeitDate.getTime());
+                //Anzeigen und Ausrechnen der nun sekündlich ermittelten Werte
+                t17.setText("" + aktuelleRechenzeit + "ms");
+                t16.setText("" + df.format(new Date(aktuellezeit)));
+                t2.setText("" + aktuellerbreitengrad);
+                t1.setText("" + aktuellerlaengengrad);
+                //t3.setText("±" + Math.round(aktuellegenauigkeit) + " m"); Wird jetzt im Location Listener aktualisiert
+                aktuellerspeedkmh = aktuellerspeed * 3.6;
+                t4.setText("" + (Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (Math.round(aktuellerspeedkmh)) + " km/h");
+                t5.setText("" + aufnahmelaeuft);
+                t6.setText("" + aktuelletabelle);
 
-            //Anzeigen und Ausrechnen der nun sekündlich ermittelten Werte
-            t17.setText("" + aktuelleRechenzeit + "ms");
-            t16.setText("" + aktuellezeit + " | " + df.format(new Date(aktuellezeit)));
-            t2.setText("" + aktuellerbreitengrad);
-            t1.setText("" + aktuellerlaengengrad);
-            t3.setText("±" + Math.round(aktuellegenauigkeit) + " m");
-            aktuellerspeedkmh = aktuellerspeed * 3.6;
-            t4.setText("" + (Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (Math.round(aktuellerspeedkmh)) + " km/h");
-            t5.setText("" + aufnahmelaeuft);
-            t6.setText("" + aktuelletabelle);
+                aktuellebeschleunigung = myDB.berechneBeschleunigung(aktuelletabelle, (aktuellerspeed * 3.6), aktuelleRechenzeit);
+                t7.setText("" + (Math.round(100.0 * aktuellebeschleunigung) / 100.0) + " m/s²");
 
-            aktuellebeschleunigung = myDB.berechneBeschleunigung(aktuelletabelle, (aktuellerspeed * 3.6), aktuelleRechenzeit);
-            t7.setText("" + (Math.round(100.0 * aktuellebeschleunigung) / 100.0) + " m/s²");
+                aktuellelateralebeschleunigung = myDB.berechneLateraleBeschleunigung(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
+                t8.setText("" + (Math.round(100.0 * aktuellelateralebeschleunigung) / 100.0) + " m/s²");
 
-            aktuellelateralebeschleunigung = myDB.berechneLateraleBeschleunigung(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
-            t8.setText("" + (Math.round(100.0 * aktuellelateralebeschleunigung) / 100.0) + " m/s²");
+                aktuellemaxbeschleunigung = myDB.berechneMaximalBeschleunigung(aktuellelateralebeschleunigung);
+                t9.setText("" + (Math.round(100.0 * aktuellemaxbeschleunigung) / 100.0) + " m/s²");
 
-            aktuellemaxbeschleunigung = myDB.berechneMaximalBeschleunigung(aktuellelateralebeschleunigung);
-            t9.setText("" + (Math.round(100.0 * aktuellemaxbeschleunigung) / 100.0) + " m/s²");
-
-            //  Wetterkategorie wird als letztes gesetzt, daher wird das überprüft
-            //  wenn Wetterkategorie einen Wert hat, nicht mehr nach dem Wetter fragen
-            if (wetterkategorie == "keine Kategorie" || wetterkategorie == null) {
-                Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
-                wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
-            }
-
-            //  altezeit wird oben mit (new Date().getTime())-1 initialiesiert, beide Werte sind in ms
-            //  wenn Differenz > als 1000*60*10 ms = 10 min, dann wieder Wetter abfragen
-            if ((aktuellezeit - altezeit) > (1000 * 60 * 10)) {
-                Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
-                wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
-                altezeit = (new Date().getTime()) - 1;
-            }
-
-            //Analog wie Wetterabfrage: OSM-Abfrage des Tempolimits, aktuell 5000ms, das heißt alle 5 Sekunden
-            if ((aktuellezeit - altezeitOSM) > (3000)) {
-                //aktuellehoechstgeschwindigkeit = osm1.matchOSM(aktuellerbreitengrad, aktuellerlaengengrad);
-                if (aktuellegenauigkeit <= 5.0) {
-                    Tempolimit(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
-                } else {
-                    aktuellestempolimit = 0.0;
-                    aktuellestrasse = "GPS zu ungenau!";
-                    aktuellerstrassentyp = "GPS zu ungenau!";
+                //  Wetterkategorie wird als letztes gesetzt, daher wird das überprüft
+                //  wenn Wetterkategorie einen Wert hat, nicht mehr nach dem Wetter fragen
+                if (wetterkategorie == "keine Kategorie" || wetterkategorie == null) {
+                    Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
+                    wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
                 }
-                altezeitOSM = (new Date().getTime()) - 1;
+
+                //  altezeit wird oben mit (new Date().getTime())-1 initialiesiert, beide Werte sind in ms
+                //  wenn Differenz > als 1000*60*10 ms = 10 min, dann wieder Wetter abfragen
+                if ((aktuellezeit - altezeit) > (1000 * 60 * 10)) {
+                    Wetter(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
+                    wetterkategorie = myDB.wetterkategorie(aktuelletabelle);
+                    altezeit = (new Date().getTime()) - 1;
+                }
+
+                //Analog wie Wetterabfrage: OSM-Abfrage des Tempolimits, aktuell 5000ms, das heißt alle 5 Sekunden
+                if ((aktuellezeit - altezeitOSM) > (3000)) {
+                    //aktuellehoechstgeschwindigkeit = osm1.matchOSM(aktuellerbreitengrad, aktuellerlaengengrad);
+                    if (aktuellegenauigkeit <= 5.0) {
+                        Tempolimit(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
+                    } else {
+                        aktuellestempolimit = 0.0;
+                        aktuellestrasse = "GPS zu ungenau!";
+                        aktuellerstrassentyp = "GPS zu ungenau!";
+                    }
+                    altezeitOSM = (new Date().getTime()) - 1;
+                }
+
+                t18.setText("" + aktuellestempolimit);
+                t19.setText("" + aktuellestrasse);
+                t20.setText("" + aktuellerstrassentyp);
+                t10.setText("" + wetter);
+                t11.setText("" + wetterkategorie);
+                t12.setText("" + df.format(new Date(sonnenaufgang)));
+                t13.setText("" + df.format(new Date(sonnenuntergang)));
+
+                //Alle ermittelten Daten des aktuellen Datenpunktes in die Datenbank schreiben
+                myDB.insertFahrtDaten(aktuellezeit, aktuelleRechenzeit, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, aktuellemaxbeschleunigung, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, aktuellestempolimit, aktuellestrasse, aktuellerstrassentyp);
             }
-
-            t18.setText("" + aktuellestempolimit);
-            t19.setText(""+ aktuellestrasse);
-            t20.setText(""+ aktuellerstrassentyp);
-            t10.setText("" + wetter);
-            t11.setText("" + wetterkategorie);
-            t12.setText("" + df.format(new Date(sonnenaufgang)));
-            t13.setText("" + df.format(new Date(sonnenuntergang)));
-
-            //Alle ermittelten Daten des aktuellen Datenpunktes in die Datenbank schreiben
-            myDB.insertFahrtDaten(aktuellezeit, aktuelleRechenzeit, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, aktuellemaxbeschleunigung, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, aktuellestempolimit, aktuellestrasse, aktuellerstrassentyp);
-
+            else {
+                Toast.makeText(RecordTrip.this, "GPS zu ungenau, aktueller Erfassungspunkt wird nicht gespeichert!", Toast.LENGTH_SHORT).show();
+                DateFormat df = DateFormat.getDateTimeInstance();
+                t17.setText("" + aktuelleRechenzeit + "ms");
+                t16.setText("" + df.format(new Date(aktuellezeit)));
+                t2.setText("~" + aktuellerbreitengrad);
+                t1.setText("~" + aktuellerlaengengrad);
+                //t3.setText("±" + Math.round(aktuellegenauigkeit) + " m"); Wird jetzt oben im Location Listener gemacht
+                t4.setText("?");
+                t5.setText("" + aufnahmelaeuft);
+                t6.setText("" + aktuelletabelle);
+                t7.setText("?");
+                t8.setText("?");
+                t9.setText("?");
+                t18.setText("?");
+                t19.setText("?");
+                t20.setText("?");
+                t10.setText("" + wetter);
+                t11.setText("" + wetterkategorie);
+                t12.setText("" + df.format(new Date(sonnenaufgang)));
+                t13.setText("" + df.format(new Date(sonnenuntergang)));
+            }
             if (aufnahmelaeuft) {
                 recordTrip();
             }
