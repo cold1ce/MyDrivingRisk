@@ -197,7 +197,7 @@ public class TripResult extends AppCompatActivity {
         maxspeed = myDB2.berechneHöchstgeschwindigkeit(aktuelletabelle);
         accelerationscore = myDB2.berechneAccelarationScore(aktuelletabelle);
         brakingscore = myDB2.berechneBrakingScore(aktuelletabelle);
-        corneringscore = myDB2.berechneCorneringScore(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
+        corneringscore = myDB2.berechneCorneringScore(aktuelletabelle);
         timescore = myDB2.berechneTimeScore(aktuelletabelle);
         speedingscore = myDB2.berechneSpeedingScore(aktuelletabelle);
         fahrtBeginn = myDB2.getFahrtBeginn(aktuelletabelle);
