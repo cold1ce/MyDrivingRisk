@@ -60,8 +60,11 @@ public class MyOSM {
         @Override
         protected void onPostExecute(JSONObject jsoninput) {
             System.out.println("onPostExecuteStarted");
+            double maxspeed = 0.0;
+            String strasse ="leer", strassentyp="leer";
             try {
                 if (jsoninput != null) {
+                    System.out.println("JSON Paket ist nicht leer :-)");
                     JSONObject object = jsoninput;
                     System.out.println("JSON Object 1: "+object);
 
@@ -82,8 +85,8 @@ public class MyOSM {
                         JSONObject object4 = new JSONObject(zwo);
                         System.out.println("Object 4 : "+object4);
 
-                        String strasse ="leer", strassentyp="leer";
-                        double maxspeed = 0.0;
+
+
 
 
                         try {
@@ -159,29 +162,38 @@ public class MyOSM {
                     //String description2 = "desc2";
                     //String description2 = details2.getString("maxspeed");
                     System.out.println("Ausgabe: "+maxspeed+" | "+strasse+" | "+strassentyp);
-                    delegate.processFinish(maxspeed, strasse, strassentyp);
+
 
                 }
+                else {
+                    System.out.println("JSON Paket ist leer :-(");
+                    maxspeed = 0.0;
+                    strasse = "not found";
+                    strassentyp = "not found";
+                }
             } catch (JSONException e) {
-                  Log.e("FEHLER", "Cannot process JSON results", e);
+                    maxspeed = 0.0;
+                    strasse = "not found";
+                    strassentyp = "not found";
+                    Log.e("FEHLER", "Cannot process JSON results", e);
                     System.out.println("OSM-Abfrage-Exception");
 
             }
+            delegate.processFinish(maxspeed, strasse, strassentyp);
         }
     }
 
 
     public static JSONObject getTempoJSON(String lat, String lon) {
+        System.out.println("getTempoJSON gestartet");
         try {
-            System.out.println("getTempoJSON gestartet");
-
             //String sURL3 = "http://freegeoip.net/json/"; //just a string
             //String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json];node(around:10,"+lat+","+lon+");way(bn)[highway];out;";
             //String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json][timeout:25];(node[\"source:maxspeed\"](around:5,"+lat+","+lon+");way[\"source:maxspeed\"](around:5,"+lat+","+lon+");relation[\"source:maxspeed\"](around:5,"+lat+","+lon+"););out body;>;out skel qt;";
             //String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json];node(around:50,48.167006,%209.511681);way(bn)[highway];out;";
             //String sURL3 = "http://overpass-api.de/api/way[\"highway\"](around:5.0,48.165553,9.519322);out;"
             //String sURL3 = ("http://overpass-api.de/api/interpreter?data=[out:json];way[highway](around:5.0,"+lat+","+lon+");out;");
-            String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json];way[\"highway\"~\"motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|living_street\"][\"maxspeed\"](around:5.0,"+lat+","+lon+");out;";
+            String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json];way[\"highway\"~\"motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|living_street\"][\"maxspeed\"](around:7.0,"+lat+","+lon+");out;";
             String version = "nix";
             String zipcode = "nix";
 
@@ -215,7 +227,11 @@ public class MyOSM {
 
 
         } catch (Exception e) {
-            return null;
+            System.out.println("Downloaden des OMS JSON Pakets nicht möglich!");
+            JSONObject data = null;
+            //maxspeed = 0.0;
+            //return null;
+            return data;
         }
     }
 

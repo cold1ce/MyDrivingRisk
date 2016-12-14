@@ -9,51 +9,37 @@
     android:orientation="vertical"
     android:background="@android:color/transparent"
     android:cacheColorHint="@android:color/transparent"
-    android:layout_marginLeft="10dp"
     android:screenOrientation="portrait"
     android:weightSum="1">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:weightSum="1"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="10dp"
         android:background="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"
-        android:layout_marginTop="2dp">
+        android:weightSum="1"
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <TextView
+            android:id="@+id/list_item_type1_text_view"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@android:color/transparent"
-            android:cacheColorHint="@android:color/transparent"
-            android:weightSum="1">
-
-            <TextView
-                android:id="@+id/list_item_type1_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Fahrt nach Teststadt"
-                android:textSize="24sp"
-                android:textStyle="normal|bold"
-                android:layout_weight="0.42"
-                android:textAlignment="textStart" />
-
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="Fahrt nach Teststadt"
+            android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:textAlignment="textStart"
+            android:textColor="@android:color/holo_red_light" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_height="match_parent"
                 android:paddingRight="5dp"
-                android:layout_width="105dp">
+                android:layout_width="wrap_content">
 
                 <TextView
                     android:text="Score:"
@@ -67,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/list_item_type1_text_view_2"
-                    android:textSize="36sp"
+                    android:textSize="30sp"
                     android:textColor="@android:color/holo_red_light"
                     android:textStyle="normal|bold"
                     android:layout_marginRight="7dp" />
@@ -76,41 +62,45 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_height="match_parent"
-                android:layout_width="260dp"
+                android:layout_width="match_parent"
                 android:weightSum="1">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:layout_width="180dp">
+                    android:layout_width="wrap_content">
 
                     <TextView
                         android:text="Beginn: 01.01.01 01:01 Uhr"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/list_item_type1_text_view_4"
-                        android:gravity="center_vertical" />
+                        android:gravity="center_vertical"
+                        android:textColor="@android:color/holo_green_light" />
 
                     <TextView
                         android:text="Ende: 02.02.02 02:02 Uhr"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/list_item_type1_text_view_5"
-                        android:gravity="center_vertical" />
+                        android:gravity="center_vertical"
+                        android:textColor="@android:color/holo_green_light" />
 
                     <TextView
                         android:text="Fahrtdauer: 1h 02min 03s"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/list_item_type1_text_view_6"
-                        android:gravity="center_vertical" />
+                        android:gravity="center_vertical"
+                        android:textColor="@android:color/holo_green_light" />
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_height="match_parent"
-                    android:layout_width="53dp"
+                    android:layout_width="match_parent"
                     android:foregroundGravity="right"
                     android:gravity="right">
 

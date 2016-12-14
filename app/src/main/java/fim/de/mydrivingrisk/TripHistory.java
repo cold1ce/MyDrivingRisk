@@ -53,6 +53,7 @@ public class TripHistory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_history);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        this.setTitle("Aufgezeichnete Fahrten");
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);

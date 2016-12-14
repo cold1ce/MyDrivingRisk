@@ -319,9 +319,9 @@ public class RecordTrip extends AppCompatActivity {
             }
 
             //Analog wie Wetterabfrage: OSM-Abfrage des Tempolimits, aktuell 5000ms, das heißt alle 5 Sekunden
-            if ((aktuellezeit - altezeitOSM) > (5000)) {
+            if ((aktuellezeit - altezeitOSM) > (3000)) {
                 //aktuellehoechstgeschwindigkeit = osm1.matchOSM(aktuellerbreitengrad, aktuellerlaengengrad);
-                if (aktuellegenauigkeit <= 8.0) {
+                if (aktuellegenauigkeit <= 5.0) {
                     Tempolimit(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
                 } else {
                     aktuellestempolimit = 0.0;
