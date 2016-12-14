@@ -315,13 +315,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
         }
-            //  falls n = 0, Division durch 0 abfangen
-            if (n < 1) {
-                n = n + 1;
-            }
-
-            return (s / n * 100);
+        //  falls n = 0, Division durch 0 abfangen
+        if (n < 1) {
+            n = n + 1;
         }
+
+        return (s / n * 100);
+    }
 
     public double berechneTimeScore(String aktuelletabelle) {
 
@@ -338,9 +338,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             n = n + 1;
             long sunrise = cursor1.getLong(0);
             long sunset = cursor2.getLong(0);
-            if ((currentTime >= sunrise) && (currentTime < sunset)) {
-                s = s+0;
-            } else {
+            if ((currentTime > sunset) && (currentTime <= sunrise)) {
                 s = s + 1;
             }
         }
