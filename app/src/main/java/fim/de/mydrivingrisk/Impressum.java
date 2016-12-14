@@ -1,6 +1,7 @@
 package fim.de.mydrivingrisk;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -25,7 +26,9 @@ public class Impressum extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_impressum);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.setTitle("Impressum");
+
         t1 = (TextView) findViewById(R.id.textView20);
         t1.setText(Html.fromHtml("<html><p><strong><span style=\"font-size: x-large;\">myDrivingRisk</span><br /></strong>Angaben gem&auml;&szlig; &sect; 5 TMG</p>\n" +
                 "<p>Autoren: Julian Ruppert, Benedikt Neubert, Stefan Rasche, Tobias Wittmeir<br />Betreuer: Sebastian Heger, Marco Schmidt</p>\n" +
