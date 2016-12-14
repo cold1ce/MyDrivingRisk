@@ -104,7 +104,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteTripResult(int id) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
-        db.execSQL("DELETE FROM TripResultsTabelle2 WHERE _id = "+id);
+        db.execSQL("DELETE FROM TripResultsTabelle2 WHERE _id = " + id);
     }
 
     public void deleteAllTripResults() {
@@ -239,7 +239,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         //  Durchschnitt der Geschwindigkeiten auslesen
-        Cursor cursor = db.rawQuery("SELECT avg(Geschwindigkeit) FROM " + aktuelletabelle + "", null);
+        Cursor cursor = db.rawQuery("SELECT AVG(Geschwindigkeit) FROM " + aktuelletabelle + "", null);
 
 
         double avg = -1.0;
@@ -293,13 +293,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public double berechneSpeedingScore(String aktuelletabelle) {
+        double n = 0;
+        double s = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
 
-        return 20;
-    }
+        Cursor cursor1 = db.rawQuery("SELECT Geschwindigkeit FROM " + aktuelletabelle + "", null);
+        Cursor cursor2 = db.rawQuery("SELECT Tempolimit FROM " + aktuelletabelle + "", null);
+
+        while (cursor1.moveToNext() && cursor2.moveToNext()) {
+            double speed = cursor1.getDouble(0);
+            double speedlimit = cursor2.getDouble(0);
+            if ((speed != 0) || (speedlimit > 0 && speedlimit <= 130)) {
+                n = n + 1;
+            }
+
+            if ((speedlimit > 0) && (speedlimit <= 130)) {
+                if ((speed - speedlimit) > 15) {
+                    s = s + 2;
+                } else if (((speed - speedlimit) > 0) && ((speed - speedlimit) <= 15)) {
+                    s = s + 1;
+                }
+            }
+        }
+            //  falls n = 0, Division durch 0 abfangen
+            if (n < 1) {
+                n = n + 1;
+            }
+
+            return (s / n * 100);
+        }
 
     public double berechneTimeScore(String aktuelletabelle) {
 
-        double n = 1;
+        double n = 0;
         double s = 0;
         long currentTime = new Date().getTime();
 
@@ -309,12 +335,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor2 = db.rawQuery("SELECT Sonnenuntergang FROM " + aktuelletabelle + "", null);
 
         while (cursor1.moveToNext() && cursor2.moveToNext()) {
+            n = n + 1;
             long sunrise = cursor1.getLong(0);
             long sunset = cursor2.getLong(0);
             if ((currentTime >= sunrise) && (currentTime < sunset)) {
-                s = 0;
+                s = s+0;
             } else {
-                s = 1;
+                s = s + 1;
             }
         }
 
@@ -351,7 +378,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (s / n * 100);
     }
 
-    public double berechneCorneringScore(String aktuelletabelle, double latitude1, double longitude1, double aktuellerspeed, double aktuellerichtungsdifferenz) {
+    public double berechneCorneringScore(String aktuelletabelle) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 

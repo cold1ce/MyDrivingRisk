@@ -400,7 +400,6 @@ public class RecordTrip extends AppCompatActivity {
                 aktuellestrasse = output2;
                 aktuellerstrassentyp = output3;
 
-
             }
         });
         asyncTask.execute(latitude, longitude);
