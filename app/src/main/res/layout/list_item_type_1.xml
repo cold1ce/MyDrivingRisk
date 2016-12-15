@@ -39,7 +39,7 @@
                 android:orientation="vertical"
                 android:layout_height="match_parent"
                 android:paddingRight="5dp"
-                android:layout_width="wrap_content">
+                android:layout_width="95dp">
 
                 <TextView
                     android:text="Score:"
@@ -50,13 +50,14 @@
 
                 <TextView
                     android:text="123.6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/list_item_type1_text_view_2"
                     android:textSize="30sp"
                     android:textColor="@android:color/holo_red_light"
                     android:textStyle="normal|bold"
-                    android:layout_marginRight="7dp" />
+                    android:layout_marginRight="7dp"
+                    android:gravity="bottom" />
             </LinearLayout>
 
             <LinearLayout
@@ -77,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/list_item_type1_text_view_4"
                         android:gravity="center_vertical"
-                        android:textColor="@android:color/holo_green_light" />
+                        android:textColor="@color/colorAccent" />
 
                     <TextView
                         android:text="Ende: 02.02.02 02:02 Uhr"
@@ -85,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/list_item_type1_text_view_5"
                         android:gravity="center_vertical"
-                        android:textColor="@android:color/holo_green_light" />
+                        android:textColor="@color/colorAccent" />
 
                     <TextView
                         android:text="Fahrtdauer: 1h 02min 03s"
@@ -93,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/list_item_type1_text_view_6"
                         android:gravity="center_vertical"
-                        android:textColor="@android:color/holo_green_light" />
+                        android:textColor="@color/colorAccent" />
 
                 </LinearLayout>
 

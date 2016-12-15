@@ -112,6 +112,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM TripResultsTabelle2");
     }
 
+    public void deleteStartwerte(String aktuelletabelle) {
+        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        db.execSQL("DELETE FROM "+aktuelletabelle+" WHERE id in (SELECT id FROM "+aktuelletabelle+" LIMIT 2 OFFSET 0)");
+    }
+
     public String getFahrtdauerAsString(String aktuelletabelle, long fahrtBeginn, long fahrtEnde) {
         DateFormat df = DateFormat.getDateTimeInstance();
 
@@ -331,23 +336,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         double n = 0;
         double s = 0;
-        long currentTime = new Date().getTime();
+        //long currentTime = new Date().getTime();
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor1 = db.rawQuery("SELECT Sonnenaufgang FROM " + aktuelletabelle + "", null);
         Cursor cursor2 = db.rawQuery("SELECT Sonnenuntergang FROM " + aktuelletabelle + "", null);
+        Cursor cursor3 = db.rawQuery("SELECT Zeit FROM " + aktuelletabelle + "", null);
+        long sunrise;
+        long sunset;
+        long currentTime;
 
-        while (cursor1.moveToNext() && cursor2.moveToNext()) {
-            n = n + 1;
-            long sunrise = cursor1.getLong(0);
-            long sunset = cursor2.getLong(0);
-            if ((currentTime > sunset) && (currentTime <= sunrise)) {
-                s = s + 1;
+        while (cursor1.moveToNext() && cursor2.moveToNext() && cursor3.moveToNext()) {
+            sunrise = cursor1.getLong(0);
+            sunset = cursor2.getLong(0);
+            currentTime = cursor3.getLong(0);
+            //Wenn Zeit nach Sonnenuntergang des Vortages UND vor Sonnenaufgang des aktuellen Tages(Aktuell z.B. 0-8 Uhr)
+            //ODER
+            //Wenn Zeit nach Sonnenuntergang des aktuellen Tages UND vor Sonnenaufgang des nächsten Tages (Aktuell z.B. 16-0 Uhr)
+            if (sunrise != 0 || sunset != 0) {
+                n = n + 1;
+                if (((currentTime > sunset - 86400000) && (currentTime <= sunrise)) ||
+                        ((currentTime > sunset) && (currentTime <= sunrise + 86400000))) {
+                    s = s + 1;
+                }
             }
         }
         cursor1.close();
         cursor2.close();
+        cursor3.close();
         return (s / n * 100);
     }
 

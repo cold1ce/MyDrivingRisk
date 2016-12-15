@@ -62,7 +62,7 @@ public class TripResult extends AppCompatActivity {
         t3 = (TextView) findViewById(R.id.textView25);
         t4 = (TextView) findViewById(R.id.textView26);
         t5 = (TextView) findViewById(R.id.textView27);
-        t6 = (TextView) findViewById(R.id.textView28);
+        t6 = (TextView) findViewById(R.id.textView28);//Uhrzeitrisiko
         t7 = (TextView) findViewById(R.id.textView35);
 
         t8 = (TextView) findViewById(R.id.textView16);

@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
 
+
         //Überprüfen ob die App die Rechte hat um auf den Standort zuzugreifen, dies geschieht vor Android 6 über die Manifest-Datei und schon
         //bei der Installation. Allerdings ab Android 6 einzeln während des Betriebs. Daher diese Abfrage.
         locationManager5 = (LocationManager) getSystemService(LOCATION_SERVICE);

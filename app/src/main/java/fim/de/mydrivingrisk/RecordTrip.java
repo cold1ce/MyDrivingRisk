@@ -31,8 +31,8 @@ public class RecordTrip extends AppCompatActivity {
 
     //  Erstellen der benötigten Objekte
     public DatabaseHelper myDB;
-    private LocationManager locationManager1;
-    private LocationListener locationListener1;
+    public LocationManager locationManager1;
+    public LocationListener locationListener1;
     public double aktuellerbreitengrad = 0.0;
     public double aktuellerlaengengrad = 0.0;
     public double aktuellerspeed = 0.0;
@@ -82,6 +82,13 @@ public class RecordTrip extends AppCompatActivity {
 
     //Überprüft ob eine Aufnahme läuft und warnt davor eine Aufnahme ohne Speichern zu beenden.
     public void cancelRecordDialog() {
+        try {
+            locationManager1.removeUpdates(locationListener1);
+        }
+        catch(SecurityException e){
+            System.out.println("LocatiionListener konnte nicht beendet werden!");
+        }
+
         if (aufnahmelaeuft == true) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Aufnahme läuft! Wollen Sie die Aufnahme beenden ohne zu speichern?")
@@ -91,6 +98,13 @@ public class RecordTrip extends AppCompatActivity {
                             stop();
                             myDB.deleteFahrtentabelle(aktuelletabelle);
                             aufnahmelaeuft = false;
+                            try {
+                                locationManager1.removeUpdates(locationListener1);
+                            }
+                            catch(SecurityException e){
+                                System.out.println("LocatiionListener konnte nicht beendet werden!");
+                            }
+
                             Intent i = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(i);
                         }
@@ -103,6 +117,12 @@ public class RecordTrip extends AppCompatActivity {
             final AlertDialog alert = builder.create();
             alert.show();
         } else {
+            try {
+                locationManager1.removeUpdates(locationListener1);
+            }
+            catch(SecurityException e){
+                System.out.println("LocatiionListener konnte nicht beendet werden!");
+            }
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
         }
@@ -191,17 +211,41 @@ public class RecordTrip extends AppCompatActivity {
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
-                Toast.makeText(RecordTrip.this, "Status changed!", Toast.LENGTH_LONG).show();
+                if (aktuellegenauigkeit != 0.0 || aktuellegenauigkeit >=30.0) {
+                    Toast.makeText(RecordTrip.this, "GPS-Signal gefunden!", Toast.LENGTH_SHORT).show();
+                }
+                else if (aktuellegenauigkeit == 0.0 || aktuellegenauigkeit <=30.0) {
+                    Toast.makeText(RecordTrip.this, "GPS-Signal verloren!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onProviderEnabled(String s) {
-                Toast.makeText(RecordTrip.this, "Provider enabled!", Toast.LENGTH_LONG).show();
+                Toast.makeText(RecordTrip.this, "Standortfunktion aktiviert!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onProviderDisabled(String s) {
-                Toast.makeText(RecordTrip.this, "Provider disabled!", Toast.LENGTH_LONG).show();
+                if (aufnahmelaeuft == true) {
+                    Toast.makeText(RecordTrip.this, "Sie haben Ihre Standortfunktion deaktiviert, Aufnahme wurde beendet!", Toast.LENGTH_LONG).show();
+                    aufnahmelaeuft = false;
+                    //  stopRecord();
+                    Button b1 = (Button) findViewById(R.id.button6);
+                    b1.setText("Aufzeichnung starten");
+                    b1.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_edit, 0, 0, 0);
+                    toTripResult();
+                }
+                else {
+                    Toast.makeText(RecordTrip.this, "Bitte erlauben Sie der App Zugriff auf den aktuellen Standort!", Toast.LENGTH_LONG).show();
+                    try {
+                        locationManager1.removeUpdates(locationListener1);
+                    }
+                    catch(SecurityException e){
+                        System.out.println("LocatiionListener konnte nicht beendet werden!");
+                    }
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(i);
+                }
             }
 
         };
@@ -209,11 +253,13 @@ public class RecordTrip extends AppCompatActivity {
         //Überprüfen ob Zugriff auf Standort erlaubt ist und ob GPS eingeschaltet ist, wenn nicht jeweils entsprechend abfangen und zurück ins Hauptmenü
         if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) || (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             Toast.makeText(RecordTrip.this, "Bitte erlauben Sie der App Zugriff auf den aktuellen Standort!", Toast.LENGTH_LONG).show();
+            locationManager1.removeUpdates(locationListener1);
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
         } else if (!locationManager1.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             //final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
             Toast.makeText(RecordTrip.this, "Bitte aktivieren sie die Standort-Funktion auf Ihrem Gerät!", Toast.LENGTH_LONG).show();
+            locationManager1.removeUpdates(locationListener1);
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
         } else {
@@ -246,12 +292,12 @@ public class RecordTrip extends AppCompatActivity {
             if ((aktuellegenauigkeit > 0.0) && (aktuellegenauigkeit <= 10)) {
                 aufnahmelaeuft = true;
                 addNewTrip();
-                Toast.makeText(RecordTrip.this, "Neue Fahrt wird aufgezeichnet!", Toast.LENGTH_LONG).show();
+                Toast.makeText(RecordTrip.this, "Neue Fahrt wird aufgezeichnet!", Toast.LENGTH_SHORT).show();
                 b1.setText("Aufzeichnung beenden");
                 //b1.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_media_rew, 0, 0, 0);
                 b1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_media_stop, 0, 0, 0);
             } else {
-                Toast.makeText(RecordTrip.this, "GPS zu ungenau, bitte etwas warten und erneut versuchen!", Toast.LENGTH_LONG).show();
+                Toast.makeText(RecordTrip.this, "GPS zu ungenau, bitte etwas warten und erneut versuchen!", Toast.LENGTH_SHORT).show();
                 //t3.setText("Genauigkeit: ±" + aktuellegenauigkeit + " m (Beim letzten Versuch)");
             }
         // Wenn eine Aufnahme läuft, diese beenden und auf die Ergebnisseite weiterleiten.
@@ -259,9 +305,10 @@ public class RecordTrip extends AppCompatActivity {
         } else if (aufnahmelaeuft == true) {
             aufnahmelaeuft = false;
             //  stopRecord();
-            Toast.makeText(RecordTrip.this, "Aufnahme beendet!", Toast.LENGTH_LONG).show();
+            Toast.makeText(RecordTrip.this, "Aufnahme beendet!", Toast.LENGTH_SHORT).show();
             b1.setText("Aufzeichnung starten");
             b1.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_edit, 0, 0, 0);
+            myDB.deleteStartwerte(aktuelletabelle);
             toTripResult();
         }
     }
@@ -283,6 +330,8 @@ public class RecordTrip extends AppCompatActivity {
         aktuellezeit = new Date().getTime();
 
         //  "Leere" Startwerte einfügen um einen Crash zu verhindern
+        //myDB.insertFahrtDaten(aktuellezeit, 0, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0, "startwert", "startwert");
+        //myDB.insertFahrtDaten(aktuellezeit, 0, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0, "startwert", "startwert");
         myDB.insertFahrtDaten(aktuellezeit, 0, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0, "startwert", "startwert");
         myDB.insertFahrtDaten(aktuellezeit, 0, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0, "startwert", "startwert");
 
