@@ -223,6 +223,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT Zeit FROM " + aktuelletab + " ORDER BY ID ASC LIMIT 1 OFFSET 2;", null);
         cursor.moveToLast();
         long ret = cursor.getLong(0);
+        cursor.close();
         return ret;
     }
 
@@ -291,9 +292,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor2.moveToLast();
         double s = cursor2.getDouble(0);
 
-        //  cursor1.close();
-        //  cursor2.close();
-
         //  falls n = 0, Division durch 0 abfangen
         if (n < 1) {
             n = n + 1;
@@ -330,7 +328,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (n < 1) {
             n = n + 1;
         }
-
+        cursor1.close();
+        cursor2.close();
         return (s / n * 100);
     }
 
