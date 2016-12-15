@@ -188,8 +188,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         double letzte = 0.0;
         //  double vorletzte = 0.0;
         double beschleunigung = 0.0;
-
-        double zeitPeriode = rechenZeit / 1000;
+        //System.out.println("rechenzeit bei berechnebeschl:"+rechenZeit);
+        double zeitPeriode = rechenZeit / 1000.0;
 
         //  Zuvor abgefragte letzte Geschwindigkeit in Variable speichern
         cursor.moveToLast();
@@ -202,6 +202,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //  Berechnen der Beschleunigung (Geteilt durch 1 für eine Sekunde, sollte man evtl. noch nachbessern da manchmal zwischen zwei
         //  Spalten 2 Sekunden abstand generiert werden(Verzögerung durch Rechendauer) Edit: durch zeitPeriode versucht zu beheben
         beschleunigung = ((aktuellegeschwindigkeit - letzte) / zeitPeriode) / 3.6;
+        //System.out.println("BERECHNUNG BESCHLEUNIGUNG: (("+aktuellegeschwindigkeit+" - "+letzte+") / "+zeitPeriode+") / "+3.6+")");
+        //System.out.println("BESCHLEUNIGUNG: "+beschleunigung);
         cursor.close();
         return beschleunigung;
 

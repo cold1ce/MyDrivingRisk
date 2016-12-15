@@ -472,7 +472,12 @@ public class RecordTrip extends AppCompatActivity {
         trip.putDouble("laengengrad", aktuellerlaengengrad);
         trip.putDouble("speed", aktuellerspeed);
         trip.putDouble("richtungsdifferenz", aktuellerichtungsdifferenz);
-
+        try {
+            locationManager1.removeUpdates(locationListener1);
+        }
+        catch(SecurityException e){
+            System.out.println("LocatiionListener konnte nicht beendet werden!");
+        }
         Intent i = new Intent(getApplicationContext(), TripResult.class);
         i.putExtras(trip);
         startActivity(i);
