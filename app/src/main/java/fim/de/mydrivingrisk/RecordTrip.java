@@ -17,9 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
+
+import android.widget.CompoundButton.OnCheckedChangeListener;
+
 import org.json.JSONException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -45,11 +50,12 @@ public class RecordTrip extends AppCompatActivity {
     public boolean aufnahmelaeuft;
     public boolean test = true;
     public String aktuelletabelle;
-    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20;
+    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32;
     public ProgressBar p1;
     public String wetter, wetterkategorie, aktuellestrasse, aktuellerstrassentyp;
     public double aktuellestempolimit;
     public long sonnenaufgang, sonnenuntergang, aktuellezeit, aktuelleRechenzeit;
+    public ToggleButton toggle1;
 
     // "altezeit" dient als Referenz zur aktuellenzeit, um OSM Abfragen alle x Minuten auszuführen
     public long altezeitOSM = (new Date().getTime()) - 1;
@@ -161,7 +167,116 @@ public class RecordTrip extends AppCompatActivity {
         t18 = (TextView) findViewById(R.id.textView11);
         t19 = (TextView) findViewById(R.id.textView15);
         t20 = (TextView) findViewById(R.id.textView18);
+
+        t21 = (TextView) findViewById(R.id.textView36);
+        t22 = (TextView) findViewById(R.id.textView37);
+        t23 = (TextView) findViewById(R.id.textView44);
+        t24 = (TextView) findViewById(R.id.textView45);
+        t25 = (TextView) findViewById(R.id.textView47);
+        t26 = (TextView) findViewById(R.id.textView48);
+        t27 = (TextView) findViewById(R.id.textView19);
+        t28 = (TextView) findViewById(R.id.textView17);
+        t29 = (TextView) findViewById(R.id.textView41);
+        //t30 = (TextView) findViewById(R.id.textView2);
+        t31 = (TextView) findViewById(R.id.textView40);
+        t32 = (TextView) findViewById(R.id.textView14);
+
+        t2.setVisibility(View.INVISIBLE);
+        t1.setVisibility(View.INVISIBLE);
+        t9.setVisibility(View.INVISIBLE);
+        t10.setVisibility(View.INVISIBLE);
+        t12.setVisibility(View.INVISIBLE);
+        t13.setVisibility(View.INVISIBLE);
+        t20.setVisibility(View.INVISIBLE);
+        t19.setVisibility(View.INVISIBLE);
+        t6.setVisibility(View.INVISIBLE);
+        t16.setVisibility(View.INVISIBLE);
+        t5.setVisibility(View.INVISIBLE);
+        t17.setVisibility(View.INVISIBLE);
+
+        t21.setVisibility(View.INVISIBLE);
+        t22.setVisibility(View.INVISIBLE);
+        t23.setVisibility(View.INVISIBLE);
+        t24.setVisibility(View.INVISIBLE);
+        t25.setVisibility(View.INVISIBLE);
+        t26.setVisibility(View.INVISIBLE);
+        t27.setVisibility(View.INVISIBLE);
+        t28.setVisibility(View.INVISIBLE);
+        t29.setVisibility(View.INVISIBLE);
+        t15.setVisibility(View.INVISIBLE);
+        t31.setVisibility(View.INVISIBLE);
+        t32.setVisibility(View.INVISIBLE);
+
+
         p1 = (ProgressBar) findViewById(R.id.marker_progress);
+        toggle1 = (ToggleButton) findViewById(R.id.toggleButton);
+
+        toggle1.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                
+                if(toggle1.isChecked()){
+                    t2.setVisibility(View.VISIBLE);
+                    t1.setVisibility(View.VISIBLE);
+                    t9.setVisibility(View.VISIBLE);
+                    t10.setVisibility(View.VISIBLE);
+                    t12.setVisibility(View.VISIBLE);
+                    t13.setVisibility(View.VISIBLE);
+                    t20.setVisibility(View.VISIBLE);
+                    t19.setVisibility(View.VISIBLE);
+                    t6.setVisibility(View.VISIBLE);
+                    t16.setVisibility(View.VISIBLE);
+                    t5.setVisibility(View.VISIBLE);
+                    t17.setVisibility(View.VISIBLE);
+
+                    t21.setVisibility(View.VISIBLE);
+                    t22.setVisibility(View.VISIBLE);
+                    t23.setVisibility(View.VISIBLE);
+                    t24.setVisibility(View.VISIBLE);
+                    t25.setVisibility(View.VISIBLE);
+                    t26.setVisibility(View.VISIBLE);
+                    t27.setVisibility(View.VISIBLE);
+                    t28.setVisibility(View.VISIBLE);
+                    t29.setVisibility(View.VISIBLE);
+                    t15.setVisibility(View.VISIBLE);
+                    t31.setVisibility(View.VISIBLE);
+                    t32.setVisibility(View.VISIBLE);
+
+
+                }else{
+                    t2.setVisibility(View.INVISIBLE);
+                    t1.setVisibility(View.INVISIBLE);
+                    t9.setVisibility(View.INVISIBLE);
+                    t10.setVisibility(View.INVISIBLE);
+                    t12.setVisibility(View.INVISIBLE);
+                    t13.setVisibility(View.INVISIBLE);
+                    t20.setVisibility(View.INVISIBLE);
+                    t19.setVisibility(View.INVISIBLE);
+                    t6.setVisibility(View.INVISIBLE);
+                    t16.setVisibility(View.INVISIBLE);
+                    t5.setVisibility(View.INVISIBLE);
+                    t17.setVisibility(View.INVISIBLE);
+
+                    t21.setVisibility(View.INVISIBLE);
+                    t22.setVisibility(View.INVISIBLE);
+                    t23.setVisibility(View.INVISIBLE);
+                    t24.setVisibility(View.INVISIBLE);
+                    t25.setVisibility(View.INVISIBLE);
+                    t26.setVisibility(View.INVISIBLE);
+                    t27.setVisibility(View.INVISIBLE);
+                    t28.setVisibility(View.INVISIBLE);
+                    t29.setVisibility(View.INVISIBLE);
+                    t15.setVisibility(View.INVISIBLE);
+                    t31.setVisibility(View.INVISIBLE);
+                    t32.setVisibility(View.INVISIBLE);
+
+
+                }
+            }
+        });
+
+
 
         if (aktuellegenauigkeit > 10.0 || aktuellegenauigkeit <= 0.0) {
             Button b1 = (Button) findViewById(R.id.button6);
@@ -280,6 +395,13 @@ public class RecordTrip extends AppCompatActivity {
         alert.show();
     }
 
+
+
+
+
+
+
+
     //  Fahrt aufzeichnen Button
     public void recordButton(View view) {
         Button b1 = (Button) findViewById(R.id.button6);
@@ -372,7 +494,7 @@ public class RecordTrip extends AppCompatActivity {
                 t1.setText("" + aktuellerlaengengrad);
                 //t3.setText("±" + Math.round(aktuellegenauigkeit) + " m"); Wird jetzt im Location Listener aktualisiert
                 aktuellerspeedkmh = aktuellerspeed * 3.6;
-                t4.setText("" + (Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (Math.round(aktuellerspeedkmh)) + " km/h");
+                t4.setText("" + (/*Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (*/Math.round(aktuellerspeedkmh)) + " km/h");
                 t5.setText("" + aufnahmelaeuft);
                 t6.setText("" + aktuelletabelle);
 
