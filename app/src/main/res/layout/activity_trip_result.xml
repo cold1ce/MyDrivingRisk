@@ -32,14 +32,15 @@
             android:layout_alignParentStart="true"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
             android:id="@+id/ll1">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/textll">
 
                 <TextView
                     android:id="@+id/textView16"
@@ -283,7 +284,13 @@
                         android:textColor="@android:color/holo_red_light"
                         android:layout_weight="1"
                         android:textAlignment="viewEnd" />
+
                 </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_weight="1" />
 
                 <LinearLayout
                     android:orientation="vertical"

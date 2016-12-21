@@ -50,11 +50,11 @@ public class RecordTrip extends AppCompatActivity {
     public boolean aufnahmelaeuft;
     public boolean test = true;
     public String aktuelletabelle;
-    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32;
+    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46;
     public ProgressBar p1;
     public String wetter, wetterkategorie, aktuellestrasse, aktuellerstrassentyp;
     public double aktuellestempolimit;
-    public long sonnenaufgang, sonnenuntergang, aktuellezeit, aktuelleRechenzeit;
+    public long sonnenaufgang, sonnenuntergang, aktuellezeit, aktuelleRechenzeit, fahrtbeginn, fahrtende;
     public ToggleButton toggle1;
 
     // "altezeit" dient als Referenz zur aktuellenzeit, um OSM Abfragen alle x Minuten auszuführen
@@ -181,6 +181,23 @@ public class RecordTrip extends AppCompatActivity {
         t31 = (TextView) findViewById(R.id.textView40);
         t32 = (TextView) findViewById(R.id.textView14);
 
+        t33 = (TextView) findViewById(R.id.textView38);
+        t34 = (TextView) findViewById(R.id.textView22);
+        t35 = (TextView) findViewById(R.id.textView39);
+        t36 = (TextView) findViewById(R.id.textView12);
+        t37 = (TextView) findViewById(R.id.textView42);
+        t38 = (TextView) findViewById(R.id.textView43);
+        t39 = (TextView) findViewById(R.id.textView46);
+        t40 = (TextView) findViewById(R.id.textView5);
+        t41 = (TextView) findViewById(R.id.textView21);
+        t42 = (TextView) findViewById(R.id.textView6);
+        t43 = (TextView) findViewById(R.id.textView11);
+        t44 = (TextView) findViewById(R.id.textView9);
+        t45 = (TextView) findViewById(R.id.textView29);
+        t46 = (TextView) findViewById(R.id.textView32);
+
+
+
         t2.setVisibility(View.INVISIBLE);
         t1.setVisibility(View.INVISIBLE);
         t9.setVisibility(View.INVISIBLE);
@@ -207,15 +224,32 @@ public class RecordTrip extends AppCompatActivity {
         t31.setVisibility(View.INVISIBLE);
         t32.setVisibility(View.INVISIBLE);
 
-
+        t33.setVisibility(View.VISIBLE);
+        t34.setVisibility(View.INVISIBLE);
+        t35.setVisibility(View.INVISIBLE);
+        t36.setVisibility(View.INVISIBLE);
+        t37.setVisibility(View.INVISIBLE);
+        t38.setVisibility(View.INVISIBLE);
+        t39.setVisibility(View.INVISIBLE);
+        t40.setVisibility(View.VISIBLE);
+        t41.setVisibility(View.INVISIBLE);
+        t42.setVisibility(View.INVISIBLE);
+        t43.setVisibility(View.INVISIBLE);
+        t44.setVisibility(View.INVISIBLE);
+        t45.setVisibility(View.INVISIBLE);
+        t46.setVisibility(View.INVISIBLE);
         p1 = (ProgressBar) findViewById(R.id.marker_progress);
         toggle1 = (ToggleButton) findViewById(R.id.toggleButton);
+
+        toggle1.setVisibility(View.INVISIBLE);
+
+
 
         toggle1.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                
+
                 if(toggle1.isChecked()){
                     t2.setVisibility(View.VISIBLE);
                     t1.setVisibility(View.VISIBLE);
@@ -460,10 +494,29 @@ public class RecordTrip extends AppCompatActivity {
         //Drehender Kreis sichtbar machen um "Aufnahme" zu signalisieren
         p1.setVisibility(View.VISIBLE);
 
+        t33.setVisibility(View.VISIBLE);
+        t34.setVisibility(View.VISIBLE);
+        t35.setVisibility(View.VISIBLE);
+        t36.setVisibility(View.VISIBLE);
+        t37.setVisibility(View.VISIBLE);
+        t38.setVisibility(View.VISIBLE);
+        t39.setVisibility(View.VISIBLE);
+        t40.setVisibility(View.VISIBLE);
+        t41.setVisibility(View.VISIBLE);
+        t42.setVisibility(View.VISIBLE);
+        t43.setVisibility(View.VISIBLE);
+        t44.setVisibility(View.VISIBLE);
+        t45.setVisibility(View.VISIBLE);
+        t46.setVisibility(View.VISIBLE);
+        toggle1 = (ToggleButton) findViewById(R.id.toggleButton);
+        toggle1.setVisibility(View.VISIBLE);
+
         //Voerst mal dafür sorgen dass das Display nicht ausgeht
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         //  Aufnahmeschleife starten
+        fahrtbeginn = new Date().getTime();
+
         recordTrip();
     }
 
@@ -535,13 +588,16 @@ public class RecordTrip extends AppCompatActivity {
                     altezeitOSM = (new Date().getTime()) - 1;
                 }
 
-                t18.setText("" + aktuellestempolimit);
+                //t18.setText("" + aktuellestempolimit);
+                t18.setText("" + (/*Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (*/Math.round(aktuellestempolimit)) + " km/h");
                 t19.setText("" + aktuellestrasse);
                 t20.setText("" + aktuellerstrassentyp);
                 t10.setText("" + wetter);
                 t11.setText("" + wetterkategorie);
                 t12.setText("" + df.format(new Date(sonnenaufgang)));
                 t13.setText("" + df.format(new Date(sonnenuntergang)));
+
+                t41.setText("" + myDB.getFahrtdauerAsString(fahrtbeginn, aktuellezeit));
 
                 //Alle ermittelten Daten des aktuellen Datenpunktes in die Datenbank schreiben
                 myDB.insertFahrtDaten(aktuellezeit, aktuelleRechenzeit, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, aktuellemaxbeschleunigung, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, aktuellestempolimit, aktuellestrasse, aktuellerstrassentyp);

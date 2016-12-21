@@ -9,8 +9,10 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +38,12 @@ public class TripResult extends AppCompatActivity {
     public String aktuelleRisikoKlasse = "Risiko 123";
     public String fahrtDauerString;
     public long fahrtBeginn, fahrtEnde;
+
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,6 +203,15 @@ public class TripResult extends AppCompatActivity {
         t3.setVisibility(View.VISIBLE);
         t6.setVisibility(View.VISIBLE);
 
+        // Gets linearlayout
+        LinearLayout layout = (LinearLayout)findViewById(R.id.textll);
+        // Gets the layout params that will allow you to resize the layout
+        ViewGroup.LayoutParams params = layout.getLayoutParams();
+        // Changes the height and width to the specified *pixels*
+        params.height = 300;
+        //params.width = 100;
+        layout.setLayoutParams(params);
+
         averagespeed = myDB2.berechneDurschnittsgeschwindigkeit(aktuelletabelle);
         maxspeed = myDB2.berechneHöchstgeschwindigkeit(aktuelletabelle);
         accelerationscore = myDB2.berechneAccelarationScore(aktuelletabelle);
@@ -204,7 +221,7 @@ public class TripResult extends AppCompatActivity {
         speedingscore = myDB2.berechneSpeedingScore(aktuelletabelle);
         fahrtBeginn = myDB2.getFahrtBeginn(aktuelletabelle);
         fahrtEnde = myDB2.getFahrtEnde(aktuelletabelle);
-        fahrtDauerString = myDB2.getFahrtdauerAsString(aktuelletabelle, fahrtBeginn, fahrtEnde);
+        fahrtDauerString = myDB2.getFahrtdauerAsString(fahrtBeginn, fahrtEnde);
         selbstbewertung = 100.0;
         gesamtscore = berechneGesamtscore(brakingscore, accelerationscore, timescore, corneringscore, speedingscore);
 

@@ -117,7 +117,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM "+aktuelletabelle+" WHERE id in (SELECT id FROM "+aktuelletabelle+" LIMIT 2 OFFSET 0)");
     }
 
-    public String getFahrtdauerAsString(String aktuelletabelle, long fahrtBeginn, long fahrtEnde) {
+    public String getFahrtdauerAsString(long fahrtBeginn, long fahrtEnde) {
         DateFormat df = DateFormat.getDateTimeInstance();
 
         //long tripStart = tripStartDate; //muss von Date gecastet werden
