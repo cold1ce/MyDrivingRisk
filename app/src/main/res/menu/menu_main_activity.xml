@@ -4,5 +4,6 @@
 
     <item android:title="Impressum"
         android:onClick="toImpressum" />
-    <item android:title="Lizenzen" />
+    <item android:title="Lizenzen"
+        android:visible="false" />
 </menu>

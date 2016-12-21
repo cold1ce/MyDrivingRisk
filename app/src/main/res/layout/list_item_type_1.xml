@@ -18,7 +18,8 @@
         android:background="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"
         android:weightSum="1"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/mainllitem">
 
         <TextView
             android:id="@+id/list_item_type1_text_view"
@@ -51,7 +52,7 @@
                 <TextView
                     android:text="123.6"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:id="@+id/list_item_type1_text_view_2"
                     android:textSize="30sp"
                     android:textColor="@android:color/holo_red_light"
@@ -78,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/list_item_type1_text_view_4"
                         android:gravity="center_vertical"
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@android:color/holo_red_light" />
 
                     <TextView
                         android:text="Ende: 02.02.02 02:02 Uhr"
@@ -86,7 +87,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/list_item_type1_text_view_5"
                         android:gravity="center_vertical"
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@android:color/holo_red_light" />
 
                     <TextView
                         android:text="Fahrtdauer: 1h 02min 03s"
@@ -94,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/list_item_type1_text_view_6"
                         android:gravity="center_vertical"
-                        android:textColor="@color/colorAccent" />
+                        android:textColor="@android:color/holo_red_light" />
 
                 </LinearLayout>
 

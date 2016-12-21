@@ -20,7 +20,7 @@ import java.text.DateFormat;
 
 public class TripResult extends AppCompatActivity {
 
-    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17,t18;
+    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19;
     public DatabaseHelper myDB2;
     public RatingBar r1;
     public Button b1, b2, b3;
@@ -106,10 +106,43 @@ public class TripResult extends AppCompatActivity {
         t3.setVisibility(View.INVISIBLE);
         t6.setVisibility(View.INVISIBLE);
 
+        t19 = (TextView) findViewById(R.id.textView50);
+
         Button b2 = (Button) findViewById(R.id.button9);
         Button b3 = (Button) findViewById(R.id.button_save);
         b2.setVisibility(View.INVISIBLE);
         b3.setVisibility(View.INVISIBLE);
+
+        final RatingBar mBar = (RatingBar) findViewById(R.id.ratingBar);
+        mBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+
+                final float stars = mBar.getRating();
+
+                if (stars == 1) {
+                    t19.setText("Sie bewerten Ihre Fahrt als sehr risikoreich.");
+                }
+                else if (stars == 2) {
+                    t19.setText("Sie bewerten Ihre Fahrt als risikoreich.");
+                }
+                else if (stars == 3) {
+                    t19.setText("Sie bewerten Ihre Fahrt als neutral.");
+                }
+                else if (stars == 4) {
+                    t19.setText("Sie bewerten Ihre Fahrt als sicher.");
+                }
+                else if (stars == 5) {
+                    t19.setText("Sie bewerten Ihre Fahrt als sehr sicher.");
+                }
+                else {
+                    t19.setText("\"???\"");
+                }
+            }
+        });
+
+
+
 
         aktuellerTripGespeichert = false;
 
@@ -208,7 +241,7 @@ public class TripResult extends AppCompatActivity {
         // Gets the layout params that will allow you to resize the layout
         ViewGroup.LayoutParams params = layout.getLayoutParams();
         // Changes the height and width to the specified *pixels*
-        params.height = 300;
+        params.height = 225;
         //params.width = 100;
         layout.setLayoutParams(params);
 
@@ -227,7 +260,8 @@ public class TripResult extends AppCompatActivity {
 
         aktuelleRisikoKlasse = getRisikoklasse(gesamtscore);
 
-        t8.setText(getString(R.string.selbstbewertung_2)+""+aktuelleRisikoKlasse+"!");
+
+
         t1.setText("Ihr Score beträgt: "+(Math.round(10.0*gesamtscore)/10.0));
         t2.setText(""+(Math.round(10.0*averagespeed)/10.0)+" km/h");
         t3.setText(""+Math.round(10.0*accelerationscore)/10.0);
