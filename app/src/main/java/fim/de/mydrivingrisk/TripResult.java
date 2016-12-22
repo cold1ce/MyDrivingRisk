@@ -260,6 +260,7 @@ public class TripResult extends AppCompatActivity {
 
         aktuelleRisikoKlasse = getRisikoklasse(gesamtscore);
 
+        t8.setText(getString(R.string.selbstbewertung_2)+""+aktuelleRisikoKlasse+"!");
 
 
         t1.setText("Ihr Score beträgt: "+(Math.round(10.0*gesamtscore)/10.0));
