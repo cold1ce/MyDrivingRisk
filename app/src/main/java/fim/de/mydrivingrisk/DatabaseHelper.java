@@ -20,19 +20,19 @@ import java.util.concurrent.TimeUnit;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    //Abspeichern, sowie kategorisieren aller möglichen Wetterabfragen in die 3 Kategorien die für die Score-Berechnung gebraucht werden
-    private String[] dry = {"broken clouds", "calm", "clear sky", "cold", "dust", "few clouds", "fog", "fresh breeze", "gale",
-            "gentle breeze", "haze", "heavy thunderstorm", "high wind, near gale", "hot", "light breeze", "light thunderstorm",
-            "mist", "moderate breeze", "overcast clouds", "ragged thunderstorm", "sand", "sand, dust whirls", "scattered clouds",
-            "severe gale", "smoke", "squalls", "storm", "strong breeze", "thunderstorm", "violent storm", "volcanic ash", "windy"};
-    private String[] wet = {"drizzle", "drizzle rain", "heavy intensity drizzle", "heavy intensity drizzle rain", "light intensity drizzle",
-            "light intensity drizzle rain", "light rain", "light snow", "moderate rain", "ragged shower rain", "rain", "shower drizzle",
-            "shower rain", "shower rain and drizzle", "thunderstorm with drizzle", "thunderstorm with heavy drizzle",
-            "thunderstorm with light drizzle", "thunderstorm with light rain", "thunderstorm with rain"};
-    private String[] extreme = {"extreme rain", "freezing rain", "hail", "heavy intensity rain", "heavy intensity shower rain",
-            "heavy shower rain and drizzle", "heavy shower snow", "heavy snow", "hurricane", "light intensity shower rain",
-            "light rain and snow", "light shower snow", "rain and snow", "shower sleet", "shower snow", "sleet", "snow",
-            "thunderstorm with heavy rain", "tornado", "tropical storm", "very heavy rain"};
+    //  Abspeichern, sowie kategorisieren aller möglichen Wetterabfragen in die 3 Kategorien die für die Score-Berechnung gebraucht werden
+    private String[] dry = {"Dunst", "ein paar Wolken", "einige Gewitter", "Frische Brise", "Gewitter", "Heftiges Gewitter", "heiß",
+            "Hochwind, annähender Sturm", "kalt", "klarer Himmel", "Leichte Brise", "leichte Gewitter", "Mäßige Brise", "Milde Brise",
+            "Nebel", "Rauch", "Sand", "Sand / Staubsturm", "schwere Gewitter", "Schwerer Sturm", "Starke Brise", "Staub", "Sturm",
+            "Tornado", "trüb", "überwiegend bewölkt", "Vulkanasche", "Windböen", "windig", "Windstille", "wolkenbedeckt"};
+    private String[] wet = {"einige Regenschauer", "Gewitter mit leichtem Nieselregen", "Gewitter mit leichtem Regen", "Gewitter mit Nieselregen",
+            "Gewitter mit Regen", "Gewitter mit starkem Nieselregen", "leichter Nieselregen", "leichter Regen", "leichtes Nieseln",
+            "mäßiger Regen", "mäßiger Schnee", "Nieseln", "Nieselregen", "Nieselschauer", "Regen", "Regenschauer", "Regenschauer und Nieseln",
+            "starker Nieselregen", "starkes Nieseln"};
+    private String[] extreme = {"Eisregen", "Gewitter mit starkem Regen", "Graupel", "Hagel", "heftige Regenschauer", "heftiger Schneefall",
+            "Hurrikan", "leichte Regenschauer", "leichter Regen und Schnee", "leichter Schneeschauer", "Orkan", "Regen und Schnee",
+            "Schnee", "Schneeschauer", "sehr starker Regen", "starker Regenschauer und Nieseln", "starker Schneeschauer", "Starkregen",
+            "Tropensturm"};
 
     //Abspeichern des Erdradius in einer Konstanten R. Dieser wird für spätere Berechnungen des Kurvenverhaltens benötigt.
     private final double R = 6371000;
@@ -114,7 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteStartwerte(String aktuelletabelle) {
         SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
-        db.execSQL("DELETE FROM "+aktuelletabelle+" WHERE id in (SELECT id FROM "+aktuelletabelle+" LIMIT 2 OFFSET 0)");
+        db.execSQL("DELETE FROM " + aktuelletabelle + " WHERE id in (SELECT id FROM " + aktuelletabelle + " LIMIT 2 OFFSET 0)");
     }
 
     public String getFahrtdauerAsString(long fahrtBeginn, long fahrtEnde) {
