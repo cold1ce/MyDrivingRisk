@@ -48,9 +48,6 @@
         <activity android:name=".Impressum"></activity>
 
 
-
-
-
     </application>
 
 </manifest>
