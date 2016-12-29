@@ -285,7 +285,7 @@ public class TripResult extends AppCompatActivity {
     }
 
     public double berechneGesamtscore(double brakingscore, double accelerationscore, double timescore, double corneringscore, double speedingscore) {
-        gesamtscore = ((brakingscore * 0.3) + (accelerationscore * 0.2) + (timescore * 0.2) + (corneringscore * 0.2) + (speedingscore * 0.1));
+        gesamtscore = ((brakingscore * 0.33) + (accelerationscore * 0.23) + (timescore * 0.08) + (corneringscore * 0.23) + (speedingscore * 0.13));
         return gesamtscore;
     }
 

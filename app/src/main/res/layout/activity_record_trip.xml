@@ -17,7 +17,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha=".25"
+        android:alpha=".35"
         android:scaleType="centerCrop"
         android:src="@drawable/mountainroad1280" />
 
