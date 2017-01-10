@@ -52,7 +52,7 @@ public class RecordTrip extends AppCompatActivity {
     public boolean aufnahmelaeuft;
     public boolean test = true;
     public String aktuelletabelle;
-    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t51, t52, t53, t54, t55, t56;
+    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t51, t52, t53, t54, t55, t56, t60, t61;
     public ProgressBar p1;
     public String wetter, wetterkategorie, aktuellestrasse, aktuellerstrassentyp;
     public double aktuellestempolimit;
@@ -207,6 +207,8 @@ public class RecordTrip extends AppCompatActivity {
         t55 = (TextView) findViewById(R.id.textView66);
         t56 = (TextView) findViewById(R.id.textView68);
 
+        t60 = (TextView) findViewById(R.id.textView69);
+        t61 = (TextView) findViewById(R.id.textView70);
 
         /*
         t2.setVisibility(View.INVISIBLE);
@@ -366,6 +368,7 @@ public class RecordTrip extends AppCompatActivity {
                 aktuellegenauigkeit = location.getAccuracy();
                 t3.setText("±" + Math.round(aktuellegenauigkeit) + " m");
                 t51.setText("±" + Math.round(aktuellegenauigkeit) + " m");
+                t61.setText("±" + Math.round(aktuellegenauigkeit) + " m");
                 if (aktuellegenauigkeit <= 10.0) {
                     if (aufnahmelaeuft == false) {
                         Button b1 = (Button) findViewById(R.id.button6);
@@ -478,6 +481,11 @@ public class RecordTrip extends AppCompatActivity {
                 aufnahmelaeuft = true;
                 sc1.setVisibility(View.INVISIBLE);
                 e1.setVisibility(View.VISIBLE);
+                t60.setVisibility(View.INVISIBLE);
+                t61.setVisibility(View.INVISIBLE);
+                toggle1.setEnabled(true);
+
+                toggle1.setVisibility(View.VISIBLE);
                 addNewTrip();
                 Toast.makeText(RecordTrip.this, "Neue Fahrt wird aufgezeichnet!", Toast.LENGTH_SHORT).show();
                 b1.setText("Aufzeichnung beenden");
@@ -540,7 +548,7 @@ public class RecordTrip extends AppCompatActivity {
         t45.setVisibility(View.VISIBLE);
         t46.setVisibility(View.VISIBLE);
         toggle1 = (ToggleButton) findViewById(R.id.toggleButton);
-        toggle1.setVisibility(View.VISIBLE);
+        //toggle1.setVisibility(View.VISIBLE);
 
         //Voerst mal dafür sorgen dass das Display nicht ausgeht
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -631,7 +639,6 @@ public class RecordTrip extends AppCompatActivity {
                 t10.setText("" + wetter);
                 t56.setText("" + wetter);
                 t11.setText("" + wetterkategorie);
-                t56.setText("" + wetterkategorie);
                 t12.setText("" + df.format(new Date(sonnenaufgang)));
                 t13.setText("" + df.format(new Date(sonnenuntergang)));
                 String fahrtdauerbuffer = myDB.getFahrtdauerAsString(fahrtbeginn, aktuellezeit);
