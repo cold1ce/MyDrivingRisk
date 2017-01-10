@@ -1,9 +1,5 @@
-//change
 package fim.de.mydrivingrisk;
 
-/**
- * Created by Stefan on 01.12.2016.
- */
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -16,8 +12,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 
 public class Weather {
@@ -25,7 +19,7 @@ public class Weather {
     private static final String OPEN_WEATHER_MAP_URL = "http://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&units=metric&lang=de";
     private static final String OPEN_WEATHER_MAP_KEY = "92080114fee4af04b0fd05c803fba1fd";
 
-
+    //  Schnittstelle für die Asynchrone Kommunikation
     public interface AsyncResponse {
 
         void processFinish(String output1, long output2, long output3);
@@ -40,6 +34,7 @@ public class Weather {
             delegate = asyncResponse;
         }
 
+        //  Methode läuft im Hintergrund ab
         @Override
         protected JSONObject doInBackground(String... params) {
 
@@ -54,6 +49,7 @@ public class Weather {
             return jsonWeather;
         }
 
+        //  Wetterbeschreibung, Sonnenauf- und untergang aus JSONObjects holen
         @Override
         protected void onPostExecute(JSONObject json) {
             try {
@@ -75,6 +71,7 @@ public class Weather {
     }
 
 
+    //  Methode die mittels URL, KEY, Längen- und Breitengrad die Wetter JSONObjects abfrägt
     public static JSONObject getWeatherJSON(String lat, String lon) {
         try {
             URL url = new URL(String.format(OPEN_WEATHER_MAP_URL, lat, lon));
@@ -92,8 +89,7 @@ public class Weather {
 
             JSONObject data = new JSONObject(json.toString());
 
-            //  This value will be 404 if the request was not
-            //  successful
+            //  Dieser Wert wird 404 sein, wenn die Anforderung nicht erfolgreich war
             if (data.getInt("cod") != 200) {
                 return null;
             }

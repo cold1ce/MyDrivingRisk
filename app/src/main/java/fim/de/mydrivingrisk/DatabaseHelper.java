@@ -1,4 +1,3 @@
-//change
 package fim.de.mydrivingrisk;
 
 import android.content.ContentValues;
@@ -14,27 +13,28 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by Julian on 21.11.2016.
- */
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     //  Abspeichern, sowie kategorisieren aller möglichen Wetterabfragen in die 3 Kategorien die für die Score-Berechnung gebraucht werden
+    //  einige Wetterbeschreibungen sind auf Englisch, werden von OWM nur so zur Verfügung gestellt
     private String[] dry = {"Dunst", "ein paar Wolken", "einige Gewitter", "Frische Brise", "Gewitter", "Heftiges Gewitter", "heiß",
             "Hochwind, annähender Sturm", "kalt", "klarer Himmel", "Leichte Brise", "leichte Gewitter", "Mäßige Brise", "Milde Brise",
-            "Nebel", "Rauch", "Sand", "Sand / Staubsturm", "schwere Gewitter", "Schwerer Sturm", "Starke Brise", "Staub", "Sturm",
-            "Tornado", "trüb", "überwiegend bewölkt", "Vulkanasche", "Windböen", "windig", "Windstille", "wolkenbedeckt"};
-    private String[] wet = {"einige Regenschauer", "Gewitter mit leichtem Nieselregen", "Gewitter mit leichtem Regen", "Gewitter mit Nieselregen",
-            "Gewitter mit Regen", "Gewitter mit starkem Nieselregen", "leichter Nieselregen", "leichter Regen", "leichtes Nieseln",
-            "mäßiger Regen", "mäßiger Schnee", "Nieseln", "Nieselregen", "Nieselschauer", "Regen", "Regenschauer", "Regenschauer und Nieseln",
-            "starker Nieselregen", "starkes Nieseln"};
+            "Nebel", "Rauch", "Sand", "sand", "Sand / Staubsturm", "schwere Gewitter", "Schwerer Sturm", "Starke Brise", "Staub", "dust", "Sturm",
+            "Tornado", "tornado", "trüb", "überwiegend bewölkt", "Vulkanasche", "volcanic ash", "Windböen", "squalls", "windig", "Windstille",
+            "wolkenbedeckt"};
+    private String[] wet = {"ragged shower rain", "einige Regenschauer", "Gewitter mit leichtem Nieselregen", "Gewitter mit leichtem Regen",
+            "Gewitter mit Nieselregen", "Gewitter mit Regen", "Gewitter mit starkem Nieselregen", "leichter Nieselregen", "leichter Regen",
+            "leichtes Nieseln", "mäßiger Regen", "mäßiger Schnee", "Nieseln", "Nieselregen", "Nieselschauer", "Regen", "Regenschauer",
+            "shower rain and drizzle", "Regenschauer und Nieseln", "starker Nieselregen", "starkes Nieseln"};
     private String[] extreme = {"Eisregen", "Gewitter mit starkem Regen", "Graupel", "Hagel", "heftige Regenschauer", "heftiger Schneefall",
-            "Hurrikan", "leichte Regenschauer", "leichter Regen und Schnee", "leichter Schneeschauer", "Orkan", "Regen und Schnee",
-            "Schnee", "Schneeschauer", "sehr starker Regen", "starker Regenschauer und Nieseln", "starker Schneeschauer", "Starkregen",
+            "Hurrikan", "leichte Regenschauer", "light rain and snow", "leichter Regen und Schnee", "leichter Schneeschauer", "light shower snow",
+            "Orkan", "rain and snow", "Regen und Schnee", "Schnee", "shower sleet", "Schneeschauer", "sehr starker Regen",
+            "heavy shower rain and drizzle", "starker Regenschauer und Nieseln", "starker Schneeschauer", "heavy shower snow", "Starkregen",
             "Tropensturm"};
 
-    //Abspeichern des Erdradius in einer Konstanten R. Dieser wird für spätere Berechnungen des Kurvenverhaltens benötigt.
+
+    //  Abspeichern des Erdradius in einer Konstanten R. Dieser wird für spätere Berechnungen des Kurvenverhaltens benötigt.
     private final double R = 6371000;
 
 
@@ -44,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    //Sobald ein DataBaseHelper gestartet wird, wird automatisch eine Tabelle für die Ergebnisse der Fahrten angelegt.
+    //  Sobald ein DataBaseHelper gestartet wird, wird automatisch eine Tabelle für die Ergebnisse der Fahrten angelegt.
     @Override
     public void onCreate(SQLiteDatabase db) {
         //db.execSQL("create table tripResultsTabelle2 (ID INTEGER PRIMARY KEY AUTOINCREMENT, Beginn TEXT, Ende TEXT, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");

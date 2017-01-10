@@ -20,7 +20,6 @@ import static android.support.v4.content.ContextCompat.startActivity;
 
 
 
-
 public class CursorAdapterHelper extends CursorAdapter {
     public Context context;
 
