@@ -32,15 +32,17 @@
         android:layout_alignParentStart="true">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="1">
 
                 <Button
                     android:id="@+id/button6"
@@ -54,7 +56,26 @@
                     android:onClick="recordButton"
                     android:text="Aufzeichnung starten"
                     android:textAlignment="center"
-                    android:layout_width="200dp" />
+                    android:layout_weight="0.05"
+                    android:layout_width="180dp" />
+
+                <ToggleButton
+                    android:id="@+id/toggleButton"
+                    android:layout_height="match_parent"
+                    android:text="ToggleButton"
+                    android:textOff="Detailansicht"
+                    android:textOn="Detailansicht"
+                    android:textSize="12sp"
+                    android:enabled="false"
+                    android:layout_width="120dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="1">
 
                 <ProgressBar
                     android:id="@+id/marker_progress"
@@ -65,68 +86,40 @@
                     android:layout_width="wrap_content"
                     android:elevation="13dp"
                     android:indeterminate="true"
-                    android:layout_weight="1" />
+                    android:layout_weight="0.50" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-                <ToggleButton
-                    android:id="@+id/toggleButton"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="77dp"
                     android:layout_height="match_parent"
-                    android:text="ToggleButton"
-                    android:textOff="Detailansicht"
-                    android:textOn="Detailansicht"
-                    android:textSize="12sp"
-                    android:enabled="false"
-                    android:layout_weight="0.20" />
+                    android:weightSum="1">
+
+                    <TextView
+                        android:text="GPS:"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView69"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textStyle="normal|bold"
+                        android:layout_width="match_parent"
+                        android:paddingTop="5dp" />
+
+                    <TextView
+                        android:text="-"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView70"
+                        android:textAlignment="center"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:textColor="@android:color/holo_red_dark" />
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="166dp"
+                    android:layout_height="36dp" />
 
             </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="1">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:weightSum="1">
-
-                <TextView
-                    android:text="GPS:"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView69"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:textStyle="normal|bold"
-                    android:layout_width="match_parent"
-                    android:paddingTop="5dp" />
-
-                <TextView
-                    android:text="-"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView70"
-                    android:textAlignment="center"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:textColor="@android:color/holo_red_dark" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></LinearLayout>
 
         </LinearLayout>
 
@@ -183,38 +176,6 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:background="@android:drawable/editbox_background"
-                android:layout_marginLeft="180dp"
-                android:layout_marginTop="10dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_width="150dp"
-                android:layout_height="75dp">
-
-                <TextView
-                    android:text="Fahrtdauer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView59"
-                    android:textAlignment="center"
-                    android:textStyle="normal|bold"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/holo_red_dark" />
-
-                <TextView
-                    android:text="-"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/textView60"
-                    android:textAlignment="center"
-                    android:textSize="28sp"
-                    android:gravity="center_vertical|center_horizontal" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:background="@android:drawable/editbox_background"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="100dp"
                 android:layout_alignParentTop="true"
@@ -238,38 +199,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/textView62"
-                    android:textAlignment="center"
-                    android:textSize="28sp"
-                    android:gravity="center_vertical|center_horizontal" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:background="@android:drawable/editbox_background"
-                android:layout_marginLeft="180dp"
-                android:layout_marginTop="100dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_width="150dp"
-                android:layout_height="75dp">
-
-                <TextView
-                    android:text="Tempolimit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView63"
-                    android:textAlignment="center"
-                    android:textStyle="normal|bold"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/holo_red_dark" />
-
-                <TextView
-                    android:text="-"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/textView64"
                     android:textAlignment="center"
                     android:textSize="28sp"
                     android:gravity="center_vertical|center_horizontal" />
@@ -311,13 +240,77 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:background="@android:drawable/editbox_background"
-                android:layout_marginLeft="180dp"
-                android:layout_marginTop="190dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:layout_width="150dp"
-                android:layout_height="75dp">
+                android:layout_height="75dp"
+                android:layout_marginRight="10dp"
+                android:layout_alignTop="@+id/linearLayout2"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:text="Fahrtdauer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView59"
+                    android:textAlignment="center"
+                    android:textStyle="normal|bold"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/holo_red_dark" />
+
+                <TextView
+                    android:text="-"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/textView60"
+                    android:textAlignment="center"
+                    android:textSize="28sp"
+                    android:gravity="center_vertical|center_horizontal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:background="@android:drawable/editbox_background"
+                android:layout_width="150dp"
+                android:layout_height="75dp"
+                android:layout_above="@+id/linearLayout4"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="100dp">
+
+                <TextView
+                    android:text="Tempolimit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView63"
+                    android:textAlignment="center"
+                    android:textStyle="normal|bold"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/holo_red_dark" />
+
+                <TextView
+                    android:text="-"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/textView64"
+                    android:textAlignment="center"
+                    android:textSize="28sp"
+                    android:gravity="center_vertical|center_horizontal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:background="@android:drawable/editbox_background"
+                android:layout_width="150dp"
+                android:layout_height="75dp"
+                android:layout_alignTop="@+id/linearLayout4"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="190dp">
 
                 <TextView
                     android:text="Wetter"
@@ -346,7 +339,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/linearLayout"
-            android:visibility="visible"
             android:id="@+id/scroll1"
             android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
