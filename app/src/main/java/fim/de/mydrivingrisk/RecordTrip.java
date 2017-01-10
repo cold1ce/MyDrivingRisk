@@ -19,6 +19,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -50,12 +52,15 @@ public class RecordTrip extends AppCompatActivity {
     public boolean aufnahmelaeuft;
     public boolean test = true;
     public String aktuelletabelle;
-    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46;
+    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t51, t52, t53, t54, t55, t56;
     public ProgressBar p1;
     public String wetter, wetterkategorie, aktuellestrasse, aktuellerstrassentyp;
     public double aktuellestempolimit;
     public long sonnenaufgang, sonnenuntergang, aktuellezeit, aktuelleRechenzeit, fahrtbeginn, fahrtende;
     public ToggleButton toggle1;
+
+    public ScrollView sc1;
+    public RelativeLayout e1;
 
     // "altezeit" dient als Referenz zur aktuellenzeit, um OSM Abfragen alle x Minuten auszuführen
     public long altezeitOSM = (new Date().getTime()) - 1;
@@ -188,7 +193,6 @@ public class RecordTrip extends AppCompatActivity {
         t37 = (TextView) findViewById(R.id.textView42);
         t38 = (TextView) findViewById(R.id.textView43);
         t39 = (TextView) findViewById(R.id.textView46);
-        t40 = (TextView) findViewById(R.id.textView5);
         t41 = (TextView) findViewById(R.id.textView21);
         t42 = (TextView) findViewById(R.id.textView6);
         t43 = (TextView) findViewById(R.id.textView11);
@@ -196,8 +200,15 @@ public class RecordTrip extends AppCompatActivity {
         t45 = (TextView) findViewById(R.id.textView29);
         t46 = (TextView) findViewById(R.id.textView32);
 
+        t51 = (TextView) findViewById(R.id.textView58);
+        t52 = (TextView) findViewById(R.id.textView60);
+        t53 = (TextView) findViewById(R.id.textView62);
+        t54 = (TextView) findViewById(R.id.textView64);
+        t55 = (TextView) findViewById(R.id.textView66);
+        t56 = (TextView) findViewById(R.id.textView68);
 
 
+        /*
         t2.setVisibility(View.INVISIBLE);
         t1.setVisibility(View.INVISIBLE);
         t9.setVisibility(View.INVISIBLE);
@@ -223,26 +234,37 @@ public class RecordTrip extends AppCompatActivity {
         t15.setVisibility(View.INVISIBLE);
         t31.setVisibility(View.INVISIBLE);
         t32.setVisibility(View.INVISIBLE);
-
+        */
         t33.setVisibility(View.VISIBLE);
+        t3.setVisibility(View.VISIBLE);
+        /*
         t34.setVisibility(View.INVISIBLE);
         t35.setVisibility(View.INVISIBLE);
         t36.setVisibility(View.INVISIBLE);
         t37.setVisibility(View.INVISIBLE);
         t38.setVisibility(View.INVISIBLE);
         t39.setVisibility(View.INVISIBLE);
-        t40.setVisibility(View.VISIBLE);
+
+
+
         t41.setVisibility(View.INVISIBLE);
         t42.setVisibility(View.INVISIBLE);
         t43.setVisibility(View.INVISIBLE);
         t44.setVisibility(View.INVISIBLE);
         t45.setVisibility(View.INVISIBLE);
         t46.setVisibility(View.INVISIBLE);
+        */
         p1 = (ProgressBar) findViewById(R.id.marker_progress);
         toggle1 = (ToggleButton) findViewById(R.id.toggleButton);
 
         toggle1.setVisibility(View.INVISIBLE);
 
+
+
+        sc1 = (ScrollView) findViewById(R.id.scroll1);
+        e1 = (RelativeLayout) findViewById(R.id.easylay);
+        sc1.setVisibility(View.INVISIBLE);
+        e1.setVisibility(View.INVISIBLE);
 
 
         toggle1.setOnClickListener(new View.OnClickListener() {
@@ -251,6 +273,9 @@ public class RecordTrip extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(toggle1.isChecked()){
+                    sc1.setVisibility(View.VISIBLE);
+                    e1.setVisibility(View.INVISIBLE);
+/*
                     t2.setVisibility(View.VISIBLE);
                     t1.setVisibility(View.VISIBLE);
                     t9.setVisibility(View.VISIBLE);
@@ -276,9 +301,12 @@ public class RecordTrip extends AppCompatActivity {
                     t15.setVisibility(View.VISIBLE);
                     t31.setVisibility(View.VISIBLE);
                     t32.setVisibility(View.VISIBLE);
-
+*/
 
                 }else{
+                    sc1.setVisibility(View.INVISIBLE);
+                    e1.setVisibility(View.VISIBLE);
+/*
                     t2.setVisibility(View.INVISIBLE);
                     t1.setVisibility(View.INVISIBLE);
                     t9.setVisibility(View.INVISIBLE);
@@ -304,7 +332,7 @@ public class RecordTrip extends AppCompatActivity {
                     t15.setVisibility(View.INVISIBLE);
                     t31.setVisibility(View.INVISIBLE);
                     t32.setVisibility(View.INVISIBLE);
-
+*/
 
                 }
             }
@@ -337,6 +365,7 @@ public class RecordTrip extends AppCompatActivity {
                 aktuellerspeed = location.getSpeed();
                 aktuellegenauigkeit = location.getAccuracy();
                 t3.setText("±" + Math.round(aktuellegenauigkeit) + " m");
+                t51.setText("±" + Math.round(aktuellegenauigkeit) + " m");
                 if (aktuellegenauigkeit <= 10.0) {
                     if (aufnahmelaeuft == false) {
                         Button b1 = (Button) findViewById(R.id.button6);
@@ -447,6 +476,8 @@ public class RecordTrip extends AppCompatActivity {
             //  Wenn nein: Warnung ausgeben
             if ((aktuellegenauigkeit > 0.0) && (aktuellegenauigkeit <= 10)) {
                 aufnahmelaeuft = true;
+                sc1.setVisibility(View.INVISIBLE);
+                e1.setVisibility(View.VISIBLE);
                 addNewTrip();
                 Toast.makeText(RecordTrip.this, "Neue Fahrt wird aufgezeichnet!", Toast.LENGTH_SHORT).show();
                 b1.setText("Aufzeichnung beenden");
@@ -501,7 +532,7 @@ public class RecordTrip extends AppCompatActivity {
         t37.setVisibility(View.VISIBLE);
         t38.setVisibility(View.VISIBLE);
         t39.setVisibility(View.VISIBLE);
-        t40.setVisibility(View.VISIBLE);
+        t5.setVisibility(View.VISIBLE);
         t41.setVisibility(View.VISIBLE);
         t42.setVisibility(View.VISIBLE);
         t43.setVisibility(View.VISIBLE);
@@ -548,11 +579,14 @@ public class RecordTrip extends AppCompatActivity {
                 //t3.setText("±" + Math.round(aktuellegenauigkeit) + " m"); Wird jetzt im Location Listener aktualisiert
                 aktuellerspeedkmh = aktuellerspeed * 3.6;
                 t4.setText("" + (/*Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (*/Math.round(aktuellerspeedkmh)) + " km/h");
+                t53.setText("" + (/*Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (*/Math.round(aktuellerspeedkmh)) + " km/h");
+
                 t5.setText("" + aufnahmelaeuft);
                 t6.setText("" + aktuelletabelle);
 
                 aktuellebeschleunigung = myDB.berechneBeschleunigung(aktuelletabelle, (aktuellerspeed * 3.6), aktuelleRechenzeit);
                 t7.setText("" + (Math.round(100.0 * aktuellebeschleunigung) / 100.0) + " m/s²");
+                t55.setText("" + (Math.round(100.0 * aktuellebeschleunigung) / 100.0) + " m/s²");
 
                 aktuellelateralebeschleunigung = myDB.berechneLateraleBeschleunigung(aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz);
                 t8.setText("" + (Math.round(100.0 * aktuellelateralebeschleunigung) / 100.0) + " m/s²");
@@ -590,14 +624,19 @@ public class RecordTrip extends AppCompatActivity {
 
                 //t18.setText("" + aktuellestempolimit);
                 t18.setText("" + (/*Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (*/Math.round(aktuellestempolimit)) + " km/h");
+                t54.setText("" + (/*Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (*/Math.round(aktuellestempolimit)) + " km/h");
+
                 t19.setText("" + aktuellestrasse);
                 t20.setText("" + aktuellerstrassentyp);
                 t10.setText("" + wetter);
+                t56.setText("" + wetter);
                 t11.setText("" + wetterkategorie);
+                t56.setText("" + wetterkategorie);
                 t12.setText("" + df.format(new Date(sonnenaufgang)));
                 t13.setText("" + df.format(new Date(sonnenuntergang)));
-
-                t41.setText("" + myDB.getFahrtdauerAsString(fahrtbeginn, aktuellezeit));
+                String fahrtdauerbuffer = myDB.getFahrtdauerAsString(fahrtbeginn, aktuellezeit);
+                t41.setText("" + fahrtdauerbuffer);
+                t52.setText("" + fahrtdauerbuffer);
 
                 //Alle ermittelten Daten des aktuellen Datenpunktes in die Datenbank schreiben
                 myDB.insertFahrtDaten(aktuellezeit, aktuelleRechenzeit, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, aktuellemaxbeschleunigung, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, aktuellestempolimit, aktuellestrasse, aktuellerstrassentyp);
@@ -611,16 +650,26 @@ public class RecordTrip extends AppCompatActivity {
                 t1.setText("~" + aktuellerlaengengrad);
                 //t3.setText("±" + Math.round(aktuellegenauigkeit) + " m"); Wird jetzt oben im Location Listener gemacht
                 t4.setText("?");
+                t53.setText("?");
                 t5.setText("" + aufnahmelaeuft);
                 t6.setText("" + aktuelletabelle);
+
                 t7.setText("?");
+                t55.setText("?");
+
                 t8.setText("?");
                 t9.setText("?");
+
                 t18.setText("?");
+                t54.setText("?");
+
                 t19.setText("?");
                 t20.setText("?");
                 t10.setText("" + wetter);
+                t56.setText("" + wetter);
+
                 t11.setText("" + wetterkategorie);
+
                 t12.setText("" + df.format(new Date(sonnenaufgang)));
                 t13.setText("" + df.format(new Date(sonnenuntergang)));
             }
