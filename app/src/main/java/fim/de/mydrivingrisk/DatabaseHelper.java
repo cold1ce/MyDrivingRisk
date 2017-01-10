@@ -176,6 +176,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
+    public double getDurchschnittScoreAllerFahrten() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        double scoreschnitt = 0.0;
+        Cursor cursor = db.rawQuery("SELECT AVG(Score) FROM TripResultsTabelle2", null);
+        cursor.moveToLast();
+        scoreschnitt = cursor.getDouble(0);
+        cursor.close();
+        return scoreschnitt;
+    }
 
     //  Beschleunigung berechnen, im Konstruktor wird die aktuelle Geschwindigkeit sowie die aktuelle
     //  Fahrtentabelle übergeben.
@@ -497,7 +506,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getListContents() {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT * FROM tripResultsTabelle2 ORDER BY _id DESC", null);
+        Cursor data = db.rawQuery("SELECT * FROM tripResultsTabelle2 ORDER BY _id DESC", null); // Rechtschreibfehler bei tripResultsTabelle2? muss das T nicht groß sein
         return data;
     }
 
