@@ -18,22 +18,41 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:alpha=".35"
+            android:alpha="1"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/mountainroad1280" />
 
-        <ListView
-
-            android:id="@+id/listview_3"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:cacheColorHint="@android:color/transparent"
-            android:footerDividersEnabled="true"
-            android:headerDividersEnabled="true"
-            android:paddingLeft="5dp"
+            android:weightSum="1">
 
-            android:paddingRight="5dp"></ListView>
+            <TextView
+                android:text="Durchschnittsscore aller Fahrten:"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/textView71"
+                android:textSize="16sp"
+                android:textStyle="normal|bold"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/holo_red_dark"
+                android:gravity="fill_vertical"
+                android:layout_marginLeft="5dp" />
+
+            <ListView
+
+                android:id="@+id/listview_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:cacheColorHint="@android:color/transparent"
+                android:footerDividersEnabled="true"
+                android:headerDividersEnabled="true"
+
+                ></ListView>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/transparent"
+    android:background="@color/whiteTransparency"
     android:cacheColorHint="@android:color/transparent"
     android:screenOrientation="portrait"
     android:weightSum="1">
@@ -15,11 +15,13 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:background="@android:color/transparent"
+        android:background="@color/whiteTransparency"
         android:cacheColorHint="@android:color/transparent"
         android:weightSum="1"
         android:layout_height="wrap_content"
-        android:id="@+id/mainllitem">
+        android:id="@+id/mainllitem"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <TextView
             android:id="@+id/list_item_type1_text_view"
@@ -29,7 +31,7 @@
             android:textSize="24sp"
             android:textStyle="normal|bold"
             android:textAlignment="textStart"
-            android:textColor="@android:color/holo_red_light" />
+            android:textColor="@android:color/background_dark" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -47,7 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/list_item_type1_text_view_7"
-                    android:textColor="@android:color/holo_red_light" />
+                    android:textColor="@android:color/holo_red_dark" />
 
                 <TextView
                     android:text="123.6"
@@ -55,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/list_item_type1_text_view_2"
                     android:textSize="30sp"
-                    android:textColor="@android:color/holo_red_light"
+                    android:textColor="@android:color/holo_red_dark"
                     android:textStyle="normal|bold"
                     android:layout_marginRight="7dp"
                     android:gravity="bottom" />
@@ -79,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/list_item_type1_text_view_4"
                         android:gravity="center_vertical"
-                        android:textColor="@android:color/holo_red_light" />
+                        android:textColor="@android:color/holo_red_dark" />
 
                     <TextView
                         android:text="Ende: 02.02.02 02:02 Uhr"
@@ -87,7 +89,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/list_item_type1_text_view_5"
                         android:gravity="center_vertical"
-                        android:textColor="@android:color/holo_red_light" />
+                        android:textColor="@android:color/holo_red_dark" />
 
                     <TextView
                         android:text="Fahrtdauer: 1h 02min 03s"
@@ -95,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/list_item_type1_text_view_6"
                         android:gravity="center_vertical"
-                        android:textColor="@android:color/holo_red_light" />
+                        android:textColor="@android:color/holo_red_dark" />
 
                 </LinearLayout>
 

@@ -12,12 +12,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class TripHistory extends AppCompatActivity {
 
     public DatabaseHelper myDB3;
+    public TextView t1;
+    public double scoreschnitt;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -63,6 +66,12 @@ public class TripHistory extends AppCompatActivity {
 
         myDB3 = new DatabaseHelper(this, "Fahrtendatenbank.db");
         myDB3.createtripResultsTabelle2();
+
+        t1 = (TextView) findViewById(R.id.textView71);
+        scoreschnitt = myDB3.getDurchschnittScoreAllerFahrten();
+        scoreschnitt = (Math.round(10.0 * scoreschnitt) / 10.0);
+        t1.setText("Durchschnittsscore aller Fahrten: "+scoreschnitt);
+
 
         Cursor todoCursor = myDB3.getListContents();
         if (todoCursor.getCount() == 0) {
