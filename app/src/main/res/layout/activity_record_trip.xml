@@ -56,26 +56,8 @@
                     android:onClick="recordButton"
                     android:text="Aufzeichnung starten"
                     android:textAlignment="center"
-                    android:layout_weight="0.05"
+                    android:layout_weight="0.5"
                     android:layout_width="180dp" />
-
-                <ToggleButton
-                    android:id="@+id/toggleButton"
-                    android:layout_height="match_parent"
-                    android:text="ToggleButton"
-                    android:textOff="Detailansicht"
-                    android:textOn="Detailansicht"
-                    android:textSize="12sp"
-                    android:enabled="false"
-                    android:layout_width="120dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="1">
 
                 <ProgressBar
                     android:id="@+id/marker_progress"
@@ -86,38 +68,48 @@
                     android:layout_width="wrap_content"
                     android:elevation="13dp"
                     android:indeterminate="true"
-                    android:layout_weight="0.50" />
+                    android:layout_weight="0.05" />
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="77dp"
+                <ToggleButton
+                    android:id="@+id/toggleButton"
                     android:layout_height="match_parent"
-                    android:weightSum="1">
+                    android:text="ToggleButton"
+                    android:textOff="Details"
+                    android:textOn="Details"
+                    android:textSize="12sp"
+                    android:enabled="false"
+                    android:textAlignment="center"
+                    android:layout_weight=".30"
+                    android:layout_width="wrap_content" />
 
-                    <TextView
-                        android:text="GPS:"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView69"
-                        android:textAlignment="center"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:textStyle="normal|bold"
-                        android:layout_width="match_parent"
-                        android:paddingTop="5dp" />
+            </LinearLayout>
 
-                    <TextView
-                        android:text="-"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView70"
-                        android:textAlignment="center"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:textColor="@android:color/holo_red_dark" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_height="50dp">
 
-                </LinearLayout>
+                <TextView
+                    android:text="GPS-Genauigkeit:"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView69"
+                    android:textAlignment="textStart"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textStyle="normal|bold"
+                    android:paddingTop="5dp"
+                    android:layout_weight="0.14"
+                    android:layout_width="100dp"
+                    android:paddingLeft="5dp" />
 
-                <Space
-                    android:layout_width="166dp"
-                    android:layout_height="36dp" />
+                <TextView
+                    android:text="-"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView70"
+                    android:textAlignment="textStart"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:layout_width="60dp" />
 
             </LinearLayout>
 

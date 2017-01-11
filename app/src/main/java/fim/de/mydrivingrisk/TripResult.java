@@ -20,11 +20,11 @@ import java.text.DateFormat;
 
 public class TripResult extends AppCompatActivity {
 
-    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19;
+    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20;
     public DatabaseHelper myDB2;
     public RatingBar r1;
     public Button b1, b2, b3;
-    public String aktuelletabelle;
+    public String aktuelletabelle, eigenbewertung;
     public double aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz, averagespeed, maxspeed, selbstbewertung;
 
     public double gesamtscore;
@@ -39,7 +39,9 @@ public class TripResult extends AppCompatActivity {
     public String fahrtDauerString;
     public long fahrtBeginn, fahrtEnde;
 
-
+    public LinearLayout voteLayout;
+    public LinearLayout ergebnisLayout;
+    public LinearLayout buttonsUnten;
 
 
 
@@ -52,6 +54,14 @@ public class TripResult extends AppCompatActivity {
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         setContentView(R.layout.activity_trip_result);
+
+        voteLayout = (LinearLayout) findViewById(R.id.voteLayout);
+        ergebnisLayout = (LinearLayout) findViewById(R.id.ergebnisLayout);
+        buttonsUnten = (LinearLayout) findViewById(R.id.buttonsUnten);
+
+        voteLayout.setVisibility(View.VISIBLE);
+        ergebnisLayout.setVisibility(View.INVISIBLE);
+        buttonsUnten.setVisibility(View.VISIBLE);
 
         myDB2 = new DatabaseHelper(this, "Fahrtendatenbank.db");
 
@@ -108,9 +118,12 @@ public class TripResult extends AppCompatActivity {
 
         t19 = (TextView) findViewById(R.id.textView50);
 
-        Button b2 = (Button) findViewById(R.id.button9);
-        Button b3 = (Button) findViewById(R.id.button_save);
-        b2.setVisibility(View.INVISIBLE);
+        t20 = (TextView) findViewById(R.id.textView56);
+        b1 = (Button) findViewById(R.id.button8);
+        b2 = (Button) findViewById(R.id.button9);
+        b3 = (Button) findViewById(R.id.button_save);
+        b1.setVisibility(View.INVISIBLE);
+        b2.setVisibility(View.VISIBLE);
         b3.setVisibility(View.INVISIBLE);
 
         final RatingBar mBar = (RatingBar) findViewById(R.id.ratingBar);
@@ -118,26 +131,35 @@ public class TripResult extends AppCompatActivity {
 
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
 
+                b1.setVisibility(View.VISIBLE);
                 final float stars = mBar.getRating();
 
                 if (stars == 1) {
                     t19.setText("Sie bewerten Ihre Fahrt als sehr risikoreich.");
+                    eigenbewertung = "Sie bewerten Ihre Fahrt als sehr risikoreich.";
                 }
                 else if (stars == 2) {
                     t19.setText("Sie bewerten Ihre Fahrt als risikoreich.");
+                    eigenbewertung = "Sie bewerten Ihre Fahrt als risikoreich.";
                 }
                 else if (stars == 3) {
                     t19.setText("Sie bewerten Ihre Fahrt als neutral.");
+                    eigenbewertung = "Sie bewerten Ihre Fahrt als neutral.";
                 }
                 else if (stars == 4) {
                     t19.setText("Sie bewerten Ihre Fahrt als sicher.");
+                    eigenbewertung = "Sie bewerten Ihre Fahrt als sicher.";
                 }
                 else if (stars == 5) {
                     t19.setText("Sie bewerten Ihre Fahrt als sehr sicher.");
+                    eigenbewertung = "Sie bewerten Ihre Fahrt als sehr sicher.";
                 }
                 else {
                     t19.setText("\"???\"");
+                    eigenbewertung = "?.";
                 }
+
+
             }
         });
 
@@ -206,9 +228,14 @@ public class TripResult extends AppCompatActivity {
 
     //Fahrt berechnen Button
     public void calcButton(View view) {
+
+        voteLayout.setVisibility(View.INVISIBLE);
+        ergebnisLayout.setVisibility(View.VISIBLE);
+        buttonsUnten.setVisibility(View.VISIBLE);
+
         Button b2 = (Button) findViewById(R.id.button9);
         Button b3 = (Button) findViewById(R.id.button_save);
-        Button b1 = (Button) findViewById(R.id.button8);
+
         b2.setVisibility(View.VISIBLE);
         b3.setVisibility(View.VISIBLE);
         RatingBar r1 = (RatingBar) findViewById(R.id.ratingBar);
@@ -260,7 +287,7 @@ public class TripResult extends AppCompatActivity {
 
         aktuelleRisikoKlasse = getRisikoklasse(gesamtscore);
 
-        t8.setText(getString(R.string.selbstbewertung_2)+""+aktuelleRisikoKlasse+"!");
+        t20.setText("Ihre Fahrt gilt mit diesem Score als "+aktuelleRisikoKlasse+". "+eigenbewertung);
 
 
         t1.setText("Ihr Score beträgt: "+(Math.round(10.0*gesamtscore)/10.0));

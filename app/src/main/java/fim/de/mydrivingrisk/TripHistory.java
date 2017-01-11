@@ -19,8 +19,11 @@ import android.widget.Toast;
 public class TripHistory extends AppCompatActivity {
 
     public DatabaseHelper myDB3;
-    public TextView t1;
+    public TextView t1, t2, t3;
     public double scoreschnitt;
+    public int anzahlfahrten;
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -67,19 +70,24 @@ public class TripHistory extends AppCompatActivity {
         myDB3 = new DatabaseHelper(this, "Fahrtendatenbank.db");
         myDB3.createtripResultsTabelle2();
 
-        t1 = (TextView) findViewById(R.id.textView71);
+
+        t2 = (TextView) findViewById(R.id.textView81);
+        t3 = (TextView) findViewById(R.id.textView83);
+
         scoreschnitt = myDB3.getDurchschnittScoreAllerFahrten();
         scoreschnitt = (Math.round(10.0 * scoreschnitt) / 10.0);
-        t1.setText("Durchschnittsscore aller Fahrten: "+scoreschnitt);
+
 
 
         Cursor todoCursor = myDB3.getListContents();
         if (todoCursor.getCount() == 0) {
             Toast.makeText(this, "Keine aufgezeichneten Fahrten vorhanden!", Toast.LENGTH_SHORT).show();
+            anzahlfahrten = 0;
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
         } else {
-            Toast.makeText(this, "Anzahl aufgezeichneter Fahrten: " + todoCursor.getCount(), Toast.LENGTH_SHORT).show();
+            anzahlfahrten = todoCursor.getCount();
+            //Toast.makeText(this, "Anzahl aufgezeichneter Fahrten: " + todoCursor.getCount(), Toast.LENGTH_SHORT).show();
             // Find ListView to populate
             ListView lvItems = (ListView) findViewById(R.id.listview_3);
             // Setup cursor adapter using cursor from last step
@@ -87,6 +95,10 @@ public class TripHistory extends AppCompatActivity {
             // Attach cursor adapter to the ListView
             lvItems.setAdapter(todoAdapter);
         }
+
+        t2.setText(""+anzahlfahrten);
+        t3.setText(""+scoreschnitt);
+
     }
 
     public boolean deleteAllButton(MenuItem item) {

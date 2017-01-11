@@ -19,351 +19,376 @@
         android:src="@drawable/mountainroad1280" />
 
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/voteLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:background="@color/whiteTransparency"
+        android:visibility="visible">
 
         <LinearLayout
-            android:id="@+id/ll1"
+            android:id="@+id/textll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            android:weightSum="1">
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:text="@string/selbstbewertung"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
             <LinearLayout
-                android:id="@+id/textll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:weightSum="1">
 
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="match_parent"
-                    android:layout_height="103dp"
-                    android:text="@string/selbstbewertung"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    style="@android:style/Widget.DeviceDefault.Light.RatingBar"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
+                    android:fadeScrollbars="true"
+                    android:isIndicator="false"
+                    android:numStars="5"
+                    android:rating="1"
+                    android:stepSize="1" />
 
-                    <RatingBar
-                        android:id="@+id/ratingBar"
-                        style="@android:style/Widget.DeviceDefault.Light.RatingBar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fadeScrollbars="true"
-                        android:isIndicator="false"
-                        android:numStars="5"
-                        android:rating="1"
-                        android:stepSize="1" />
+                <Button
+                    android:id="@+id/button8"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:onClick="calcButton"
+                    android:text="OK"
+                    android:textAlignment="center" />
 
-                    <Button
-                        android:id="@+id/button8"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:onClick="calcButton"
-                        android:text="OK"
-                        android:textAlignment="center" />
-
-                </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView50"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.43"
-                        android:text="Sie bewerten Ihre Fahrt als sehr risikoreich."
-                        android:textAlignment="center"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_weight="0.43" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/colorPrimary">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView23"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Ihr Score beträgt: 123.4"
+                    android:id="@+id/textView50"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_weight="0.43"
+                    android:text="Sie bewerten Ihre Fahrt als sehr risikoreich."
                     android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:textSize="28dp"
-                    android:textStyle="normal|bold" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView59"
-                        android:layout_width="70dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        android:text="Fahrtdauer:"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:textStyle="normal|bold" />
-
-                    <TextView
-                        android:id="@+id/textView60"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="-"
-                        android:textAlignment="viewEnd"
-                        android:textColor="@android:color/holo_red_dark" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView49"
-                        android:layout_width="70dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        android:text="Ø-Geschwindigkeit:"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:textStyle="normal|bold" />
-
-                    <TextView
-                        android:id="@+id/textView24"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="-"
-                        android:textAlignment="viewEnd"
-                        android:textColor="@android:color/holo_red_dark" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView62"
-                        android:layout_width="70dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        android:text="Höchstgeschwindigkeit:"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:textStyle="normal|bold" />
-
-                    <TextView
-                        android:id="@+id/textView61"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="-"
-                        android:textAlignment="viewEnd"
-                        android:textColor="@android:color/holo_red_dark" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView55"
-                        android:layout_width="70dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        android:text="Geschwindigkeitsrisiko:"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:textStyle="normal|bold" />
-
-                    <TextView
-                        android:id="@+id/textView35"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="-"
-                        android:textAlignment="viewEnd"
-                        android:textColor="@android:color/holo_red_dark" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView53"
-                        android:layout_width="70dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        android:text="Kurvenfahrtrisiko:"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:textStyle="normal|bold" />
-
-                    <TextView
-                        android:id="@+id/textView27"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="-"
-                        android:textAlignment="viewEnd"
-                        android:textColor="@android:color/holo_red_dark" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView52"
-                        android:layout_width="70dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        android:text="Bremsrisiko:"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:textStyle="normal|bold" />
-
-                    <TextView
-                        android:id="@+id/textView26"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="-"
-                        android:textAlignment="viewEnd"
-                        android:textColor="@android:color/holo_red_dark" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView51"
-                        android:layout_width="70dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        android:text="Beschleunigungsrisiko:"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:textStyle="normal|bold" />
-
-                    <TextView
-                        android:id="@+id/textView25"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="-"
-                        android:textAlignment="viewEnd"
-                        android:textColor="@android:color/holo_red_dark" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView54"
-                        android:layout_width="70dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        android:text="Uhrzeitsrisiko:"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:textStyle="normal|bold" />
-
-                    <TextView
-                        android:id="@+id/textView28"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="-"
-                        android:textAlignment="viewEnd"
-                        android:textColor="@android:color/holo_red_dark" />
-
-                </LinearLayout>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="15dp"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="bottom|center_vertical"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <Button
-                            android:id="@+id/button9"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|center_horizontal"
-                            android:layout_weight="1"
-                            android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
-                            android:gravity="bottom|center_horizontal"
-                            android:onClick="mainMenuButton"
-                            android:text="Zurück zum Hauptmenü"
-                            android:textAlignment="textStart" />
-
-                        <Button
-                            android:id="@+id/button_save"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|center_horizontal"
-                            android:drawableLeft="@android:drawable/ic_menu_save"
-                            android:onClick="saveButton"
-                            android:text="Fahrt speichern"
-                            android:textAlignment="textStart" />
-
-                    </LinearLayout>
-                </LinearLayout>
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical" />
 
             </LinearLayout>
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="30dp"
+        android:id="@+id/ergebnisLayout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="match_parent"
+            android:text="Ihr Score beträgt: 123.4"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="28dp"
+            android:textStyle="normal|bold"
+            android:layout_height="50dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginLeft="5dp">
+
+            <TextView
+                android:id="@+id/textView59"
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:text="Fahrtdauer:"
+                android:textColor="@android:color/holo_red_dark"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/textView60"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_marginRight="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginLeft="5dp">
+
+            <TextView
+                android:id="@+id/textView49"
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:text="Ø-Geschwindigkeit:"
+                android:textColor="@android:color/holo_red_dark"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_marginRight="5dp" />
 
         </LinearLayout>
-    </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginLeft="5dp">
+
+            <TextView
+                android:id="@+id/textView62"
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:text="Höchstgeschwindigkeit:"
+                android:textColor="@android:color/holo_red_dark"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/textView61"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_marginRight="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView55"
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:text="Geschwindigkeitsrisiko:"
+                android:textColor="@android:color/holo_red_dark"
+                android:textStyle="normal|bold"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:id="@+id/textView35"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_marginRight="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView53"
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:text="Kurvenfahrtrisiko:"
+                android:textColor="@android:color/holo_red_dark"
+                android:textStyle="normal|bold"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_marginRight="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView52"
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:text="Bremsrisiko:"
+                android:textColor="@android:color/holo_red_dark"
+                android:textStyle="normal|bold"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_marginRight="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView51"
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:text="Beschleunigungsrisiko:"
+                android:textColor="@android:color/holo_red_dark"
+                android:textStyle="normal|bold"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_marginRight="5dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView54"
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:text="Uhrzeitsrisiko:"
+                android:textColor="@android:color/holo_red_dark"
+                android:textStyle="normal|bold"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="-"
+                android:textAlignment="viewEnd"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_marginRight="5dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:text="Ihre Fahrt gilt mit diesem Score als risikoreich. Sie bewerteten ihre Fahrt als neutral."
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:id="@+id/textView56"
+            android:textAlignment="center"
+            android:textStyle="normal|bold"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="@android:color/background_dark" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/buttonsUnten"
+        android:paddingBottom="5dp">
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="0dp"
+            android:layout_weight=".50"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
+            android:gravity="bottom|center_horizontal"
+            android:onClick="mainMenuButton"
+            android:text="Zurück zum Hauptmenü"
+            android:textAlignment="textStart" />
+
+        <Button
+            android:id="@+id/button_save"
+
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:drawableLeft="@android:drawable/ic_menu_save"
+            android:onClick="saveButton"
+            android:text="Fahrt speichern"
+            android:layout_width="0dp"
+            android:layout_weight=".50"
+            android:textAlignment="textStart" />
+
+    </LinearLayout>
 
 </RelativeLayout>

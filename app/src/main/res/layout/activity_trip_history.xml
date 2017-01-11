@@ -28,17 +28,80 @@
             android:layout_height="match_parent"
             android:weightSum="1">
 
-            <TextView
-                android:text="Durchschnittsscore aller Fahrten:"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:id="@+id/textView71"
-                android:textSize="16sp"
-                android:textStyle="normal|bold"
-                android:textAlignment="textStart"
-                android:textColor="@android:color/holo_red_dark"
-                android:gravity="fill_vertical"
-                android:layout_marginLeft="5dp" />
+                android:layout_height="87dp"
+                android:paddingRight="10dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:background="@android:drawable/editbox_background"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:layout_width="0dp">
+
+                    <TextView
+                        android:text="Anzahl Fahrten"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView80"
+                        android:textAlignment="center"
+                        android:textStyle="normal|bold"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/holo_red_dark" />
+
+                    <TextView
+                        android:text="-"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/textView81"
+                        android:textAlignment="center"
+                        android:textSize="28dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:textColor="?android:attr/textColorTertiary" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                android:orientation="vertical"
+                android:background="@android:drawable/editbox_background"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_width="0dp"
+                    android:layout_weight=".5"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="DURCHSCHNITT"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView82"
+                    android:textAlignment="center"
+                    android:textStyle="normal|bold"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/holo_red_dark" />
+
+                    <TextView
+                        android:text="-"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/textView83"
+                        android:textAlignment="center"
+                        android:textSize="28dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:textColor="?android:attr/textColorTertiary" />
+
+                </LinearLayout>
+            </LinearLayout>
 
             <ListView
 
