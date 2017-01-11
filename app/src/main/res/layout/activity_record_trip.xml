@@ -342,8 +342,7 @@
             android:id="@+id/scroll1"
             android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:background="@color/whiteTransparency">
+            android:layout_marginLeft="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -354,7 +353,7 @@
                 android:orientation="vertical"
                 android:paddingTop="5dp"
                 android:weightSum="1"
-                android:background="@color/colorAccent"
+                android:background="@color/whiteTransparency"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp">
 
