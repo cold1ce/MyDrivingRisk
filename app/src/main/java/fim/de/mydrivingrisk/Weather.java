@@ -42,7 +42,7 @@ public class Weather {
             try {
                 jsonWeather = getWeatherJSON(params[0], params[1]);
             } catch (Exception e) {
-                Log.d("Error", "Cannot process JSON results", e);
+                Log.d("Error", "JSON-Ergebnisse können nicht verarbeitet werden", e);
             }
 
 
@@ -65,7 +65,7 @@ public class Weather {
 
                 }
             } catch (JSONException e) {
-                //  Log.e(LOG_TAG, "Cannot process JSON results", e);
+                //  Log.e(LOG_TAG, "JSON-Ergebnisse können nicht verarbeitet werden", e);
             }
         }
     }

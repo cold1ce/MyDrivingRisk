@@ -5,12 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.icu.util.ULocale;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
@@ -47,7 +44,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //  Sobald ein DataBaseHelper gestartet wird, wird automatisch eine Tabelle für die Ergebnisse der Fahrten angelegt.
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //db.execSQL("create table tripResultsTabelle2 (ID INTEGER PRIMARY KEY AUTOINCREMENT, Beginn TEXT, Ende TEXT, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
     }
 
     @Override
@@ -56,8 +52,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     //  Fahrtdaten einfügen, sammelt alle Daten die in die Tabelle sollen und fügt sie ein.
-    public boolean insertFahrtDaten(long meineZeit, long rechenZeit, String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, double maxbeschleunigung, String wetter, String wetterkategorie, long sonnenaufgang, long sonnenuntergang, double tempolimit/*, double zeit*/, String strasse, String strassentyp) {
-        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+    public boolean insertFahrtDaten(long meineZeit, long rechenZeit, String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, double maxbeschleunigung, String wetter, String wetterkategorie, long sonnenaufgang, long sonnenuntergang, double tempolimit, String strasse, String strassentyp) {
+        SQLiteDatabase db = this.getWritableDatabase();     //  Überprüfen?
 
         ContentValues contentValues = new ContentValues();
 
@@ -76,7 +72,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("Tempolimit", tempolimit);
         contentValues.put("AktuelleStrasse", strasse);
         contentValues.put("AktuellerStrassentyp", strassentyp);
-        //  contentValues.put("Zeit", zeit);
         long result = db.insert(aktuelletabelle, null, contentValues);
 
         if (result == -1)
@@ -85,53 +80,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    /*
-        public Cursor getAllData() {
-        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
-        Cursor res = db.rawQuery("select * from "+TABLE_NAME, null);
-        return res;
-        }
-    */
+
     public void createtripResultsTabelle2() {
-        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        SQLiteDatabase db = this.getWritableDatabase();     //  Überprüfen?
         db.execSQL("CREATE TABLE IF NOT EXISTS TripResultsTabelle2 (_id INTEGER PRIMARY KEY AUTOINCREMENT, Beginn DATETIME, Ende DATETIME, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
     }
 
     public void deleteFahrtentabelle(String aktuelletabelle) {
-        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        SQLiteDatabase db = this.getWritableDatabase();     //  Überprüfen?
         db.execSQL("DROP TABLE IF EXISTS " + aktuelletabelle);
     }
 
     public void deleteTripResult(int id) {
-        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        SQLiteDatabase db = this.getWritableDatabase();     //  Überprüfen?
         db.execSQL("DELETE FROM TripResultsTabelle2 WHERE _id = " + id);
     }
 
     public void deleteAllTripResults() {
-        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        SQLiteDatabase db = this.getWritableDatabase();     //  Überprüfen?
         db.execSQL("DELETE FROM TripResultsTabelle2");
     }
 
     public void deleteStartwerte(String aktuelletabelle) {
-        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        SQLiteDatabase db = this.getWritableDatabase();     //  Überprüfen?
         db.execSQL("DELETE FROM " + aktuelletabelle + " WHERE id in (SELECT id FROM " + aktuelletabelle + " LIMIT 2 OFFSET 0)");
     }
 
     public String getFahrtdauerAsString(long fahrtBeginn, long fahrtEnde) {
-        DateFormat df = DateFormat.getDateTimeInstance();
-
-        //long tripStart = tripStartDate; //muss von Date gecastet werden
-        //long tripEnde = tripEndeDate; //muss von Date gecastet werden
-        String fahrtDauer = "-";
 
         Date startDate = new Date(fahrtBeginn);
         Date endDate = new Date(fahrtEnde);
-
-        //long duration  = endDate.getTime() - startDate.getTime();
-
-        // long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
-        // long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-        // long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
 
         String diff = "";
         long timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
@@ -144,21 +122,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     TimeUnit.MILLISECONDS.toMinutes(timeDiff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeDiff)));
         }
 
-
-        // fahrtDauer = (diffInHours+"h "+diffInMinutes+"min "+diffInSeconds+"sec ");
         return diff;
     }
 
     public boolean addTripResult(long tripStartDate, long tripEndeDate, String tripName, double score, String fahrtDauer, double selbstBewertung) {
 
-        SQLiteDatabase db = this.getWritableDatabase(); // Überprüfen?
+        SQLiteDatabase db = this.getWritableDatabase();     //  Überprüfen?
         createtripResultsTabelle2();
         ContentValues contentValues = new ContentValues();
 
         DateFormat df = DateFormat.getDateTimeInstance();
 
-        long tripStart = tripStartDate; //muss von Date gecastet werden
-        long tripEnde = tripEndeDate; //muss von Date gecastet werden
+        long tripStart = tripStartDate;     //  muss von Date gecastet werden
+        long tripEnde = tripEndeDate;       //  muss von Date gecastet werden
 
 
         contentValues.put("Beginn", tripStart);
@@ -195,24 +171,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT Geschwindigkeit FROM " + aktuelletabelle + " ORDER BY ID DESC LIMIT 1", null); //Letzte Geschwindigkeit auslesen
 
         double letzte = 0.0;
-        //  double vorletzte = 0.0;
         double beschleunigung = 0.0;
-        //System.out.println("rechenzeit bei berechnebeschl:"+rechenZeit);
         double zeitPeriode = rechenZeit / 1000.0;
 
         //  Zuvor abgefragte letzte Geschwindigkeit in Variable speichern
         cursor.moveToLast();
         letzte = cursor.getDouble(0);
 
-        //  Vorletzte Geschwindigkeit schreiben
-        //  cursor2.moveToLast();
-        //  vorletzte = cursor2.getDouble(0);
 
         //  Berechnen der Beschleunigung (Geteilt durch 1 für eine Sekunde, sollte man evtl. noch nachbessern da manchmal zwischen zwei
         //  Spalten 2 Sekunden abstand generiert werden(Verzögerung durch Rechendauer) Edit: durch zeitPeriode versucht zu beheben
         beschleunigung = ((aktuellegeschwindigkeit - letzte) / zeitPeriode) / 3.6;
-        //System.out.println("BERECHNUNG BESCHLEUNIGUNG: (("+aktuellegeschwindigkeit+" - "+letzte+") / "+zeitPeriode+") / "+3.6+")");
-        //System.out.println("BESCHLEUNIGUNG: "+beschleunigung);
         cursor.close();
         return beschleunigung;
 
@@ -223,7 +192,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //  Tabelle für eine Fahrt in der Fahrtendatenbank.db erstellen
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("CREATE TABLE " + timestring + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, sqltime TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Zeit INTEGER, Rechenzeit REAL, Breitengrad REAL, Laengengrad REAL, Geschwindigkeit REAL, Beschleunigung REAL, LateraleBeschleunigung REAL, MaxBeschleunigung REAL, Wetter TEXT, Wetterkategorie TEXT, Sonnenaufgang INTEGER, Sonnenuntergang INTEGER, Tempolimit REAL, AktuelleStrasse TEXT, AktuellerStrassentyp TEXT)");
-
 
     }
 
@@ -245,7 +213,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return ret;
     }
 
-    //Eigentlich gleiche Funktion wie getFahrtEnde :-D
+    //  Eigentlich gleiche Funktion wie getFahrtEnde
     public long getLetzteZeit(String aktuelletab) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT Zeit FROM " + aktuelletab + " ORDER BY ID DESC LIMIT 1", null);
@@ -261,7 +229,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //  Durchschnitt der Geschwindigkeiten auslesen
         Cursor cursor = db.rawQuery("SELECT AVG(Geschwindigkeit) FROM " + aktuelletabelle + "", null);
 
-
         double avg = -1.0;
 
         //  in Variable speichern
@@ -276,7 +243,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         //  Durchschnitt der Geschwindigkeiten auslesen
-
         Cursor cursor = db.rawQuery("SELECT MAX(Geschwindigkeit) FROM " + aktuelletabelle + "", null);
 
         double max = -1.0;
@@ -346,7 +312,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         double n = 0;
         double s = 0;
-        //long currentTime = new Date().getTime();
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -361,9 +326,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             sunrise = cursor1.getLong(0);
             sunset = cursor2.getLong(0);
             currentTime = cursor3.getLong(0);
-            //Wenn Zeit nach Sonnenuntergang des Vortages UND vor Sonnenaufgang des aktuellen Tages(Aktuell z.B. 0-8 Uhr)
-            //ODER
-            //Wenn Zeit nach Sonnenuntergang des aktuellen Tages UND vor Sonnenaufgang des nächsten Tages (Aktuell z.B. 16-0 Uhr)
+
+            //  Wenn Zeit nach Sonnenuntergang des Vortages UND vor Sonnenaufgang des aktuellen Tages(Aktuell z.B. 0-8 Uhr)
+            //  ODER
+            //  Wenn Zeit nach Sonnenuntergang des aktuellen Tages UND vor Sonnenaufgang des nächsten Tages (Aktuell z.B. 16-0 Uhr)
             if (sunrise != 0 || sunset != 0) {
                 n = n + 1;
                 if (((currentTime > sunset - 86400000) && (currentTime <= sunrise)) ||

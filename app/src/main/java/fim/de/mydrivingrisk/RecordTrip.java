@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -25,13 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import android.widget.CompoundButton.OnCheckedChangeListener;
-
 import org.json.JSONException;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 
 
 public class RecordTrip extends AppCompatActivity {
@@ -56,24 +53,26 @@ public class RecordTrip extends AppCompatActivity {
     public ProgressBar p1;
     public String wetter, wetterkategorie, aktuellestrasse, aktuellerstrassentyp;
     public double aktuellestempolimit;
-    public long sonnenaufgang, sonnenuntergang, aktuellezeit, aktuelleRechenzeit, fahrtbeginn, fahrtende;
+    public long sonnenaufgang, sonnenuntergang, aktuellezeit, aktuelleRechenzeit, fahrtbeginn;
     public ToggleButton toggle1;
 
     public ScrollView sc1;
     public RelativeLayout e1;
 
-    // "altezeit" dient als Referenz zur aktuellenzeit, um OSM Abfragen alle x Minuten auszuführen
+    //  "altezeit" dient als Referenz zur aktuellenzeit, um OSM Abfragen alle x Minuten auszuführen
     public long altezeitOSM = (new Date().getTime()) - 1;
-    // "altezeit" dient als Referenz zur aktuellenzeit, um Wetterabfragen alle x Minuten auszuführen
+    //  "altezeit" dient als Referenz zur aktuellenzeit, um Wetterabfragen alle x Minuten auszuführen
     public long altezeit = (new Date().getTime()) - 1;
 
-    //Kann man evtl. löschen?
+
     public RecordTrip() throws JSONException {
     }
 
-    @Override //Falls in der ActionBar der Zurück-Pfeil angeklickt wird,
-    //ausführen des cancelRecordDialogs. Dieser überprüft ob eine Aufnahme
-    //läuft und warnt davor eine Aufnahme ohne Speichern zu beenden.
+    /*
+    Falls in der ActionBar der Zurück-Pfeil angeklickt wird,
+    ausführen des cancelRecordDialogs. Dieser überprüft ob eine Aufnahme
+    läuft und warnt davor eine Aufnahme ohne Speichern zu beenden. */
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -83,20 +82,20 @@ public class RecordTrip extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override //Falls er Zurück-Knopf  angeklickt wird,
-    //ausführen des cancelRecordDialogs. Dieser überprüft ob eine Aufnahme
-    //läuft und warnt davor eine Aufnahme ohne Speichern zu beenden.
+    /*
+    Falls er Zurück-Knopf  angeklickt wird,
+    ausführen des cancelRecordDialogs. Dieser überprüft ob eine Aufnahme
+    läuft und warnt davor eine Aufnahme ohne Speichern zu beenden.  */
+    @Override
     public void onBackPressed() {
         cancelRecordDialog();
     }
 
-    //Überprüft ob eine Aufnahme läuft und warnt davor eine Aufnahme ohne Speichern zu beenden.
+    //  Überprüft ob eine Aufnahme läuft und warnt davor eine Aufnahme ohne Speichern zu beenden.
     public void cancelRecordDialog() {
         try {
             locationManager1.removeUpdates(locationListener1);
-        }
-        catch(SecurityException e){
+        } catch (SecurityException e) {
             System.out.println("LocatiionListener konnte nicht beendet werden!");
         }
 
@@ -111,8 +110,7 @@ public class RecordTrip extends AppCompatActivity {
                             aufnahmelaeuft = false;
                             try {
                                 locationManager1.removeUpdates(locationListener1);
-                            }
-                            catch(SecurityException e){
+                            } catch (SecurityException e) {
                                 System.out.println("LocatiionListener konnte nicht beendet werden!");
                             }
 
@@ -130,8 +128,7 @@ public class RecordTrip extends AppCompatActivity {
         } else {
             try {
                 locationManager1.removeUpdates(locationListener1);
-            }
-            catch(SecurityException e){
+            } catch (SecurityException e) {
                 System.out.println("LocatiionListener konnte nicht beendet werden!");
             }
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
@@ -144,10 +141,9 @@ public class RecordTrip extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_trip);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         this.setTitle("Fahrt aufzeichnen");
-
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -210,58 +206,13 @@ public class RecordTrip extends AppCompatActivity {
         t60 = (TextView) findViewById(R.id.textView69);
         t61 = (TextView) findViewById(R.id.textView70);
 
-        /*
-        t2.setVisibility(View.INVISIBLE);
-        t1.setVisibility(View.INVISIBLE);
-        t9.setVisibility(View.INVISIBLE);
-        t10.setVisibility(View.INVISIBLE);
-        t12.setVisibility(View.INVISIBLE);
-        t13.setVisibility(View.INVISIBLE);
-        t20.setVisibility(View.INVISIBLE);
-        t19.setVisibility(View.INVISIBLE);
-        t6.setVisibility(View.INVISIBLE);
-        t16.setVisibility(View.INVISIBLE);
-        t5.setVisibility(View.INVISIBLE);
-        t17.setVisibility(View.INVISIBLE);
-
-        t21.setVisibility(View.INVISIBLE);
-        t22.setVisibility(View.INVISIBLE);
-        t23.setVisibility(View.INVISIBLE);
-        t24.setVisibility(View.INVISIBLE);
-        t25.setVisibility(View.INVISIBLE);
-        t26.setVisibility(View.INVISIBLE);
-        t27.setVisibility(View.INVISIBLE);
-        t28.setVisibility(View.INVISIBLE);
-        t29.setVisibility(View.INVISIBLE);
-        t15.setVisibility(View.INVISIBLE);
-        t31.setVisibility(View.INVISIBLE);
-        t32.setVisibility(View.INVISIBLE);
-        */
         t33.setVisibility(View.VISIBLE);
         t3.setVisibility(View.VISIBLE);
-        /*
-        t34.setVisibility(View.INVISIBLE);
-        t35.setVisibility(View.INVISIBLE);
-        t36.setVisibility(View.INVISIBLE);
-        t37.setVisibility(View.INVISIBLE);
-        t38.setVisibility(View.INVISIBLE);
-        t39.setVisibility(View.INVISIBLE);
 
-
-
-        t41.setVisibility(View.INVISIBLE);
-        t42.setVisibility(View.INVISIBLE);
-        t43.setVisibility(View.INVISIBLE);
-        t44.setVisibility(View.INVISIBLE);
-        t45.setVisibility(View.INVISIBLE);
-        t46.setVisibility(View.INVISIBLE);
-        */
         p1 = (ProgressBar) findViewById(R.id.marker_progress);
         toggle1 = (ToggleButton) findViewById(R.id.toggleButton);
 
         toggle1.setVisibility(View.INVISIBLE);
-
-
 
         sc1 = (ScrollView) findViewById(R.id.scroll1);
         e1 = (RelativeLayout) findViewById(R.id.easylay);
@@ -274,72 +225,18 @@ public class RecordTrip extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(toggle1.isChecked()){
+                if (toggle1.isChecked()) {
                     sc1.setVisibility(View.VISIBLE);
                     e1.setVisibility(View.INVISIBLE);
-/*
-                    t2.setVisibility(View.VISIBLE);
-                    t1.setVisibility(View.VISIBLE);
-                    t9.setVisibility(View.VISIBLE);
-                    t10.setVisibility(View.VISIBLE);
-                    t12.setVisibility(View.VISIBLE);
-                    t13.setVisibility(View.VISIBLE);
-                    t20.setVisibility(View.VISIBLE);
-                    t19.setVisibility(View.VISIBLE);
-                    t6.setVisibility(View.VISIBLE);
-                    t16.setVisibility(View.VISIBLE);
-                    t5.setVisibility(View.VISIBLE);
-                    t17.setVisibility(View.VISIBLE);
 
-                    t21.setVisibility(View.VISIBLE);
-                    t22.setVisibility(View.VISIBLE);
-                    t23.setVisibility(View.VISIBLE);
-                    t24.setVisibility(View.VISIBLE);
-                    t25.setVisibility(View.VISIBLE);
-                    t26.setVisibility(View.VISIBLE);
-                    t27.setVisibility(View.VISIBLE);
-                    t28.setVisibility(View.VISIBLE);
-                    t29.setVisibility(View.VISIBLE);
-                    t15.setVisibility(View.VISIBLE);
-                    t31.setVisibility(View.VISIBLE);
-                    t32.setVisibility(View.VISIBLE);
-*/
 
-                }else{
+                } else {
                     sc1.setVisibility(View.INVISIBLE);
                     e1.setVisibility(View.VISIBLE);
-/*
-                    t2.setVisibility(View.INVISIBLE);
-                    t1.setVisibility(View.INVISIBLE);
-                    t9.setVisibility(View.INVISIBLE);
-                    t10.setVisibility(View.INVISIBLE);
-                    t12.setVisibility(View.INVISIBLE);
-                    t13.setVisibility(View.INVISIBLE);
-                    t20.setVisibility(View.INVISIBLE);
-                    t19.setVisibility(View.INVISIBLE);
-                    t6.setVisibility(View.INVISIBLE);
-                    t16.setVisibility(View.INVISIBLE);
-                    t5.setVisibility(View.INVISIBLE);
-                    t17.setVisibility(View.INVISIBLE);
-
-                    t21.setVisibility(View.INVISIBLE);
-                    t22.setVisibility(View.INVISIBLE);
-                    t23.setVisibility(View.INVISIBLE);
-                    t24.setVisibility(View.INVISIBLE);
-                    t25.setVisibility(View.INVISIBLE);
-                    t26.setVisibility(View.INVISIBLE);
-                    t27.setVisibility(View.INVISIBLE);
-                    t28.setVisibility(View.INVISIBLE);
-                    t29.setVisibility(View.INVISIBLE);
-                    t15.setVisibility(View.INVISIBLE);
-                    t31.setVisibility(View.INVISIBLE);
-                    t32.setVisibility(View.INVISIBLE);
-*/
 
                 }
             }
         });
-
 
 
         if (aktuellegenauigkeit > 10.0 || aktuellegenauigkeit <= 0.0) {
@@ -377,8 +274,7 @@ public class RecordTrip extends AppCompatActivity {
                         p1.setVisibility(View.INVISIBLE);
                         b1.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_edit, 0, 0, 0);
                     }
-                }
-                else {
+                } else {
                     if (aufnahmelaeuft == false) {
                         Button b1 = (Button) findViewById(R.id.button6);
                         b1.setEnabled(false);
@@ -392,10 +288,9 @@ public class RecordTrip extends AppCompatActivity {
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
-                if (aktuellegenauigkeit != 0.0 || aktuellegenauigkeit >=30.0) {
+                if (aktuellegenauigkeit != 0.0 || aktuellegenauigkeit >= 30.0) {
                     Toast.makeText(RecordTrip.this, "GPS-Signal gefunden!", Toast.LENGTH_SHORT).show();
-                }
-                else if (aktuellegenauigkeit == 0.0 || aktuellegenauigkeit <=30.0) {
+                } else if (aktuellegenauigkeit == 0.0 || aktuellegenauigkeit <= 30.0) {
                     Toast.makeText(RecordTrip.this, "GPS-Signal verloren!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -410,18 +305,15 @@ public class RecordTrip extends AppCompatActivity {
                 if (aufnahmelaeuft == true) {
                     Toast.makeText(RecordTrip.this, "Sie haben Ihre Standortfunktion deaktiviert, Aufnahme wurde beendet!", Toast.LENGTH_LONG).show();
                     aufnahmelaeuft = false;
-                    //  stopRecord();
                     Button b1 = (Button) findViewById(R.id.button6);
                     b1.setText("Aufzeichnung starten");
                     b1.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_edit, 0, 0, 0);
                     toTripResult();
-                }
-                else {
+                } else {
                     Toast.makeText(RecordTrip.this, "Bitte erlauben Sie der App Zugriff auf den aktuellen Standort!", Toast.LENGTH_LONG).show();
                     try {
                         locationManager1.removeUpdates(locationListener1);
-                    }
-                    catch(SecurityException e){
+                    } catch (SecurityException e) {
                         System.out.println("LocatiionListener konnte nicht beendet werden!");
                     }
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
@@ -431,14 +323,13 @@ public class RecordTrip extends AppCompatActivity {
 
         };
 
-        //Überprüfen ob Zugriff auf Standort erlaubt ist und ob GPS eingeschaltet ist, wenn nicht jeweils entsprechend abfangen und zurück ins Hauptmenü
+        //  Überprüfen ob Zugriff auf Standort erlaubt ist und ob GPS eingeschaltet ist, wenn nicht jeweils entsprechend abfangen und zurück ins Hauptmenü
         if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) || (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             Toast.makeText(RecordTrip.this, "Bitte erlauben Sie der App Zugriff auf den aktuellen Standort!", Toast.LENGTH_LONG).show();
             locationManager1.removeUpdates(locationListener1);
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
         } else if (!locationManager1.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            //final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
             Toast.makeText(RecordTrip.this, "Bitte aktivieren sie die Standort-Funktion auf Ihrem Gerät!", Toast.LENGTH_LONG).show();
             locationManager1.removeUpdates(locationListener1);
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
@@ -447,7 +338,7 @@ public class RecordTrip extends AppCompatActivity {
             locationManager1.requestLocationUpdates("gps", 1000, 0, locationListener1);
         }
 
-        //Sicherheitshinweis vor der Fahrt einblenden
+        //  Sicherheitshinweis vor der Fahrt einblenden
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         String s = "<b>Bolded text</b>, <i>italic text</i>, even <u>underlined</u>!";
         builder.setMessage(R.string.caution_message)
@@ -462,17 +353,11 @@ public class RecordTrip extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
     //  Fahrt aufzeichnen Button
     public void recordButton(View view) {
         Button b1 = (Button) findViewById(R.id.button6);
         //  Überprüfen ob der Button gerade zum Starten oder zum Stoppen der Aufzeichnung gerade zuständig ist
-        // Wenn keine Aufnahme läuft, versuchen eine Aufnahme zu starten
+        //  Wenn keine Aufnahme läuft, versuchen eine Aufnahme zu starten
         if (aufnahmelaeuft == false) {
             //  Überprüfen ob GPS Signal einigermaßen genau ist (+/-10m)
             //  Wenn ja: Beginn der Aufzeichnung einer neuen Fahrt
@@ -489,17 +374,14 @@ public class RecordTrip extends AppCompatActivity {
                 addNewTrip();
                 Toast.makeText(RecordTrip.this, "Neue Fahrt wird aufgezeichnet!", Toast.LENGTH_SHORT).show();
                 b1.setText("Aufzeichnung beenden");
-                //b1.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_media_rew, 0, 0, 0);
                 b1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_media_stop, 0, 0, 0);
             } else {
                 Toast.makeText(RecordTrip.this, "GPS zu ungenau, bitte etwas warten und erneut versuchen!", Toast.LENGTH_SHORT).show();
-                //t3.setText("Genauigkeit: ±" + aktuellegenauigkeit + " m (Beim letzten Versuch)");
             }
-        // Wenn eine Aufnahme läuft, diese beenden und auf die Ergebnisseite weiterleiten.
-        // Zudem den Aufnahme Button wieder zurücksetzen
+            //  Wenn eine Aufnahme läuft, diese beenden und auf die Ergebnisseite weiterleiten.
+            //  Zudem den Aufnahme Button wieder zurücksetzen
         } else if (aufnahmelaeuft == true) {
             aufnahmelaeuft = false;
-            //  stopRecord();
             Toast.makeText(RecordTrip.this, "Aufnahme beendet!", Toast.LENGTH_SHORT).show();
             b1.setText("Aufzeichnung starten");
             b1.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_edit, 0, 0, 0);
@@ -520,17 +402,14 @@ public class RecordTrip extends AppCompatActivity {
         //  Tabelle erstellen in der Fahrtendatenbank.db, mit der Aktuellen Zeit als Tabellenname
         myDB.createFahrtenTabelle(aktuelletabelle);
 
-
         DateFormat df = DateFormat.getDateTimeInstance();
         aktuellezeit = new Date().getTime();
 
         //  "Leere" Startwerte einfügen um einen Crash zu verhindern
-        //myDB.insertFahrtDaten(aktuellezeit, 0, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0, "startwert", "startwert");
-        //myDB.insertFahrtDaten(aktuellezeit, 0, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0, "startwert", "startwert");
         myDB.insertFahrtDaten(aktuellezeit, 0, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0, "startwert", "startwert");
         myDB.insertFahrtDaten(aktuellezeit, 0, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, 0.0, 0.0, 0.0, 0.0, wetter, wetterkategorie, 0, 0, 0.0, "startwert", "startwert");
 
-        //Drehender Kreis sichtbar machen um "Aufnahme" zu signalisieren
+        //  Drehender Kreis sichtbar machen um "Aufnahme" zu signalisieren
         p1.setVisibility(View.VISIBLE);
 
         t33.setVisibility(View.VISIBLE);
@@ -548,9 +427,8 @@ public class RecordTrip extends AppCompatActivity {
         t45.setVisibility(View.VISIBLE);
         t46.setVisibility(View.VISIBLE);
         toggle1 = (ToggleButton) findViewById(R.id.toggleButton);
-        //toggle1.setVisibility(View.VISIBLE);
 
-        //Voerst mal dafür sorgen dass das Display nicht ausgeht
+        //  Voerst mal dafür sorgen dass das Display nicht ausgeht
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         //  Aufnahmeschleife starten
@@ -568,26 +446,25 @@ public class RecordTrip extends AppCompatActivity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            if (aktuellegenauigkeit <=10.0) {
-                //Abrufen der aktuellen Uhrzeit für weitere Berechnungen
+            if (aktuellegenauigkeit <= 10.0) {
+                //  Abrufen der aktuellen Uhrzeit für weitere Berechnungen
                 DateFormat df = DateFormat.getDateTimeInstance();
                 aktuellezeit = new Date().getTime();
 
-                //Rechenzeit berechnen, da die Eintragung nicht genau alle 1000ms stattfindet und somit
-                //für das Berechnen eines genauen Scores die genaue Zeit zwischen zwei Messpunkten benötigt wird
+                //  Rechenzeit berechnen, da die Eintragung nicht genau alle 1000ms stattfindet und somit
+                //  für das Berechnen eines genauen Scores die genaue Zeit zwischen zwei Messpunkten benötigt wird
                 Date aktuelleZeitDate = new Date(aktuellezeit);
                 Date letzteZeitDate = new Date(myDB.getLetzteZeit(aktuelletabelle));
                 aktuelleRechenzeit = Math.abs(aktuelleZeitDate.getTime() - letzteZeitDate.getTime());
 
-                //Anzeigen und Ausrechnen der nun sekündlich ermittelten Werte
+                //  Anzeigen und Ausrechnen der nun sekündlich ermittelten Werte
                 t17.setText("" + aktuelleRechenzeit + "ms");
                 t16.setText("" + df.format(new Date(aktuellezeit)));
                 t2.setText("" + aktuellerbreitengrad);
                 t1.setText("" + aktuellerlaengengrad);
-                //t3.setText("±" + Math.round(aktuellegenauigkeit) + " m"); Wird jetzt im Location Listener aktualisiert
                 aktuellerspeedkmh = aktuellerspeed * 3.6;
-                t4.setText("" + (/*Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (*/Math.round(aktuellerspeedkmh)) + " km/h");
-                t53.setText("" + (/*Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (*/Math.round(aktuellerspeedkmh)) + " km/h");
+                t4.setText("" + (Math.round(aktuellerspeedkmh)) + " km/h");
+                t53.setText("" + (Math.round(aktuellerspeedkmh)) + " km/h");
 
                 t5.setText("" + aufnahmelaeuft);
                 t6.setText("" + aktuelletabelle);
@@ -630,9 +507,9 @@ public class RecordTrip extends AppCompatActivity {
                     altezeitOSM = (new Date().getTime()) - 1;
                 }
 
-                //t18.setText("" + aktuellestempolimit);
-                t18.setText("" + (/*Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (*/Math.round(aktuellestempolimit)) + " km/h");
-                t54.setText("" + (/*Math.round(10.0 * aktuellerspeed) / 10.0) + " m/s | " + (*/Math.round(aktuellestempolimit)) + " km/h");
+
+                t18.setText("" + (Math.round(aktuellestempolimit)) + " km/h");
+                t54.setText("" + (Math.round(aktuellestempolimit)) + " km/h");
 
                 t19.setText("" + aktuellestrasse);
                 t20.setText("" + aktuellerstrassentyp);
@@ -641,21 +518,21 @@ public class RecordTrip extends AppCompatActivity {
                 t11.setText("" + wetterkategorie);
                 t12.setText("" + df.format(new Date(sonnenaufgang)));
                 t13.setText("" + df.format(new Date(sonnenuntergang)));
+
                 String fahrtdauerbuffer = myDB.getFahrtdauerAsString(fahrtbeginn, aktuellezeit);
                 t41.setText("" + fahrtdauerbuffer);
                 t52.setText("" + fahrtdauerbuffer);
 
-                //Alle ermittelten Daten des aktuellen Datenpunktes in die Datenbank schreiben
+                //  Alle ermittelten Daten des aktuellen Datenpunktes in die Datenbank schreiben
                 myDB.insertFahrtDaten(aktuellezeit, aktuelleRechenzeit, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, aktuellemaxbeschleunigung, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, aktuellestempolimit, aktuellestrasse, aktuellerstrassentyp);
-            }
-            else {
+            } else {
                 Toast.makeText(RecordTrip.this, "GPS zu ungenau, aktueller Erfassungspunkt wird nicht gespeichert!", Toast.LENGTH_SHORT).show();
                 DateFormat df = DateFormat.getDateTimeInstance();
                 t17.setText("" + aktuelleRechenzeit + "ms");
                 t16.setText("" + df.format(new Date(aktuellezeit)));
                 t2.setText("~" + aktuellerbreitengrad);
                 t1.setText("~" + aktuellerlaengengrad);
-                //t3.setText("±" + Math.round(aktuellegenauigkeit) + " m"); Wird jetzt oben im Location Listener gemacht
+
                 t4.setText("?");
                 t53.setText("?");
                 t5.setText("" + aufnahmelaeuft);
@@ -697,8 +574,8 @@ public class RecordTrip extends AppCompatActivity {
     }
 
 
-    //Wenn die Aufnahme beendet wird, zur Ergebnisseite weiterleiten,
-    //hierbei müssen einige Werte dieser Activitiy als Bundle weitergegeben werden
+    //  Wenn die Aufnahme beendet wird, zur Ergebnisseite weiterleiten,
+    //  hierbei müssen einige Werte dieser Activitiy als Bundle weitergegeben werden
     public void toTripResult() {
         Bundle trip = new Bundle();
         trip.putString("datenpaket1", aktuelletabelle);
@@ -708,8 +585,7 @@ public class RecordTrip extends AppCompatActivity {
         trip.putDouble("richtungsdifferenz", aktuellerichtungsdifferenz);
         try {
             locationManager1.removeUpdates(locationListener1);
-        }
-        catch(SecurityException e){
+        } catch (SecurityException e) {
             System.out.println("LocatiionListener konnte nicht beendet werden!");
         }
         Intent i = new Intent(getApplicationContext(), TripResult.class);
@@ -717,13 +593,13 @@ public class RecordTrip extends AppCompatActivity {
         startActivity(i);
     }
 
-    //Gibt den Namen der aktuellen Tabelle zurück die verwendet wird
+    //  Gibt den Namen der aktuellen Tabelle zurück die verwendet wird
     public String getAktuelleTabelle() {
         return aktuelletabelle;
     }
 
-    //Wetter-Abfrage als paralleler Task, um das Speichern der anderen Daten nicht zu behindern oder zu
-    //verzögern
+    //  Wetter-Abfrage als paralleler Task, um das Speichern der anderen Daten nicht zu behindern oder zu
+    //  verzögern
     public void Wetter(String latitude, String longitude) {
         Weather.placeIdTask asyncTask = new Weather.placeIdTask(new Weather.AsyncResponse() {
             @Override
@@ -738,8 +614,8 @@ public class RecordTrip extends AppCompatActivity {
         asyncTask.execute(latitude, longitude);
     }
 
-    //Tempolimit-Abfrage als paralleler Task, um das Speichern der anderen Daten nicht zu behindern oder zu
-    //verzögern
+    //  Tempolimit-Abfrage als paralleler Task, um das Speichern der anderen Daten nicht zu behindern oder zu
+    //  verzögern
     public void Tempolimit(String latitude, String longitude) {
         MyOSM.placeIdTask asyncTask = new MyOSM.placeIdTask(new MyOSM.AsyncResponse() {
             @Override

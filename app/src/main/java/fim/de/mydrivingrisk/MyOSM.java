@@ -2,22 +2,16 @@ package fim.de.mydrivingrisk;
 
 import android.os.AsyncTask;
 
-
-
-import org.json.*;
-
-
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
 import java.net.URL;
 
-
-import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.*;
 
 import java.io.BufferedReader;
 
@@ -83,9 +77,6 @@ public class MyOSM {
 
                         JSONObject object4 = new JSONObject(zwo);
                         System.out.println("Object 4 : "+object4);
-
-
-
 
 
                         try {

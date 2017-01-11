@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,9 +41,6 @@ public class TripHistory extends AppCompatActivity {
         startActivity(i);
     }
 
-    //public void deleteAllButton() {
-       // myDB3.deleteAllTripResults();
-    //}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -58,13 +54,12 @@ public class TripHistory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_history);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.setTitle("Aufgezeichnete Fahrten");
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
-
 
 
         myDB3 = new DatabaseHelper(this, "Fahrtendatenbank.db");
