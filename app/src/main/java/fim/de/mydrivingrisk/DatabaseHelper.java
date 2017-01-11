@@ -473,7 +473,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getListContents() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM tripResultsTabelle2 ORDER BY _id DESC", null); // Rechtschreibfehler bei tripResultsTabelle2? muss das T nicht groß sein
+
         return data;
+    }
+
+    public int[] allScoresToArray() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM tripResultsTabelle2", null);
+        int[] array = new int[cursor.getCount()];
+        int i = 0;
+        while(cursor.moveToNext()){
+            int buff = cursor.getInt(cursor.getColumnIndex("Score"));
+            array[i] = buff;
+            i++;
+        }
+        cursor.close();
+        return array;
+    }
+
+    public int getAnzahlFahrten() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT Count(*) FROM tripResultsTabelle2", null);
+        cursor.moveToLast();
+        int buff = cursor.getInt(0);
+        cursor.close();
+        return buff;
     }
 
 }

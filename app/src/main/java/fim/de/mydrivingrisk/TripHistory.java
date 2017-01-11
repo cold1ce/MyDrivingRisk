@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
+import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,19 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.androidplot.util.PixelUtils;
+import com.androidplot.xy.CatmullRomInterpolator;
+import com.androidplot.xy.LineAndPointFormatter;
+import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYGraphWidget;
+import com.androidplot.xy.XYPlot;
+import com.androidplot.xy.XYSeries;
+
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParsePosition;
+import java.util.Arrays;
 
 
 public class TripHistory extends AppCompatActivity {
@@ -71,6 +85,10 @@ public class TripHistory extends AppCompatActivity {
 
         scoreschnitt = myDB3.getDurchschnittScoreAllerFahrten();
         scoreschnitt = (Math.round(10.0 * scoreschnitt) / 10.0);
+
+
+
+
 
 
 

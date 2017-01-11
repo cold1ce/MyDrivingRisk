@@ -20,7 +20,7 @@ import java.text.DateFormat;
 
 public class TripResult extends AppCompatActivity {
 
-    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20;
+    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21;
     public DatabaseHelper myDB2;
     public RatingBar r1;
     public Button b1, b2, b3;
@@ -97,6 +97,7 @@ public class TripResult extends AppCompatActivity {
         t17 = (TextView) findViewById(R.id.textView60);
         t18 = (TextView) findViewById(R.id.textView61);
 
+
         t1.setVisibility(View.INVISIBLE);
         t9.setVisibility(View.INVISIBLE);
         t10.setVisibility(View.INVISIBLE);
@@ -117,8 +118,9 @@ public class TripResult extends AppCompatActivity {
         t6.setVisibility(View.INVISIBLE);
 
         t19 = (TextView) findViewById(R.id.textView50);
-
         t20 = (TextView) findViewById(R.id.textView56);
+        t21 = (TextView) findViewById(R.id.textView72);
+
         b1 = (Button) findViewById(R.id.button8);
         b2 = (Button) findViewById(R.id.button9);
         b3 = (Button) findViewById(R.id.button_save);
@@ -280,7 +282,8 @@ public class TripResult extends AppCompatActivity {
 
         aktuelleRisikoKlasse = getRisikoklasse(gesamtscore);
 
-        t20.setText("Ihre Fahrt gilt mit diesem Score als "+aktuelleRisikoKlasse+". "+eigenbewertung);
+        t20.setText(""+aktuelleRisikoKlasse);
+        t21.setText(""+eigenbewertung);
 
 
         t1.setText("Ihr Score beträgt: "+(Math.round(10.0*gesamtscore)/10.0));
