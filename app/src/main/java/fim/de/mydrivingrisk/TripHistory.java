@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,9 +38,6 @@ public class TripHistory extends AppCompatActivity {
         startActivity(i);
     }
 
-    //public void deleteAllButton() {
-       // myDB3.deleteAllTripResults();
-    //}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -55,13 +51,12 @@ public class TripHistory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_history);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.setTitle("Aufgezeichnete Fahrten");
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
-
 
 
         myDB3 = new DatabaseHelper(this, "Fahrtendatenbank.db");
@@ -70,7 +65,7 @@ public class TripHistory extends AppCompatActivity {
         t1 = (TextView) findViewById(R.id.textView71);
         scoreschnitt = myDB3.getDurchschnittScoreAllerFahrten();
         scoreschnitt = (Math.round(10.0 * scoreschnitt) / 10.0);
-        t1.setText("Durchschnittsscore aller Fahrten: "+scoreschnitt);
+        t1.setText("Durchschnittsscore aller Fahrten: " + scoreschnitt);
 
 
         Cursor todoCursor = myDB3.getListContents();
@@ -80,11 +75,11 @@ public class TripHistory extends AppCompatActivity {
             startActivity(i);
         } else {
             Toast.makeText(this, "Anzahl aufgezeichneter Fahrten: " + todoCursor.getCount(), Toast.LENGTH_SHORT).show();
-            // Find ListView to populate
+            //  Find ListView to populate
             ListView lvItems = (ListView) findViewById(R.id.listview_3);
-            // Setup cursor adapter using cursor from last step
+            //  Setup cursor adapter using cursor from last step
             CursorAdapterHelper todoAdapter = new CursorAdapterHelper(this, todoCursor);
-            // Attach cursor adapter to the ListView
+            //  Attach cursor adapter to the ListView
             lvItems.setAdapter(todoAdapter);
         }
     }
@@ -110,7 +105,6 @@ public class TripHistory extends AppCompatActivity {
 
         return true;
     }
-
 
 }
 

@@ -22,8 +22,7 @@ public class TripResult extends AppCompatActivity {
 
     public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19;
     public DatabaseHelper myDB2;
-    public RatingBar r1;
-    public Button b1, b2, b3;
+
     public String aktuelletabelle;
     public double aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz, averagespeed, maxspeed, selbstbewertung;
 
@@ -38,10 +37,6 @@ public class TripResult extends AppCompatActivity {
     public String aktuelleRisikoKlasse = "Risiko 123";
     public String fahrtDauerString;
     public long fahrtBeginn, fahrtEnde;
-
-
-
-
 
 
 
@@ -70,7 +65,7 @@ public class TripResult extends AppCompatActivity {
         t3 = (TextView) findViewById(R.id.textView25);
         t4 = (TextView) findViewById(R.id.textView26);
         t5 = (TextView) findViewById(R.id.textView27);
-        t6 = (TextView) findViewById(R.id.textView28);//Uhrzeitrisiko
+        t6 = (TextView) findViewById(R.id.textView28);  //  Uhrzeitrisiko
         t7 = (TextView) findViewById(R.id.textView35);
 
         t8 = (TextView) findViewById(R.id.textView16);
@@ -141,18 +136,13 @@ public class TripResult extends AppCompatActivity {
             }
         });
 
-
-
-
         aktuellerTripGespeichert = false;
-
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                //  NavUtils.navigateUpFromSameTask(this);
-                //  Toast.makeText(RecordTrip.this, "asd", Toast.LENGTH_LONG).show();
+
                 if (aktuellerTripGespeichert == false) {
                     cancelResultsDialog();
                 } else {
@@ -163,8 +153,6 @@ public class TripResult extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 
 
 
@@ -204,7 +192,7 @@ public class TripResult extends AppCompatActivity {
     }
 
 
-    //Fahrt berechnen Button
+    //  Fahrt berechnen Button
     public void calcButton(View view) {
         Button b2 = (Button) findViewById(R.id.button9);
         Button b3 = (Button) findViewById(R.id.button_save);
@@ -236,13 +224,13 @@ public class TripResult extends AppCompatActivity {
         t3.setVisibility(View.VISIBLE);
         t6.setVisibility(View.VISIBLE);
 
-        // Gets linearlayout
+        //  Gets linearlayout
         LinearLayout layout = (LinearLayout)findViewById(R.id.textll);
-        // Gets the layout params that will allow you to resize the layout
+        //  Gets the layout params that will allow you to resize the layout
         ViewGroup.LayoutParams params = layout.getLayoutParams();
-        // Changes the height and width to the specified *pixels*
+        //  Changes the height and width to the specified *pixels*
         params.height = 225;
-        //params.width = 100;
+        //  params.width = 100;
         layout.setLayoutParams(params);
 
         averagespeed = myDB2.berechneDurschnittsgeschwindigkeit(aktuelletabelle);
@@ -272,16 +260,11 @@ public class TripResult extends AppCompatActivity {
         t7.setText(""+Math.round(10.0*speedingscore)/10.0);
         t18.setText(""+(Math.round(maxspeed)+" km/h"));
         t17.setText(""+fahrtDauerString);
-
-
-
     }
 
     public void saveButton(View view) {
 
         saveTrip();
-
-
     }
 
     public double berechneGesamtscore(double brakingscore, double accelerationscore, double timescore, double corneringscore, double speedingscore) {
@@ -326,7 +309,7 @@ public class TripResult extends AppCompatActivity {
         alert.setTitle("Fahrt benennen");
         alert.setMessage("Geben Sie einen Fahrt-Namen ein!");
 
-        // Set an EditText view to get user input
+        //  Set an EditText view to get user input
         final EditText input = new EditText(this);
 
         input.setText("Unbenannte Fahrt");
@@ -339,18 +322,6 @@ public class TripResult extends AppCompatActivity {
                 fahrtName = input.getText().toString();
 
                 double gesamtScoreGerundet = (Math.round(10.0*gesamtscore)/10.0);
-
-                //Date aktuellesDatum = new Date();
-                //SimpleDateFormat MeinFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-                //String timestring = MeinFormat.format(aktuellesDatum);
-
-
-
-
-                // String beginS = df.format(new Date(begin));
-                // String endS = df.format(new Date(end));
-                // Toast.makeText(TripResult.this, "time1: "+beginS+" time2: "+endS+".", Toast.LENGTH_LONG).show();
-                //String fahrtDauerString = myDB2.getFahrtdauerAsString(aktuelletabelle, begin, end);
 
                 myDB2.addTripResult(fahrtBeginn, fahrtEnde, fahrtName, gesamtScoreGerundet, fahrtDauerString, selbstbewertung);
                 aktuellerTripGespeichert = true;
@@ -365,8 +336,6 @@ public class TripResult extends AppCompatActivity {
 
         alert.setNegativeButton("Nicht speichern", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-
-
 
                 Toast.makeText(TripResult.this, "Nicht gespeichert!", Toast.LENGTH_SHORT).show();
             }
