@@ -78,7 +78,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/button3"
-                android:drawableLeft="@android:drawable/ic_menu_info_details" />
+                android:drawableLeft="@android:drawable/ic_menu_info_details"
+                android:onClick="toAboutTheApp"/>
 
 
             <Space

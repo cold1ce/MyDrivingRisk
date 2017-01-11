@@ -149,4 +149,13 @@
         www.openweathermap.org
 
     </string>
+    <string name="title_activity_about_the_app">AboutTheApp</string>
+
+    <string name="aboutstring">
+        This is your string.
+
+       This is the second line of your string.\n\n Third line of your string.
+    </string>
+
+
 </resources>

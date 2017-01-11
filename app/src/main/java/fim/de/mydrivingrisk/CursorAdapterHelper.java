@@ -57,7 +57,7 @@ public class CursorAdapterHelper extends CursorAdapter {
         scoreView.setText("" + score);
         beginView.setText("Beginn: " + df.format(begin));
         endView.setText("Ende: " + df.format(end));
-        dauerView.setText("Fahrtdauer: " + dauer);
+        dauerView.setText("Aufnahmedauer: " + dauer);
         idView.setText("ID: " + id);
         delete_button.setText("" + id);
 

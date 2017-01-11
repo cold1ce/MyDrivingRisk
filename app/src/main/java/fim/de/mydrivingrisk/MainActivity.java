@@ -88,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
 
     //  Wird bei Klick auf den Über die App-Button ausgeführt und öffnet
     //  die Oberfläche mit Erklärungen zu der App
-    public void toAbout(View view) {
-        Intent i = new Intent(getApplicationContext(), TripHistory.class);
+    public void toAboutTheApp(View view) {
+        Intent i = new Intent(getApplicationContext(), AboutTheApp.class);
         startActivity(i);
     }
 

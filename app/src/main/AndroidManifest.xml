@@ -45,9 +45,8 @@
                 android:value="de.fim.mydrivingrisk.MainActivity" />
         </activity>
         <activity android:name=".TripHistory" />
-        <activity android:name=".Impressum"></activity>
-
-
+        <activity android:name=".Impressum" />
+        <activity android:name=".AboutTheApp"></activity>
     </application>
 
 </manifest>
