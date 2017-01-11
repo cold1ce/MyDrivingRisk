@@ -86,6 +86,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    //  Wird bei Klick auf den Über die App-Button ausgeführt und öffnet
+    //  die Oberfläche mit Erklärungen zu der App
+    public void toAbout(View view) {
+        Intent i = new Intent(getApplicationContext(), TripHistory.class);
+        startActivity(i);
+    }
+
 
     //  Wird bei Klick auf den Impressum Button im 3-Punkte-Menü ausgeführt und öffnet
     //  die Oberfläche für das Impressum
