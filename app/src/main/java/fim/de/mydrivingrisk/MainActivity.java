@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     //  Wird bei Klick auf den Über die App-Button ausgeführt und öffnet
     //  die Oberfläche mit Erklärungen zu der App
     public void toAboutTheApp(View view) {
-        Intent i = new Intent(getApplicationContext(), SimpleXYPlotActivity.class);
+        Intent i = new Intent(getApplicationContext(), AboutTheApp.class);
         startActivity(i);
     }
 

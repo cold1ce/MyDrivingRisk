@@ -47,7 +47,6 @@
         <activity android:name=".TripHistory" />
         <activity android:name=".Impressum" />
         <activity android:name=".AboutTheApp" />
-        <activity android:name=".SimpleXYPlotActivity"></activity>
     </application>
 
 </manifest>

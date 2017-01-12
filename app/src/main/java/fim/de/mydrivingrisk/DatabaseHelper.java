@@ -500,5 +500,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return buff;
     }
 
+    public double getScoreOfTrip(int i) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT Score FROM tripResultsTabelle2 LIMIT 1 OFFSET "+i+"", null);
+        cursor.moveToLast();
+        double buff2 = cursor.getDouble(0);
+        cursor.close();
+        return buff2;
+    }
+
 }
 
