@@ -1,3 +1,7 @@
+//MainActivity.java als Hauptmenü der App, hier erreicht man alle Funktionen und
+// man findet sich auch beim Start der App hier wieder.
+
+
 package fim.de.mydrivingrisk;
 
 import android.Manifest;

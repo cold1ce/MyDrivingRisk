@@ -1,3 +1,5 @@
+//AboutTheApp.java zeigt Informationen, Erklärungen und Benutzerhinweise zur App
+
 package fim.de.mydrivingrisk;
 
 import android.support.v7.app.AppCompatActivity;

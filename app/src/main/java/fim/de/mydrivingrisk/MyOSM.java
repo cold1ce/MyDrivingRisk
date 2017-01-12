@@ -1,3 +1,5 @@
+//MyOSM.java ist die Hilfsklasse die asynchron für die Abfrage des Tempolimits zuständig ist
+
 package fim.de.mydrivingrisk;
 
 import android.os.AsyncTask;

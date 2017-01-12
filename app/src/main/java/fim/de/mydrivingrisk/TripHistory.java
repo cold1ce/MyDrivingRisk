@@ -1,3 +1,5 @@
+//In der TripHistory.java ist es möglich vergangene Fahrten anzuschauen, sowie die Anzahl und den Schnitt
+//aller aufgezeichneten Fahrten
 package fim.de.mydrivingrisk;
 
 import android.content.DialogInterface;
@@ -40,17 +42,12 @@ import java.text.Format;
 import java.text.ParsePosition;
 import java.util.Arrays;
 
-
 public class TripHistory extends AppCompatActivity {
 
     public DatabaseHelper myDB3;
     public TextView t1, t2, t3;
     public double scoreschnitt;
     public int anzahlfahrten;
-
-
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -62,7 +59,6 @@ public class TripHistory extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     public void onBackPressed() {
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
@@ -84,8 +80,6 @@ public class TripHistory extends AppCompatActivity {
         setContentView(R.layout.activity_trip_history);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.setTitle("Aufgezeichnete Fahrten");
-
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
 
@@ -100,12 +94,7 @@ public class TripHistory extends AppCompatActivity {
         scoreschnitt = myDB3.getDurchschnittScoreAllerFahrten();
         scoreschnitt = (Math.round(10.0 * scoreschnitt) / 10.0);
 
-
-
-
-
-
-
+        //Den Listview füllen, sobald mehr als oder genau 1 Fahrt vorhanden ist
         Cursor todoCursor = myDB3.getListContents();
         if (todoCursor.getCount() == 0) {
             Toast.makeText(this, "Keine aufgezeichneten Fahrten vorhanden!", Toast.LENGTH_SHORT).show();
@@ -114,27 +103,17 @@ public class TripHistory extends AppCompatActivity {
             startActivity(i);
         } else {
             anzahlfahrten = todoCursor.getCount();
-            //Toast.makeText(this, "Anzahl aufgezeichneter Fahrten: " + todoCursor.getCount(), Toast.LENGTH_SHORT).show();
-            // Find ListView to populate
             ListView lvItems = (ListView) findViewById(R.id.listview_3);
-            // Setup cursor adapter using cursor from last step
             CursorAdapterHelper todoAdapter = new CursorAdapterHelper(this, todoCursor);
-            // Attach cursor adapter to the ListView
             lvItems.setAdapter(todoAdapter);
         }
 
         t2.setText(""+anzahlfahrten);
         t3.setText(""+scoreschnitt);
 
-
-
-
-
-
-
-
     }
 
+    //Methode um alle Fahrten zu löschen
     public boolean deleteAllButton(MenuItem item) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Wollen Sie wirklich alle Fahrten löschen? Dies kann nicht rückgängig gemacht werden!")

@@ -1,3 +1,5 @@
+//RecordTrip.java ist die wichtigste Klasse. Hier läuft der komplette Aufnahmeprozess einer Fahrt ab
+
 package fim.de.mydrivingrisk;
 
 import android.Manifest;
@@ -145,7 +147,6 @@ public class RecordTrip extends AppCompatActivity {
 
         this.setTitle("Fahrt aufzeichnen");
 
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         t1 = (TextView) findViewById(R.id.textView3);
@@ -168,7 +169,6 @@ public class RecordTrip extends AppCompatActivity {
         t18 = (TextView) findViewById(R.id.textView11);
         t19 = (TextView) findViewById(R.id.textView15);
         t20 = (TextView) findViewById(R.id.textView18);
-
         t21 = (TextView) findViewById(R.id.textView36);
         t22 = (TextView) findViewById(R.id.textView37);
         t23 = (TextView) findViewById(R.id.textView44);
@@ -181,7 +181,6 @@ public class RecordTrip extends AppCompatActivity {
         //t30 = (TextView) findViewById(R.id.textView2);
         t31 = (TextView) findViewById(R.id.textView40);
         t32 = (TextView) findViewById(R.id.textView14);
-
         t33 = (TextView) findViewById(R.id.textView38);
         t34 = (TextView) findViewById(R.id.textView22);
         t35 = (TextView) findViewById(R.id.textView39);
@@ -195,27 +194,23 @@ public class RecordTrip extends AppCompatActivity {
         t44 = (TextView) findViewById(R.id.textView9);
         t45 = (TextView) findViewById(R.id.textView29);
         t46 = (TextView) findViewById(R.id.textView32);
-
         t51 = (TextView) findViewById(R.id.textView58);
         t52 = (TextView) findViewById(R.id.textView60);
         t53 = (TextView) findViewById(R.id.textView62);
         t54 = (TextView) findViewById(R.id.textView64);
         t55 = (TextView) findViewById(R.id.textView66);
         t56 = (TextView) findViewById(R.id.textView68);
-
         t60 = (TextView) findViewById(R.id.textView69);
         t61 = (TextView) findViewById(R.id.textView70);
 
-        t33.setVisibility(View.VISIBLE);
-        t3.setVisibility(View.VISIBLE);
-
+        sc1 = (ScrollView) findViewById(R.id.scroll1);
+        e1 = (RelativeLayout) findViewById(R.id.easylay);
         p1 = (ProgressBar) findViewById(R.id.marker_progress);
         toggle1 = (ToggleButton) findViewById(R.id.toggleButton);
 
+        t33.setVisibility(View.VISIBLE);
+        t3.setVisibility(View.VISIBLE);
         toggle1.setVisibility(View.INVISIBLE);
-
-        sc1 = (ScrollView) findViewById(R.id.scroll1);
-        e1 = (RelativeLayout) findViewById(R.id.easylay);
         sc1.setVisibility(View.INVISIBLE);
         e1.setVisibility(View.INVISIBLE);
 
@@ -238,7 +233,7 @@ public class RecordTrip extends AppCompatActivity {
             }
         });
 
-
+        //Wenn das GPS nicht gleich oder unter 10m Genauigkeit hat, bleibt der Aufnahme-Button deaktiviert.
         if (aktuellegenauigkeit > 10.0 || aktuellegenauigkeit <= 0.0) {
             Button b1 = (Button) findViewById(R.id.button6);
             b1.setEnabled(false);
@@ -252,7 +247,6 @@ public class RecordTrip extends AppCompatActivity {
 
         //  GPS Hilfsobjekte erzeugen
         locationManager1 = (LocationManager) getSystemService(LOCATION_SERVICE);
-
         locationListener1 = new LocationListener() {
 
             //  Sobald sich die Position verändert(oder mindestens jede Sekunde) werden die in der
@@ -300,6 +294,7 @@ public class RecordTrip extends AppCompatActivity {
                 Toast.makeText(RecordTrip.this, "Standortfunktion aktiviert!", Toast.LENGTH_SHORT).show();
             }
 
+            //Abfangen wenn Standort Funktion deaktiviert wird/Deaktiviert ist
             @Override
             public void onProviderDisabled(String s) {
                 if (aufnahmelaeuft == true) {
@@ -369,7 +364,6 @@ public class RecordTrip extends AppCompatActivity {
                 t60.setVisibility(View.INVISIBLE);
                 t61.setVisibility(View.INVISIBLE);
                 toggle1.setEnabled(true);
-
                 toggle1.setVisibility(View.VISIBLE);
                 addNewTrip();
                 Toast.makeText(RecordTrip.this, "Neue Fahrt wird aufgezeichnet!", Toast.LENGTH_SHORT).show();
@@ -510,7 +504,6 @@ public class RecordTrip extends AppCompatActivity {
 
                 t18.setText("" + (Math.round(aktuellestempolimit)) + " km/h");
                 t54.setText("" + (Math.round(aktuellestempolimit)) + " km/h");
-
                 t19.setText("" + aktuellestrasse);
                 t20.setText("" + aktuellerstrassentyp);
                 t10.setText("" + wetter);
@@ -518,14 +511,14 @@ public class RecordTrip extends AppCompatActivity {
                 t11.setText("" + wetterkategorie);
                 t12.setText("" + df.format(new Date(sonnenaufgang)));
                 t13.setText("" + df.format(new Date(sonnenuntergang)));
-
                 String fahrtdauerbuffer = myDB.getFahrtdauerAsString(fahrtbeginn, aktuellezeit);
                 t41.setText("" + fahrtdauerbuffer);
                 t52.setText("" + fahrtdauerbuffer);
 
                 //  Alle ermittelten Daten des aktuellen Datenpunktes in die Datenbank schreiben
                 myDB.insertFahrtDaten(aktuellezeit, aktuelleRechenzeit, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, aktuellemaxbeschleunigung, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, aktuellestempolimit, aktuellestrasse, aktuellerstrassentyp);
-            } else {
+            }
+            else {
                 Toast.makeText(RecordTrip.this, "GPS zu ungenau, aktueller Erfassungspunkt wird nicht gespeichert!", Toast.LENGTH_SHORT).show();
                 DateFormat df = DateFormat.getDateTimeInstance();
                 t17.setText("" + aktuelleRechenzeit + "ms");

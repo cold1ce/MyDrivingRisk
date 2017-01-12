@@ -1,3 +1,5 @@
+//Weather.java ist die Hilfsklasse die asynchron für die Wetterabfrage zuständig ist
+
 package fim.de.mydrivingrisk;
 
 

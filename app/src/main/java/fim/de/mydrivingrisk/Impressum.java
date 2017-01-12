@@ -1,3 +1,5 @@
+//Impressum.java zeigt das Impressum der App an.
+
 package fim.de.mydrivingrisk;
 
 import android.content.Intent;

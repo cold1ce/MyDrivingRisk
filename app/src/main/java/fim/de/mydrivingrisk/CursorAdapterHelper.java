@@ -1,3 +1,6 @@
+//CursorAdapterHelper.java arbeitet als Hilfsklasse für den ListView in der TripHistory.java
+//befüllt ein Listen Element (Fahrt) mit den jeweiligen Daten
+
 package fim.de.mydrivingrisk;
 
 import android.content.Context;
@@ -52,7 +55,7 @@ public class CursorAdapterHelper extends CursorAdapter {
 
         DateFormat df = DateFormat.getDateTimeInstance();
 
-        //  Populate fields with extracted properties
+
         fahrtnameView.setText("" + fahrtname);
         scoreView.setText("" + score);
         beginView.setText("Beginn: " + df.format(begin));

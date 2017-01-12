@@ -1,5 +1,7 @@
-package fim.de.mydrivingrisk;
+//In der TripResult.java wird die Fahrt bewertet, der Score ausgerechnet sowie der Score ausgegeben,
+// zudem besteht die Möglichkeit den Score abzuspeichern.
 
+package fim.de.mydrivingrisk;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -26,7 +28,6 @@ public class TripResult extends AppCompatActivity {
     public Button b1, b2, b3;
     public String aktuelletabelle, eigenbewertung;
     public double aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz, averagespeed, maxspeed, selbstbewertung;
-
     public double gesamtscore;
     public double brakingscore;
     public double accelerationscore;
@@ -42,10 +43,6 @@ public class TripResult extends AppCompatActivity {
     public LinearLayout voteLayout;
     public LinearLayout ergebnisLayout;
     public LinearLayout buttonsUnten;
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +62,7 @@ public class TripResult extends AppCompatActivity {
 
         myDB2 = new DatabaseHelper(this, "Fahrtendatenbank.db");
 
+        //Die im Bundle von RecordTrip übergebenen Daten verarbeiten.
         Bundle zielkorb = getIntent().getExtras();
         aktuelletabelle = zielkorb.getString("datenpaket1");
         aktuellerbreitengrad = zielkorb.getDouble("breitengrad");
@@ -73,18 +71,14 @@ public class TripResult extends AppCompatActivity {
         aktuellerichtungsdifferenz = zielkorb.getDouble("richtungsdifferenz");
 
 
-
         t1 = (TextView) findViewById(R.id.textView23);
-
         t2 = (TextView) findViewById(R.id.textView24);
         t3 = (TextView) findViewById(R.id.textView25);
         t4 = (TextView) findViewById(R.id.textView26);
         t5 = (TextView) findViewById(R.id.textView27);
         t6 = (TextView) findViewById(R.id.textView28);  //  Uhrzeitrisiko
         t7 = (TextView) findViewById(R.id.textView35);
-
         t8 = (TextView) findViewById(R.id.textView16);
-
         t9 = (TextView) findViewById(R.id.textView59);
         t10 = (TextView) findViewById(R.id.textView49);
         t11 = (TextView) findViewById(R.id.textView62);
@@ -93,10 +87,15 @@ public class TripResult extends AppCompatActivity {
         t14 = (TextView) findViewById(R.id.textView52);
         t15 = (TextView) findViewById(R.id.textView51);
         t16 = (TextView) findViewById(R.id.textView54);
-
         t17 = (TextView) findViewById(R.id.textView60);
         t18 = (TextView) findViewById(R.id.textView61);
+        t19 = (TextView) findViewById(R.id.textView50);
+        t20 = (TextView) findViewById(R.id.textView56);
+        t21 = (TextView) findViewById(R.id.textView72);
 
+        b1 = (Button) findViewById(R.id.button8);
+        b2 = (Button) findViewById(R.id.button9);
+        b3 = (Button) findViewById(R.id.button_save);
 
         t1.setVisibility(View.INVISIBLE);
         t9.setVisibility(View.INVISIBLE);
@@ -107,7 +106,6 @@ public class TripResult extends AppCompatActivity {
         t14.setVisibility(View.INVISIBLE);
         t15.setVisibility(View.INVISIBLE);
         t16.setVisibility(View.INVISIBLE);
-
         t17.setVisibility(View.INVISIBLE);
         t2.setVisibility(View.INVISIBLE);
         t18.setVisibility(View.INVISIBLE);
@@ -117,17 +115,11 @@ public class TripResult extends AppCompatActivity {
         t3.setVisibility(View.INVISIBLE);
         t6.setVisibility(View.INVISIBLE);
 
-        t19 = (TextView) findViewById(R.id.textView50);
-        t20 = (TextView) findViewById(R.id.textView56);
-        t21 = (TextView) findViewById(R.id.textView72);
-
-        b1 = (Button) findViewById(R.id.button8);
-        b2 = (Button) findViewById(R.id.button9);
-        b3 = (Button) findViewById(R.id.button_save);
         b1.setVisibility(View.INVISIBLE);
         b2.setVisibility(View.VISIBLE);
         b3.setVisibility(View.INVISIBLE);
 
+        //Rating Bar mit 5 Sternen, mit der die Fahrt selbst eingeschätzt wird.
         final RatingBar mBar = (RatingBar) findViewById(R.id.ratingBar);
         mBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
@@ -168,6 +160,7 @@ public class TripResult extends AppCompatActivity {
         aktuellerTripGespeichert = false;
     }
 
+    //Abfangen wenn jemand den Zurückpfeil drückt und noch nicht gespeichert wurde
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -184,7 +177,7 @@ public class TripResult extends AppCompatActivity {
     }
 
 
-
+    //Abfangen wenn jemand den Zurückbutton drückt und noch nicht gespeichert wurde
     public void onBackPressed() {
         if (aktuellerTripGespeichert == false) {
             cancelResultsDialog();
@@ -194,6 +187,7 @@ public class TripResult extends AppCompatActivity {
         }
     }
 
+    //Zurück zum Hauptmenü Button, auch mit Abfangen falls noch nicht gespeichert wurde.
     public void cancelResultsDialog() {
         if (aktuellerTripGespeichert == false) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -224,22 +218,21 @@ public class TripResult extends AppCompatActivity {
     //  Fahrt berechnen Button
     public void calcButton(View view) {
 
+        Button b2 = (Button) findViewById(R.id.button9);
+        Button b3 = (Button) findViewById(R.id.button_save);
+        RatingBar r1 = (RatingBar) findViewById(R.id.ratingBar);
+        LinearLayout layout = (LinearLayout)findViewById(R.id.textll);
+
         voteLayout.setVisibility(View.INVISIBLE);
         ergebnisLayout.setVisibility(View.VISIBLE);
         buttonsUnten.setVisibility(View.VISIBLE);
 
-        Button b2 = (Button) findViewById(R.id.button9);
-        Button b3 = (Button) findViewById(R.id.button_save);
-
         b2.setVisibility(View.VISIBLE);
         b3.setVisibility(View.VISIBLE);
-        RatingBar r1 = (RatingBar) findViewById(R.id.ratingBar);
-
         b1.setVisibility(View.INVISIBLE);
         r1.setVisibility(View.INVISIBLE);
 
         t1.setVisibility(View.VISIBLE);
-
         t9.setVisibility(View.VISIBLE);
         t10.setVisibility(View.VISIBLE);
         t11.setVisibility(View.VISIBLE);
@@ -248,7 +241,6 @@ public class TripResult extends AppCompatActivity {
         t14.setVisibility(View.VISIBLE);
         t15.setVisibility(View.VISIBLE);
         t16.setVisibility(View.VISIBLE);
-
         t17.setVisibility(View.VISIBLE);
         t2.setVisibility(View.VISIBLE);
         t18.setVisibility(View.VISIBLE);
@@ -258,13 +250,8 @@ public class TripResult extends AppCompatActivity {
         t3.setVisibility(View.VISIBLE);
         t6.setVisibility(View.VISIBLE);
 
-        //  Gets linearlayout
-        LinearLayout layout = (LinearLayout)findViewById(R.id.textll);
-        //  Gets the layout params that will allow you to resize the layout
         ViewGroup.LayoutParams params = layout.getLayoutParams();
-        //  Changes the height and width to the specified *pixels*
         params.height = 225;
-        //  params.width = 100;
         layout.setLayoutParams(params);
 
         averagespeed = myDB2.berechneDurschnittsgeschwindigkeit(aktuelletabelle);
@@ -279,13 +266,10 @@ public class TripResult extends AppCompatActivity {
         fahrtDauerString = myDB2.getFahrtdauerAsString(fahrtBeginn, fahrtEnde);
         selbstbewertung = 100.0;
         gesamtscore = berechneGesamtscore(brakingscore, accelerationscore, timescore, corneringscore, speedingscore);
-
         aktuelleRisikoKlasse = getRisikoklasse(gesamtscore);
 
         t20.setText(""+aktuelleRisikoKlasse);
         t21.setText(""+eigenbewertung);
-
-
         t1.setText("Ihr Score beträgt: "+(Math.round(10.0*gesamtscore)/10.0));
         t2.setText(""+(Math.round(10.0*averagespeed)/10.0)+" km/h");
         t3.setText(""+Math.round(10.0*accelerationscore)/10.0);
@@ -297,15 +281,17 @@ public class TripResult extends AppCompatActivity {
         t17.setText(""+fahrtDauerString);
     }
 
+    //Save Button ruft saveTrip Methode auf
     public void saveButton(View view) {
-
         saveTrip();
     }
 
+    //Endberechnung des Gesamtscores nach dem (angepassten) Scoring Modell von Moritz
     public double berechneGesamtscore(double brakingscore, double accelerationscore, double timescore, double corneringscore, double speedingscore) {
         gesamtscore = ((brakingscore * 0.33) + (accelerationscore * 0.23) + (timescore * 0.08) + (corneringscore * 0.23) + (speedingscore * 0.13));
         return gesamtscore;
     }
+
 
     public void mainMenuButton(View view) {
         if (aktuellerTripGespeichert == false) {
@@ -316,6 +302,7 @@ public class TripResult extends AppCompatActivity {
         }
     }
 
+    //Aus dem Gesamtscore die Risikoklasse ableiten und ausgeben
     public String getRisikoklasse(double gesamtscore) {
         if (gesamtscore >= 0 && gesamtscore <= 10.0) {
             aktuelleRisikoKlasse = "sehr sicher";
@@ -339,14 +326,13 @@ public class TripResult extends AppCompatActivity {
         return aktuelleRisikoKlasse;
     }
 
+    //Methode zum Speichern der aktuellen Fahrt
     public void saveTrip() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Fahrt benennen");
         alert.setMessage("Geben Sie einen Fahrt-Namen ein!");
 
-        //  Set an EditText view to get user input
         final EditText input = new EditText(this);
-
         input.setText("Unbenannte Fahrt");
         input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(25) });
         alert.setView(input);
