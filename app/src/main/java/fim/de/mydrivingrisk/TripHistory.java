@@ -48,26 +48,6 @@ public class TripHistory extends AppCompatActivity {
     public double scoreschnitt;
     public int anzahlfahrten;
 
-    public XYPlot plot;
-
-    public int anzahlfahrten2;
-    public int[] anzahlfahrtenarray;
-    public Number[] scores;
-    public XYSeries series1;
-
-
-
-    public MyBarFormatter formatter1;
-    public MyBarFormatter formatter2;
-    public MyBarFormatter selectionFormatter;
-    public TextLabelWidget selectionWidget;
-    public Pair<Integer, XYSeries> selection;
-    private enum SeriesSize {
-        TEN,
-        TWENTY,
-        SIXTY
-    }
-
 
 
 
@@ -146,35 +126,7 @@ public class TripHistory extends AppCompatActivity {
         t2.setText(""+anzahlfahrten);
         t3.setText(""+scoreschnitt);
 
-        //////DIAGRAMM BEREICH
 
-        plot = (XYPlot) findViewById(R.id.plotXX);
-
-        anzahlfahrten = myDB3.getAnzahlFahrten();
-        anzahlfahrtenarray = new int[anzahlfahrten];
-        scores = new Number[anzahlfahrten];
-        System.out.println("Anzahl der Fahrten: "+anzahlfahrten+"Länge des Arrays: "+anzahlfahrtenarray.length);
-
-        for (int i=1; i<=anzahlfahrten; i++) {
-            anzahlfahrtenarray[i-1] = i;
-            System.out.println("i: "+i+" : "+anzahlfahrtenarray[i-1]);
-        }
-
-        for (int j=0; j<anzahlfahrten; j++) {
-            scores[j] = myDB3.getScoreOfTrip(j);
-            System.out.println("j: "+j+" : "+scores[j]);
-        }
-
-        formatter1 = new MyBarFormatter(Color.rgb(100, 150, 100), Color.LTGRAY);
-        formatter1.setMarginLeft(PixelUtils.dpToPix(1));
-        formatter1.setMarginRight(PixelUtils.dpToPix(1));
-        formatter2 = new MyBarFormatter(Color.rgb(100, 100, 150), Color.LTGRAY);
-        formatter2.setMarginLeft(PixelUtils.dpToPix(1));
-        formatter2.setMarginRight(PixelUtils.dpToPix(1));
-        selectionFormatter = new MyBarFormatter(Color.YELLOW, Color.WHITE);
-
-
-        updatePlot();
 
 
 
@@ -205,108 +157,8 @@ public class TripHistory extends AppCompatActivity {
         return true;
     }
 
-    //////////////////////////////DIAGRAMM BEREICH
-
-    private void updatePlot() {
-        updatePlot(null);
-    }
-
-    private void updatePlot(SeriesSize seriesSize) {
-
-        // Remove all current series from each plot
-        plot.clear();
-
-        // Setup our Series with the selected number of elements
-        series1 = new SimpleXYSeries(Arrays.asList(scores),
-                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "");
-       /* series2 = new SimpleXYSeries(Arrays.asList(series2Numbers),
-                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Them");*/
-
-        plot.setDomainBoundaries(0, Math.round((series1.size()) * 10.0) / 10.0, BoundaryMode.FIXED);
-        plot.setDomainLowerBoundary(0,BoundaryMode.FIXED);
-
-        plot.setRangeUpperBoundary(SeriesUtils.minMax(series1).getMaxY().intValue() + 5, BoundaryMode.FIXED);
-
-        plot.setRangeLowerBoundary(0, BoundaryMode.FIXED);
-        int eins = 1;
-        int fuenf = 5;
-        plot.setDomainStep(StepMode.INCREMENT_BY_VAL, eins);
-        plot.setRangeStep(StepMode.INCREMENT_BY_VAL, fuenf);
-        plot.setDomainStepValue(eins);
-        plot.setRangeStepValue(fuenf);
-
-        plot.setLinesPerRangeLabel(eins);
 
 
-        plot.setLinesPerDomainLabel(eins);
-
-
-
-
-
-
-
-
-
-        // add a new series' to the xyplot:
-        // if (series1CheckBox.isChecked()) plot.addSeries(series1, formatter1);
-        plot.addSeries(series1, formatter1);
-
-        // Setup the BarRenderer with our selected options
-        MyBarRenderer renderer = plot.getRenderer(MyBarRenderer.class);
-        //renderer.setBarOrientation((BarRenderer.BarOrientation) spRenderStyle.getSelectedItem());
-        renderer.setBarOrientation(BarRenderer.BarOrientation.SIDE_BY_SIDE);
-
-        //renderer.setBarGroupWidth(barGroupWidthMode, barGroupWidthMode == BarRenderer.BarGroupWidthMode.FIXED_WIDTH ? sbFixedWidth.getProgress() : sbVariableWidth.getProgress());
-        renderer.setBarGroupWidth(BarRenderer.BarGroupWidthMode.FIXED_WIDTH, 50);
-
-
-
-
-
-
-
-        plot.redraw();
-
-    }
-
-
-
-    class MyBarFormatter extends BarFormatter {
-
-        public MyBarFormatter(int fillColor, int borderColor) {
-            super(fillColor, borderColor);
-        }
-
-        @Override
-        public Class<? extends SeriesRenderer> getRendererClass() {
-            return MyBarRenderer.class;
-        }
-
-        @Override
-        public SeriesRenderer doGetRendererInstance(XYPlot plot) {
-            return new MyBarRenderer(plot);
-        }
-    }
-
-    class MyBarRenderer extends BarRenderer<MyBarFormatter> {
-
-        public MyBarRenderer(XYPlot plot) {
-            super(plot);
-        }
-
-
-        @Override
-        public MyBarFormatter getFormatter(int index, XYSeries series) {
-            if (selection != null &&
-                    selection.second == series &&
-                    selection.first == index) {
-                return selectionFormatter;
-            } else {
-                return getFormatter(series);
-            }
-        }
-    }
 
 
 

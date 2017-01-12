@@ -105,29 +105,6 @@
 
             </LinearLayout>
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:ap="http://schemas.android.com/apk/res-auto"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="211dp"
-                android:layout_marginTop="5dp">
-
-                <com.androidplot.xy.XYPlot
-                    android:id="@+id/plotXX"
-                    android:layout_width="wrap_content"
-                    ap:rangeTitle="Score"
-                    ap:domainTitle="Fahrten"
-                    ap:gridInsetRight="10dp"
-                    android:layout_height="200dp"
-                    android:layout_marginRight="10dp"
-                    ap:gridClippingEnabled="false"
-                    style="@style/APDefacto.Light"
-                    android:background="@color/totalopacity"
-                    android:layout_marginLeft="10dp"
-                    android:alpha="0.8" />
-
-            </LinearLayout>
-
             <ListView
 
                 android:id="@+id/listview_3"
