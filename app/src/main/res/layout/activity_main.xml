@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingRight="0dp"
-    android:paddingLeft="0dp"
-    android:paddingTop="0dp"
     android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
     android:screenOrientation="portrait"
     tools:context="fim.de.mydrivingrisk.MainActivity">
 
@@ -22,30 +21,30 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingRight="20dp"
-        android:paddingLeft="20dp"
-        android:paddingTop="30dp"
-        android:paddingBottom="20dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="30dp">
 
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:weightSum="1">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
                 android:text="Herzlich Willkommen zu myDrivingRisk!"
                 android:textAlignment="center"
-                android:textStyle="normal|bold"
+                android:textColor="@android:color/background_light"
                 android:textSize="16sp"
-                android:scaleType="centerCrop"
-                android:textColor="@android:color/background_light" />
+                android:textStyle="normal|bold" />
 
             <Space
                 android:layout_width="match_parent"
@@ -53,33 +52,33 @@
                 android:layout_weight="0.05" />
 
             <Button
-                android:text="Neue Fahrt aufzeichnen"
+                android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="42dp"
-                android:id="@+id/button"
                 android:layout_below="@+id/textView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="42dp"
                 android:drawableLeft="@android:drawable/ic_menu_edit"
                 android:onClick="toRecordTrip"
                 android:scaleType="centerCrop"
-                android:layout_centerHorizontal="true" />
+                android:text="Neue Fahrt aufzeichnen" />
 
             <Button
-                android:text="Fahrt-Historie"
+                android:id="@+id/button2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@android:drawable/ic_menu_search"
-                android:id="@+id/button2"
-                android:onClick="toTripHistory"/>
+                android:onClick="toTripHistory"
+                android:text="Fahrt-Historie" />
 
 
             <Button
-                android:text="Über die App"
+                android:id="@+id/button3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/button3"
                 android:drawableLeft="@android:drawable/ic_menu_info_details"
-                android:onClick="toAboutTheApp"/>
+                android:onClick="toAboutTheApp"
+                android:text="Über die App" />
 
 
             <Space
@@ -88,20 +87,20 @@
                 android:layout_weight="0.87" />
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
-                android:paddingBottom="0dp"
+                android:layout_gravity="bottom"
                 android:layout_marginBottom="5dp"
-                android:weightSum="1"
-                android:layout_gravity="bottom">
+                android:orientation="horizontal"
+                android:paddingBottom="0dp"
+                android:weightSum="1">
 
                 <ImageView
+                    android:id="@+id/imageView2"
                     android:layout_width="75dp"
                     android:layout_height="39dp"
-                    app:srcCompat="@drawable/fim"
-                    android:id="@+id/imageView2"
-                    android:layout_gravity="bottom" />
+                    android:layout_gravity="bottom"
+                    app:srcCompat="@drawable/fim" />
 
                 <Space
                     android:layout_width="wrap_content"
@@ -109,11 +108,11 @@
                     android:layout_weight="1" />
 
                 <ImageView
+                    android:id="@+id/imageView5"
                     android:layout_width="116dp"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/unianeg"
-                    android:id="@+id/imageView5"
-                    android:layout_weight="0.05" />
+                    android:layout_weight="0.05"
+                    app:srcCompat="@drawable/unianeg" />
 
             </LinearLayout>
 

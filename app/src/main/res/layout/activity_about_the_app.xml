@@ -24,7 +24,6 @@
         android:background="@color/whiteTransparency">
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,16 +31,16 @@
             android:weightSum="1">
 
             <TextView
-                android:text="Mein Text"
+                android:id="@+id/textView90"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView90"
-                android:textSize="20dp"
                 android:layout_weight="15.13"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:text="Mein Text"
                 android:textColor="@color/ap_black"
-                android:paddingTop="10dp" />
+                android:textSize="20dp" />
         </LinearLayout>
     </ScrollView>
 

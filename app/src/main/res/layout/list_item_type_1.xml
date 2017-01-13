@@ -1,134 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list_item_type1_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/whiteTransparency"
     android:cacheColorHint="@android:color/transparent"
+    android:orientation="vertical"
     android:screenOrientation="portrait"
     android:weightSum="1">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/mainllitem"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/whiteTransparency"
         android:cacheColorHint="@android:color/transparent"
-        android:weightSum="1"
-        android:layout_height="wrap_content"
-        android:id="@+id/mainllitem"
+        android:orientation="vertical"
         android:paddingLeft="5dp"
-        android:paddingRight="5dp">
+        android:paddingRight="5dp"
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/list_item_type1_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Fahrt nach Teststadt"
-            android:textSize="24sp"
-            android:textStyle="normal|bold"
             android:textAlignment="textStart"
-            android:textColor="@android:color/background_dark" />
+            android:textColor="@android:color/background_dark"
+            android:textSize="24sp"
+            android:textStyle="normal|bold" />
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:orientation="vertical"
+                android:layout_width="95dp"
                 android:layout_height="match_parent"
-                android:paddingRight="5dp"
-                android:layout_width="95dp">
+                android:orientation="vertical"
+                android:paddingRight="5dp">
 
                 <TextView
-                    android:text="Score:"
+                    android:id="@+id/list_item_type1_text_view_7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/list_item_type1_text_view_7"
+                    android:text="Score:"
                     android:textColor="@android:color/holo_red_dark" />
 
                 <TextView
-                    android:text="123.6"
+                    android:id="@+id/list_item_type1_text_view_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/list_item_type1_text_view_2"
-                    android:textSize="30sp"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:textStyle="normal|bold"
                     android:layout_marginRight="7dp"
-                    android:gravity="bottom" />
+                    android:gravity="bottom"
+                    android:text="123.6"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="30sp"
+                    android:textStyle="normal|bold" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_height="match_parent"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
                 android:weightSum="1">
 
                 <LinearLayout
-                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:layout_width="wrap_content">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:text="Beginn: 01.01.01 01:01 Uhr"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/list_item_type1_text_view_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center_vertical"
+                        android:text="Beginn: 01.01.01 01:01 Uhr"
                         android:textColor="@android:color/holo_red_dark" />
 
                     <TextView
-                        android:text="Ende: 02.02.02 02:02 Uhr"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/list_item_type1_text_view_5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center_vertical"
+                        android:text="Ende: 02.02.02 02:02 Uhr"
                         android:textColor="@android:color/holo_red_dark" />
 
                     <TextView
-                        android:text="Aufnahmedauer: 1h 02min 03s"
+                        android:id="@+id/list_item_type1_text_view_6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/list_item_type1_text_view_6"
                         android:gravity="center_vertical"
+                        android:text="Aufnahmedauer: 1h 02min 03s"
                         android:textColor="@android:color/holo_red_dark" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_height="match_parent"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:foregroundGravity="right"
-                    android:gravity="right">
+                    android:gravity="right"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="50dp"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:text="ID:"
+                            android:id="@+id/list_item_type1_text_view_3"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/list_item_type1_text_view_3"
-                            android:textSize="12sp"
-                            android:textAlignment="textStart"
                             android:layout_weight="1"
+                            android:text="ID:"
+                            android:textAlignment="textStart"
+                            android:textSize="12sp"
                             android:visibility="invisible" />
 
                         <Button
                             android:id="@+id/list_item_type1_button_delete"
-                            android:drawableTop="@android:drawable/ic_menu_delete"
                             android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:layout_gravity="right"
-                            android:layout_height="50dp" />
+                            android:drawableTop="@android:drawable/ic_menu_delete" />
 
                     </LinearLayout>
 

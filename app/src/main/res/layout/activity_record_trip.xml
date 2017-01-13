@@ -25,18 +25,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,70 +46,70 @@
 
                 <Button
                     android:id="@+id/button6"
+                    android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="0.5"
                     android:drawableLeft="@android:drawable/ic_menu_edit"
                     android:elevation="0dp"
                     android:onClick="recordButton"
                     android:text="Aufzeichnung starten"
-                    android:textAlignment="center"
-                    android:layout_weight="0.5"
-                    android:layout_width="180dp" />
+                    android:textAlignment="center" />
 
                 <ProgressBar
                     android:id="@+id/marker_progress"
                     style="?android:attr/progressBarStyle"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:indeterminateTint="?attr/colorAccent"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_weight="0.05"
                     android:elevation="13dp"
                     android:indeterminate="true"
-                    android:layout_weight="0.05" />
+                    android:indeterminateTint="?attr/colorAccent" />
 
                 <ToggleButton
                     android:id="@+id/toggleButton"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_weight=".30"
+                    android:enabled="false"
                     android:text="ToggleButton"
+                    android:textAlignment="center"
                     android:textOff="Details"
                     android:textOn="Details"
-                    android:textSize="12sp"
-                    android:enabled="false"
-                    android:textAlignment="center"
-                    android:layout_weight=".30"
-                    android:layout_width="wrap_content" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:orientation="horizontal"
-                android:weightSum="1"
-                android:layout_height="50dp">
+                android:weightSum="1">
 
                 <TextView
-                    android:text="GPS-Genauigkeit:"
-                    android:layout_height="wrap_content"
                     android:id="@+id/textView69"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.14"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    android:text="GPS-Genauigkeit:"
                     android:textAlignment="textStart"
                     android:textColor="@android:color/holo_red_dark"
-                    android:textStyle="normal|bold"
-                    android:paddingTop="5dp"
-                    android:layout_weight="0.14"
-                    android:layout_width="100dp"
-                    android:paddingLeft="5dp" />
+                    android:textStyle="normal|bold" />
 
                 <TextView
-                    android:text="-"
-                    android:layout_height="wrap_content"
                     android:id="@+id/textView70"
-                    android:textAlignment="textStart"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical|center_horizontal"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:layout_width="60dp" />
+                    android:text="-"
+                    android:textAlignment="textStart"
+                    android:textColor="@android:color/holo_red_dark" />
 
             </LinearLayout>
 
@@ -123,204 +123,204 @@
         android:layout_marginTop="110dp">
 
         <RelativeLayout
+            android:id="@+id/easylay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:paddingTop="50dp"
-            android:visibility="visible"
-            android:id="@+id/easylay">
+            android:visibility="visible">
 
             <LinearLayout
-                android:orientation="vertical"
-                android:background="@android:drawable/editbox_background"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_width="150dp"
-                android:layout_height="75dp">
-
-                <TextView
-                    android:text="GPS-Genauigkeit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView57"
-                    android:textAlignment="center"
-                    android:textStyle="normal|bold"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/holo_red_dark" />
-
-                <TextView
-                    android:text="-"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/textView58"
-                    android:textAlignment="center"
-                    android:textSize="28dp"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:textColor="?android:attr/textColorTertiary" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:background="@android:drawable/editbox_background"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="100dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_width="150dp"
-                android:layout_height="75dp">
-
-                <TextView
-                    android:text="Geschwindigkeit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView61"
-                    android:textAlignment="center"
-                    android:textStyle="normal|bold"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/holo_red_dark" />
-
-                <TextView
-                    android:text="-"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/textView62"
-                    android:textAlignment="center"
-                    android:textSize="28sp"
-                    android:gravity="center_vertical|center_horizontal" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:background="@android:drawable/editbox_background"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="190dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_width="150dp"
-                android:layout_height="75dp">
-
-                <TextView
-                    android:text="Beschleunigung"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView65"
-                    android:textAlignment="center"
-                    android:textStyle="normal|bold"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/holo_red_dark" />
-
-                <TextView
-                    android:text="-"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/textView66"
-                    android:textAlignment="center"
-                    android:textSize="28sp"
-                    android:gravity="center_vertical|center_horizontal" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:background="@android:drawable/editbox_background"
                 android:layout_width="150dp"
                 android:layout_height="75dp"
-                android:layout_marginRight="10dp"
-                android:layout_alignTop="@+id/linearLayout2"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp">
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:drawable/editbox_background"
+                android:orientation="vertical">
 
                 <TextView
-                    android:text="Aufnahmedauer"
+                    android:id="@+id/textView57"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView59"
+                    android:text="GPS-Genauigkeit"
                     android:textAlignment="center"
-                    android:textStyle="normal|bold"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/holo_red_dark" />
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textStyle="normal|bold" />
 
                 <TextView
-                    android:text="-"
+                    android:id="@+id/textView58"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/textView60"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="-"
                     android:textAlignment="center"
-                    android:textSize="28sp"
-                    android:gravity="center_vertical|center_horizontal" />
+                    android:textColor="?android:attr/textColorTertiary"
+                    android:textSize="28dp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
+                android:layout_width="150dp"
+                android:layout_height="75dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="100dp"
                 android:background="@android:drawable/editbox_background"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView61"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Geschwindigkeit"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+                    android:id="@+id/textView62"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="-"
+                    android:textAlignment="center"
+                    android:textSize="28sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="150dp"
+                android:layout_height="75dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="190dp"
+                android:background="@android:drawable/editbox_background"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView65"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Beschleunigung"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+                    android:id="@+id/textView66"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="-"
+                    android:textAlignment="center"
+                    android:textSize="28sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="150dp"
+                android:layout_height="75dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/linearLayout2"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:drawable/editbox_background"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView59"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Aufnahmedauer"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+                    android:id="@+id/textView60"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="-"
+                    android:textAlignment="center"
+                    android:textSize="28sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="150dp"
                 android:layout_height="75dp"
                 android:layout_above="@+id/linearLayout4"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="100dp">
+                android:layout_marginTop="100dp"
+                android:background="@android:drawable/editbox_background"
+                android:orientation="vertical">
 
                 <TextView
-                    android:text="Tempolimit"
+                    android:id="@+id/textView63"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView63"
+                    android:text="Tempolimit"
                     android:textAlignment="center"
-                    android:textStyle="normal|bold"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/holo_red_dark" />
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textStyle="normal|bold" />
 
                 <TextView
-                    android:text="-"
+                    android:id="@+id/textView64"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/textView64"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="-"
                     android:textAlignment="center"
-                    android:textSize="28sp"
-                    android:gravity="center_vertical|center_horizontal" />
+                    android:textSize="28sp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
-                android:background="@android:drawable/editbox_background"
                 android:layout_width="150dp"
                 android:layout_height="75dp"
-                android:layout_alignTop="@+id/linearLayout4"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/linearLayout4"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="190dp">
+                android:layout_marginTop="190dp"
+                android:background="@android:drawable/editbox_background"
+                android:orientation="vertical">
 
                 <TextView
-                    android:text="Wetter"
+                    android:id="@+id/textView67"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView67"
+                    android:text="Wetter"
                     android:textAlignment="center"
-                    android:textStyle="normal|bold"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/holo_red_dark" />
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textStyle="normal|bold" />
 
                 <TextView
-                    android:text="-"
+                    android:id="@+id/textView68"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/textView68"
-                    android:textAlignment="center"
                     android:gravity="center_vertical|center_horizontal"
+                    android:text="-"
+                    android:textAlignment="center"
                     android:textSize="18sp" />
 
             </LinearLayout>
@@ -328,13 +328,13 @@
         </RelativeLayout>
 
         <ScrollView
+            android:id="@+id/scroll1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/linearLayout"
-            android:id="@+id/scroll1"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginTop="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -342,12 +342,12 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:orientation="vertical"
-                android:paddingTop="5dp"
-                android:weightSum="1"
                 android:background="@color/whiteTransparency"
+                android:orientation="vertical"
                 android:paddingLeft="5dp"
-                android:paddingRight="5dp">
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:weightSum="1">
 
 
                 <LinearLayout

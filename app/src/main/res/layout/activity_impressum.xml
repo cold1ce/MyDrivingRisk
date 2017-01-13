@@ -24,11 +24,11 @@
             android:weightSum="1">
 
             <TextView
+                android:id="@+id/textView20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView20"
-                tools:text="@string/impressum_text"
-                android:layout_weight="0.90" />
+                android:layout_weight="0.90"
+                tools:text="@string/impressum_text" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

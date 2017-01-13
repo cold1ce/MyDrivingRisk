@@ -29,10 +29,10 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="30dp"
-        android:orientation="vertical"
-        android:weightSum="1"
         android:background="@color/whiteTransparency"
-        android:visibility="gone">
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:weightSum="1">
 
         <LinearLayout
             android:id="@+id/textll"
@@ -91,11 +91,11 @@
                     android:id="@+id/textView50"
                     android:layout_width="wrap_content"
                     android:layout_height="51dp"
+                    android:gravity="center_vertical"
                     android:text="Sie bewerten Ihre Fahrt als sehr risikoreich."
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="18dp"
-                    android:gravity="center_vertical"
                     android:textStyle="normal|bold" />
 
             </LinearLayout>
@@ -108,79 +108,79 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ergebnisLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/colorPrimary"
-        android:layout_marginTop="30dp"
-        android:id="@+id/ergebnisLayout"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView23"
             android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:text="Ihr Score beträgt: 123.4"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="28dp"
-            android:textStyle="normal|bold"
-            android:layout_height="50dp" />
+            android:textStyle="normal|bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginLeft="5dp">
+            android:layout_marginLeft="5dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView59"
+                android:layout_width="93dp"
+                android:layout_height="22dp"
                 android:layout_weight="1"
                 android:text="Aufnahmedauer:"
                 android:textColor="@android:color/holo_red_dark"
-                android:textStyle="normal|bold"
                 android:textSize="15dp"
-                android:layout_height="22dp"
-                android:layout_width="93dp" />
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:id="@+id/textView60"
                 android:layout_width="50dp"
                 android:layout_height="22dp"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:text="-"
                 android:textAlignment="viewEnd"
                 android:textColor="@android:color/holo_red_dark"
-                android:layout_marginRight="5dp"
                 android:textSize="15dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginLeft="5dp">
+            android:layout_marginLeft="5dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView49"
+                android:layout_width="93dp"
+                android:layout_height="22dp"
                 android:layout_weight="1"
                 android:text="Ø-Geschwindigkeit:"
                 android:textColor="@android:color/holo_red_dark"
-                android:textStyle="normal|bold"
                 android:textSize="15dp"
-                android:layout_height="22dp"
-                android:layout_width="93dp" />
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:id="@+id/textView24"
                 android:layout_width="50dp"
                 android:layout_height="22dp"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:text="-"
                 android:textAlignment="viewEnd"
                 android:textColor="@android:color/holo_red_dark"
-                android:layout_marginRight="5dp"
                 android:textSize="15dp" />
 
         </LinearLayout>
@@ -188,28 +188,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginLeft="5dp">
+            android:layout_marginLeft="5dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView62"
+                android:layout_width="93dp"
+                android:layout_height="22dp"
                 android:layout_weight="1"
                 android:text="Höchstgeschwindigkeit:"
                 android:textColor="@android:color/holo_red_dark"
-                android:textStyle="normal|bold"
                 android:textSize="15dp"
-                android:layout_height="22dp"
-                android:layout_width="93dp" />
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:id="@+id/textView61"
                 android:layout_width="50dp"
                 android:layout_height="22dp"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:text="-"
                 android:textAlignment="viewEnd"
                 android:textColor="@android:color/holo_red_dark"
-                android:layout_marginRight="5dp"
                 android:textSize="15dp" />
         </LinearLayout>
 
@@ -220,24 +220,24 @@
 
             <TextView
                 android:id="@+id/textView55"
+                android:layout_width="93dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:text="Geschwindigkeitsrisiko:"
                 android:textColor="@android:color/holo_red_dark"
-                android:textStyle="normal|bold"
-                android:layout_marginLeft="5dp"
-                android:layout_height="22dp"
-                android:layout_width="93dp"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:id="@+id/textView35"
                 android:layout_width="50dp"
                 android:layout_height="22dp"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:text="-"
                 android:textAlignment="viewEnd"
                 android:textColor="@android:color/holo_red_dark"
-                android:layout_marginRight="5dp"
                 android:textSize="15dp" />
         </LinearLayout>
 
@@ -248,24 +248,24 @@
 
             <TextView
                 android:id="@+id/textView53"
+                android:layout_width="93dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:text="Kurvenfahrtrisiko:"
                 android:textColor="@android:color/holo_red_dark"
-                android:textStyle="normal|bold"
-                android:layout_marginLeft="5dp"
                 android:textSize="15dp"
-                android:layout_height="22dp"
-                android:layout_width="93dp" />
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:id="@+id/textView27"
                 android:layout_width="50dp"
                 android:layout_height="22dp"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:text="-"
                 android:textAlignment="viewEnd"
                 android:textColor="@android:color/holo_red_dark"
-                android:layout_marginRight="5dp"
                 android:textSize="15dp" />
         </LinearLayout>
 
@@ -276,24 +276,24 @@
 
             <TextView
                 android:id="@+id/textView52"
+                android:layout_width="93dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:text="Bremsrisiko:"
                 android:textColor="@android:color/holo_red_dark"
-                android:textStyle="normal|bold"
-                android:layout_marginLeft="5dp"
                 android:textSize="15dp"
-                android:layout_height="22dp"
-                android:layout_width="93dp" />
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:id="@+id/textView26"
                 android:layout_width="50dp"
                 android:layout_height="22dp"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:text="-"
                 android:textAlignment="viewEnd"
                 android:textColor="@android:color/holo_red_dark"
-                android:layout_marginRight="5dp"
                 android:textSize="15dp" />
         </LinearLayout>
 
@@ -304,24 +304,24 @@
 
             <TextView
                 android:id="@+id/textView51"
+                android:layout_width="93dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:text="Beschleunigungsrisiko:"
                 android:textColor="@android:color/holo_red_dark"
-                android:textStyle="normal|bold"
-                android:layout_marginLeft="5dp"
                 android:textSize="15dp"
-                android:layout_height="22dp"
-                android:layout_width="93dp" />
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:id="@+id/textView25"
                 android:layout_width="50dp"
                 android:layout_height="22dp"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:text="-"
                 android:textAlignment="viewEnd"
                 android:textColor="@android:color/holo_red_dark"
-                android:layout_marginRight="5dp"
                 android:textSize="15dp" />
 
         </LinearLayout>
@@ -333,82 +333,82 @@
 
             <TextView
                 android:id="@+id/textView54"
+                android:layout_width="93dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:text="Uhrzeitsrisiko:"
                 android:textColor="@android:color/holo_red_dark"
-                android:textStyle="normal|bold"
-                android:layout_marginLeft="5dp"
                 android:textSize="15dp"
-                android:layout_height="22dp"
-                android:layout_width="93dp" />
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:id="@+id/textView28"
                 android:layout_width="50dp"
                 android:layout_height="22dp"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:text="-"
                 android:textAlignment="viewEnd"
                 android:textColor="@android:color/holo_red_dark"
-                android:layout_marginRight="5dp"
                 android:textSize="15dp" />
 
         </LinearLayout>
 
         <TextView
-            android:text="Ihre Fahrt gilt mit diesem Score als:"
+            android:id="@+id/textView71"
             android:layout_width="match_parent"
             android:layout_height="33dp"
-            android:id="@+id/textView71"
+            android:gravity="bottom"
+            android:text="Ihre Fahrt gilt mit diesem Score als:"
             android:textAlignment="center"
             android:textColor="@android:color/background_dark"
-            android:gravity="bottom"
             android:textSize="18dp"
             android:textStyle="normal|bold" />
 
         <TextView
-            android:text="sehr risikoreich"
+            android:id="@+id/textView56"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:id="@+id/textView56"
-            android:textAlignment="center"
-            android:textStyle="normal|bold"
             android:gravity="center_vertical|center_horizontal"
+            android:text="sehr risikoreich"
+            android:textAlignment="center"
             android:textColor="@android:color/holo_red_dark"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:textStyle="normal|bold" />
 
         <TextView
-            android:text="Sie bewerten Ihre Fahrt als sehr risikoreich."
+            android:id="@+id/textView72"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:id="@+id/textView72"
-            android:textAlignment="center"
-            android:textSize="15dp"
-            android:textColor="@android:color/background_dark"
             android:gravity="center_vertical"
+            android:text="Sie bewerten Ihre Fahrt als sehr risikoreich."
+            android:textAlignment="center"
+            android:textColor="@android:color/background_dark"
+            android:textSize="15dp"
             android:textStyle="normal|bold" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/buttonsUnten"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:id="@+id/buttonsUnten"
-        android:paddingBottom="5dp">
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:weightSum="1">
 
         <Button
             android:id="@+id/button9"
             android:layout_width="0dp"
-            android:layout_weight=".50"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_weight=".50"
             android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"
             android:gravity="bottom|center_horizontal"
             android:onClick="mainMenuButton"
@@ -418,13 +418,13 @@
         <Button
             android:id="@+id/button_save"
 
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_weight=".50"
             android:drawableLeft="@android:drawable/ic_menu_save"
             android:onClick="saveButton"
             android:text="Fahrt speichern"
-            android:layout_width="0dp"
-            android:layout_weight=".50"
             android:textAlignment="textStart" />
 
     </LinearLayout>

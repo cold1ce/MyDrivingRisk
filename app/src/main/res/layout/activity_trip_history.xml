@@ -23,83 +23,83 @@
             app:srcCompat="@drawable/mountainroad1280" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:weightSum="1">
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/buttonLayout"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:paddingRight="10dp"
-                android:id="@+id/buttonLayout">
+                android:orientation="horizontal"
+                android:paddingRight="10dp">
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:background="@android:drawable/editbox_background"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_alignParentTop="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_weight=".5"
-                    android:layout_width="0dp">
+                    android:background="@android:drawable/editbox_background"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:text="Anzahl Fahrten"
+                        android:id="@+id/textView80"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/textView80"
+                        android:text="Anzahl Fahrten"
                         android:textAlignment="center"
-                        android:textStyle="normal|bold"
                         android:textAllCaps="true"
-                        android:textColor="@android:color/holo_red_dark" />
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textStyle="normal|bold" />
 
                     <TextView
-                        android:text="-"
+                        android:id="@+id/textView81"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/textView81"
-                        android:textAlignment="center"
-                        android:textSize="28dp"
                         android:gravity="center_vertical|center_horizontal"
-                        android:textColor="?android:attr/textColorTertiary" />
+                        android:text="-"
+                        android:textAlignment="center"
+                        android:textColor="?android:attr/textColorTertiary"
+                        android:textSize="28dp" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:background="@android:drawable/editbox_background"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_alignParentTop="true"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_width="0dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_weight=".5"
-                    android:layout_height="wrap_content">
+                    android:background="@android:drawable/editbox_background"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:text="DURCHSCHNITT"
+                        android:id="@+id/textView82"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/textView82"
+                        android:text="DURCHSCHNITT"
                         android:textAlignment="center"
-                        android:textStyle="normal|bold"
                         android:textAllCaps="true"
-                        android:textColor="@android:color/holo_red_dark" />
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textStyle="normal|bold" />
 
                     <TextView
-                        android:text="-"
+                        android:id="@+id/textView83"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/textView83"
-                        android:textAlignment="center"
-                        android:textSize="28dp"
                         android:gravity="center_vertical|center_horizontal"
-                        android:textColor="?android:attr/textColorTertiary" />
+                        android:text="-"
+                        android:textAlignment="center"
+                        android:textColor="?android:attr/textColorTertiary"
+                        android:textSize="28dp" />
 
                 </LinearLayout>
 
