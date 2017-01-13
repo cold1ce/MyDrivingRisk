@@ -86,10 +86,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("AktuellerStrassentyp", strassentyp);
         long result = db.insert(aktuelletabelle, null, contentValues);
 
-        if (result == -1)
-            return false;
-        else
-            return true;
+        return result != -1;
     }
 
     //  Methode erzeugt Tabelle für die Fahrtergebnisse
@@ -151,13 +148,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         createtripResultsTabelle2();
         ContentValues contentValues = new ContentValues();
 
-        DateFormat df = DateFormat.getDateTimeInstance();
-
-        long tripStart = tripStartDate;     //  muss von Date gecastet werden
-        long tripEnde = tripEndeDate;       //  muss von Date gecastet werden
-
-        contentValues.put("Beginn", tripStart);
-        contentValues.put("Ende", tripEnde);
+        contentValues.put("Beginn", tripStartDate);
+        contentValues.put("Ende", tripEndeDate);
         contentValues.put("Name", tripName);
         contentValues.put("Score", score);
         contentValues.put("Fahrtdauer", fahrtDauer);
@@ -165,10 +157,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         long result = db.insert("tripResultsTabelle2", null, contentValues);
 
-        if (result == -1)
-            return false;
-        else
-            return true;
+        return result != -1;
     }
 
     //  Methode gibt den Durchschnittsscore aller Fahrten zurück.
@@ -484,18 +473,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT Wetter FROM " + aktuelletabelle + " ORDER BY ID DESC LIMIT 1", null);
         cursor.moveToLast();
         String wetter = cursor.getString(0);
-        for (int i = 0; i < dry.length; ++i) {
-            if (dry[i].equals(wetter)) {
+        for (String aDry : dry) {
+            if (aDry.equals(wetter)) {
                 return "dry";
             }
         }
-        for (int i = 0; i < wet.length; ++i) {
-            if (wet[i].equals(wetter)) {
+        for (String aWet : wet) {
+            if (aWet.equals(wetter)) {
                 return "wet";
             }
         }
-        for (int i = 0; i < extreme.length; ++i) {
-            if (extreme[i].equals(wetter)) {
+        for (String anExtreme : extreme) {
+            if (anExtreme.equals(wetter)) {
                 return "extreme";
             }
         }
