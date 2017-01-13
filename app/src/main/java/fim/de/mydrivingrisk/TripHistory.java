@@ -32,7 +32,7 @@ import android.widget.Toast;
 public class TripHistory extends AppCompatActivity {
 
     public DatabaseHelper myDB3;
-    public TextView t1, t2, t3;
+    public TextView t1, t2;
     public double scoreschnitt;
     public int anzahlfahrten;
 
@@ -75,13 +75,13 @@ public class TripHistory extends AppCompatActivity {
         myDB3.createtripResultsTabelle2();
 
 
-        t2 = (TextView) findViewById(R.id.textView81);
-        t3 = (TextView) findViewById(R.id.textView83);
+        t1 = (TextView) findViewById(R.id.textView81);
+        t2 = (TextView) findViewById(R.id.textView83);
 
         scoreschnitt = myDB3.getDurchschnittScoreAllerFahrten();
         scoreschnitt = (Math.round(10.0 * scoreschnitt) / 10.0);
 
-        //Den Listview füllen, sobald mehr als oder genau 1 Fahrt vorhanden ist
+        //  Den Listview füllen, sobald mehr als oder genau 1 Fahrt vorhanden ist
         Cursor todoCursor = myDB3.getListContents();
         if (todoCursor.getCount() == 0) {
             Toast.makeText(this, "Keine aufgezeichneten Fahrten vorhanden!", Toast.LENGTH_SHORT).show();
@@ -95,12 +95,12 @@ public class TripHistory extends AppCompatActivity {
             lvItems.setAdapter(todoAdapter);
         }
 
-        t2.setText("" + anzahlfahrten);
-        t3.setText("" + scoreschnitt);
+        t1.setText("" + anzahlfahrten);
+        t2.setText("" + scoreschnitt);
 
     }
 
-    //Methode um alle Fahrten zu löschen
+    //  Methode um alle Fahrten zu löschen
     public boolean deleteAllButton(MenuItem item) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Wollen Sie wirklich alle Fahrten löschen? Dies kann nicht rückgängig gemacht werden!")
@@ -122,7 +122,6 @@ public class TripHistory extends AppCompatActivity {
 
         return true;
     }
-
 
 }
 

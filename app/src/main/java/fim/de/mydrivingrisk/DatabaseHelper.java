@@ -26,8 +26,10 @@ import java.util.concurrent.TimeUnit;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    //  Abspeichern, sowie kategorisieren aller möglichen Wetterabfragen in die 3 Kategorien die für die Score-Berechnung gebraucht werden
-    //  einige Wetterbeschreibungen sind auf Englisch, werden von OWM nur so zur Verfügung gestellt
+    /**
+     * Abspeichern, sowie kategorisieren aller möglichen Wetterabfragen in die 3 Kategorien die für die Score-Berechnung gebraucht werden
+     * einige Wetterbeschreibungen sind auf Englisch, werden von OWM nur so zur Verfügung gestellt
+     */
     private String[] dry = {"Dunst", "ein paar Wolken", "einige Gewitter", "Frische Brise", "Gewitter", "Heftiges Gewitter", "heiß",
             "Hochwind, annähender Sturm", "kalt", "klarer Himmel", "Leichte Brise", "leichte Gewitter", "Mäßige Brise", "Milde Brise",
             "Nebel", "Rauch", "Sand", "sand", "Sand / Staubsturm", "schwere Gewitter", "Schwerer Sturm", "Starke Brise", "Staub", "dust", "Sturm",
@@ -47,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private final double R = 6371000;
 
     //  Diesen Konstruktor aufrufen um Datenbank zu erzeugen
-    public DatabaseHelper(Context context, String name/*, SQLiteDatabase.CursorFactory factory, int version*/) {
+    public DatabaseHelper(Context context, String name) {
         super(context, name, null, 1);
     }
 
@@ -63,7 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //  Fahrtdaten einfügen, sammelt alle Daten die in die Tabelle sollen und fügt sie ein.
     public boolean insertFahrtDaten(long meineZeit, long rechenZeit, String aktuelletabelle, double breitengrad, double laengengrad, double geschwindigkeit, double beschleunigung, double lateralebeschleunigung, double maxbeschleunigung, String wetter, String wetterkategorie, long sonnenaufgang, long sonnenuntergang, double tempolimit, String strasse, String strassentyp) {
-        SQLiteDatabase db = this.getWritableDatabase();     //  Überprüfen?
+        SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
 
@@ -96,32 +98,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS TripResultsTabelle2 (_id INTEGER PRIMARY KEY AUTOINCREMENT, Beginn DATETIME, Ende DATETIME, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
     }
 
-    // Methode löscht aktuelle Fahrtentabelle
+    //  Methode löscht aktuelle Fahrtentabelle
     public void deleteFahrtentabelle(String aktuelletabelle) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS " + aktuelletabelle);
     }
 
-    // Methode löscht Fahrtergebnis
+    //  Methode löscht Fahrtergebnis
     public void deleteTripResult(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM TripResultsTabelle2 WHERE _id = " + id);
     }
 
-    // Methode löscht alle Fahrtergebnise
+    //  Methode löscht alle Fahrtergebnise
     public void deleteAllTripResults() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM TripResultsTabelle2");
     }
 
-    // Methode löscht die Anfangs eingefügten "leeren" Startwerte, die verhindern dass das Programm abstürzt.
-    //  Das Löschen ist notwendig um das Ergebnis nicht zu verfälschen
+    /**
+     * Methode löscht die Anfangs eingefügten "leeren" Startwerte, die verhindern dass das Programm abstürzt.
+     * Das Löschen ist notwendig um das Ergebnis nicht zu verfälschen
+     */
     public void deleteStartwerte(String aktuelletabelle) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + aktuelletabelle + " WHERE id in (SELECT id FROM " + aktuelletabelle + " LIMIT 2 OFFSET 0)");
     }
 
-    // Methode gibt die Aufnahmedauer der aktuellen Fahrt als String zurück.
+    //  Methode gibt die Aufnahmedauer der aktuellen Fahrt als String zurück.
     public String getFahrtdauerAsString(long fahrtBeginn, long fahrtEnde) {
 
         Date startDate = new Date(fahrtBeginn);
@@ -137,14 +141,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             diff = String.format("%dh %dmin", TimeUnit.MILLISECONDS.toHours(timeDiff),
                     TimeUnit.MILLISECONDS.toMinutes(timeDiff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeDiff)));
         }
-
         return diff;
     }
 
-    // Methode fügt neues Fahrtergebnis in die History hinzu
+    //  Methode fügt neues Fahrtergebnis in die History hinzu
     public boolean addTripResult(long tripStartDate, long tripEndeDate, String tripName, double score, String fahrtDauer, double selbstBewertung) {
 
-        SQLiteDatabase db = this.getWritableDatabase();     //  Überprüfen?
+        SQLiteDatabase db = this.getWritableDatabase();
         createtripResultsTabelle2();
         ContentValues contentValues = new ContentValues();
 
@@ -169,7 +172,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    // Methode gibt den Durchschnittsscore aller Fahrten zurück.
+    //  Methode gibt den Durchschnittsscore aller Fahrten zurück.
     public double getDurchschnittScoreAllerFahrten() {
         SQLiteDatabase db = this.getWritableDatabase();
         double scoreschnitt = 0.0;
@@ -180,8 +183,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return scoreschnitt;
     }
 
-    //  Beschleunigung berechnen, im Konstruktor wird die aktuelle Geschwindigkeit sowie die aktuelle
-    //  Fahrtentabelle übergeben.
+    /**
+     * Beschleunigung berechnen, im Konstruktor wird die aktuelle Geschwindigkeit sowie die aktuelle
+     * Fahrtentabelle übergeben.
+     */
     public double berechneBeschleunigung(String aktuelletabelle, double aktuellegeschwindigkeit, long rechenZeit) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -213,7 +218,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    // Methode gibt den Beginn der Fahrt zurück
+    //  Methode gibt den Beginn der Fahrt zurück
     public long getFahrtBeginn(String aktuelletab) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT Zeit FROM " + aktuelletab + " ORDER BY ID ASC LIMIT 1 OFFSET 2;", null);
@@ -223,7 +228,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return ret;
     }
 
-    // Methode gibt das Ende der Fahrt zurück
+    //  Methode gibt das Ende der Fahrt zurück
     public long getFahrtEnde(String aktuelletab) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT Zeit FROM " + aktuelletab + " ORDER BY ID DESC LIMIT 1", null);
@@ -243,7 +248,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return ret;
     }
 
-    // Methode gibt die durchschnittlich gefahrene Geschwindigkeit der Fahrt zurück
+    //  Methode gibt die durchschnittlich gefahrene Geschwindigkeit der Fahrt zurück
     public double berechneDurschnittsgeschwindigkeit(String aktuelletabelle) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -260,7 +265,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    // Methode gibt die höchste Geschwindigkeit der Fahrt aus
+    //  Methode gibt die höchste Geschwindigkeit der Fahrt aus
     public double berechneHöchstgeschwindigkeit(String aktuelletabelle) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -277,7 +282,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    // Methode um nach dem Scoring Modell den Acceleration-Score zu berechnen.
+    //  Methode um nach dem Scoring Modell den Acceleration-Score zu berechnen.
     public double berechneAccelarationScore(String aktuelletabelle) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -299,7 +304,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (s / n * 100);
     }
 
-    // Methode um nach dem Scoring Modell den Speeding-Score zu berechnen.
+    //  Methode um nach dem Scoring Modell den Speeding-Score zu berechnen.
     public double berechneSpeedingScore(String aktuelletabelle) {
         double n = 0;
         double s = 0;
@@ -332,7 +337,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (s / n * 100);
     }
 
-    // Methode um nach dem Scoring Modell den Zeit-Score zu berechnen.
+    //  Methode um nach dem Scoring Modell den Zeit-Score zu berechnen.
     public double berechneTimeScore(String aktuelletabelle) {
 
         double n = 0;
@@ -369,7 +374,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (s / n * 100);
     }
 
-    // Methode um nach dem Scoring Modell den Braking-Score zu berechnen.
+    //  Methode um nach dem Scoring Modell den Braking-Score zu berechnen.
     public double berechneBrakingScore(String aktuelletabelle) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -403,7 +408,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (s / n * 100);
     }
 
-    // Methode um nach dem Scoring Modell den Kurven-Score zu berechnen.
+    //  Methode um nach dem Scoring Modell den Kurven-Score zu berechnen.
     public double berechneCorneringScore(String aktuelletabelle) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -437,13 +442,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (s / n * 100);
     }
 
-    // Gibt die Maximale Beschleunigung aus
+    //  Gibt die Maximale Beschleunigung aus
     public double berechneMaximalBeschleunigung(double lateralebeschleunigung) {
         double maximalbeschleunigung = 0.509 * Math.pow(lateralebeschleunigung, 2) - 2.351 * lateralebeschleunigung + 2.841;
         return maximalbeschleunigung;
     }
 
-    // Methode um die Laterale Beschleunigung zu berechnen (Nach Scoring Modell)
+    //  Methode um die Laterale Beschleunigung zu berechnen (Nach Scoring Modell)
     public double berechneLateraleBeschleunigung(String aktuelletabelle, double latitude1, double longitude1, double aktuellerspeed, double aktuellerichtungsdifferenz) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -475,8 +480,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return lateralebeschleunigung;
     }
 
-    // Überprüfen welche Wetterkategorie gerade gilt. Dies spielt eine Rolle bei den Berechnungen, denn umso
-    // schlechter das Wetter, desto gravierender sind die "Gefährlichen Events" wie starkes Bremsen oder überhöhte Geschw.
+    //  Überprüfen welche Wetterkategorie gerade gilt. Dies spielt eine Rolle bei den Berechnungen, denn umso
+    //  schlechter das Wetter, desto gravierender sind die "Gefährlichen Events" wie starkes Bremsen oder überhöhte Geschw.
     public String wetterkategorie(String aktuelletabelle) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT Wetter FROM " + aktuelletabelle + " ORDER BY ID DESC LIMIT 1", null);
@@ -501,8 +506,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return "keine Kategorie";
     }
 
-    // Für die History werden hier alle Inhalte der Fahrtergebnisse geladen und von der neuesten
-    // Fahrt an geordnet
+    //  Für die History werden hier alle Inhalte der Fahrtergebnisse geladen und von der neuesten
+    //  Fahrt an geordnet
     public Cursor getListContents() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM tripResultsTabelle2 ORDER BY _id DESC", null);
@@ -510,9 +515,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    // Hier 3 Methoden die nur für das geplante Balkendiagramm in der History nötig sind. Dieses Diagramm ist allerdings nicht
-    // in der abgegebenen Version beinhaltet.
-
+    //  Hier 3 Methoden die nur für das geplante Balkendiagramm in der History nötig sind. Dieses Diagramm ist allerdings nicht
+    //  in der abgegebenen Version beinhaltet.
     public int[] allScoresToArray() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM tripResultsTabelle2", null);

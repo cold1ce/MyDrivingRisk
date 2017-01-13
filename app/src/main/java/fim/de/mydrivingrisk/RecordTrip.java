@@ -81,10 +81,11 @@ public class RecordTrip extends AppCompatActivity {
     public RecordTrip() throws JSONException {
     }
 
-    /*
-    Falls in der ActionBar der Zurück-Pfeil angeklickt wird,
-    ausführen des cancelRecordDialogs. Dieser überprüft ob eine Aufnahme
-    läuft und warnt davor eine Aufnahme ohne Speichern zu beenden. */
+    /**
+     * Falls in der ActionBar der Zurück-Pfeil angeklickt wird,
+     * ausführen des cancelRecordDialogs. Dieser überprüft ob eine Aufnahme
+     * läuft und warnt davor eine Aufnahme ohne Speichern zu beenden.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -95,10 +96,12 @@ public class RecordTrip extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*
-    Falls er Zurück-Knopf  angeklickt wird,
-    ausführen des cancelRecordDialogs. Dieser überprüft ob eine Aufnahme
-    läuft und warnt davor eine Aufnahme ohne Speichern zu beenden.  */
+
+    /**
+     * Falls der Zurück-Knopf angeklickt wird,
+     * ausführen des cancelRecordDialogs. Dieser überprüft ob eine Aufnahme
+     * läuft und warnt davor eine Aufnahme ohne Speichern zu beenden.
+     */
     @Override
     public void onBackPressed() {
         cancelRecordDialog();
@@ -189,7 +192,7 @@ public class RecordTrip extends AppCompatActivity {
         t27 = (TextView) findViewById(R.id.textView19);
         t28 = (TextView) findViewById(R.id.textView17);
         t29 = (TextView) findViewById(R.id.textView41);
-        //t30 = (TextView) findViewById(R.id.textView2);
+        // t30 = (TextView) findViewById(R.id.textView2);
         t31 = (TextView) findViewById(R.id.textView40);
         t32 = (TextView) findViewById(R.id.textView14);
         t33 = (TextView) findViewById(R.id.textView38);
@@ -235,7 +238,6 @@ public class RecordTrip extends AppCompatActivity {
                     sc1.setVisibility(View.VISIBLE);
                     e1.setVisibility(View.INVISIBLE);
 
-
                 } else {
                     sc1.setVisibility(View.INVISIBLE);
                     e1.setVisibility(View.VISIBLE);
@@ -244,7 +246,7 @@ public class RecordTrip extends AppCompatActivity {
             }
         });
 
-        //Wenn das GPS nicht gleich oder unter 10m Genauigkeit hat, bleibt der Aufnahme-Button deaktiviert.
+        //  Wenn das GPS nicht gleich oder unter 10m Genauigkeit hat, bleibt der Aufnahme-Button deaktiviert.
         if (aktuellegenauigkeit > 10.0 || aktuellegenauigkeit <= 0.0) {
             Button b1 = (Button) findViewById(R.id.button6);
             b1.setEnabled(false);
@@ -305,7 +307,7 @@ public class RecordTrip extends AppCompatActivity {
                 Toast.makeText(RecordTrip.this, "Standortfunktion aktiviert!", Toast.LENGTH_SHORT).show();
             }
 
-            //Abfangen wenn Standort Funktion deaktiviert wird/Deaktiviert ist
+            //  Abfangen wenn Standort Funktion deaktiviert wird/Deaktiviert ist
             @Override
             public void onProviderDisabled(String s) {
                 if (aufnahmelaeuft == true) {
@@ -443,9 +445,11 @@ public class RecordTrip extends AppCompatActivity {
     }
 
 
-    //  Aufnahmeschleife (Wird permanent wiederholt solange bis "aufnahmeläuft" auf false gesetzt wird
-    //  (Durch stoppen der Aufnahme) - Künstliche Verzögerung von 1s eingebaut da nur alle Sekunde
-    //  Daten angelegt werden sollen
+    /**
+     * Aufnahmeschleife (Wird permanent wiederholt solange bis "aufnahmeläuft" auf false gesetzt wird
+     * (Durch stoppen der Aufnahme) - Künstliche Verzögerung von 1s eingebaut da nur alle Sekunde
+     * Daten angelegt werden sollen
+     */
     private Handler handler = new Handler();
 
     private Runnable runnable = new Runnable() {
@@ -499,9 +503,8 @@ public class RecordTrip extends AppCompatActivity {
                     altezeit = (new Date().getTime()) - 1;
                 }
 
-                //Analog wie Wetterabfrage: OSM-Abfrage des Tempolimits, aktuell 5000ms, das heißt alle 5 Sekunden
+                //  Analog wie Wetterabfrage: OSM-Abfrage des Tempolimits, aktuell 5000ms, das heißt alle 5 Sekunden
                 if ((aktuellezeit - altezeitOSM) > (3000)) {
-                    //aktuellehoechstgeschwindigkeit = osm1.matchOSM(aktuellerbreitengrad, aktuellerlaengengrad);
                     if (aktuellegenauigkeit <= 5.0) {
                         Tempolimit(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
                     } else {
@@ -576,9 +579,10 @@ public class RecordTrip extends AppCompatActivity {
         handler.postDelayed(runnable, 1000);
     }
 
-
-    //  Wenn die Aufnahme beendet wird, zur Ergebnisseite weiterleiten,
-    //  hierbei müssen einige Werte dieser Activitiy als Bundle weitergegeben werden
+    /**
+     * Wenn die Aufnahme beendet wird, zur Ergebnisseite weiterleiten,
+     * hierbei müssen einige Werte dieser Activitiy als Bundle weitergegeben werden
+     */
     public void toTripResult() {
         Bundle trip = new Bundle();
         trip.putString("datenpaket1", aktuelletabelle);
@@ -601,8 +605,7 @@ public class RecordTrip extends AppCompatActivity {
         return aktuelletabelle;
     }
 
-    //  Wetter-Abfrage als paralleler Task, um das Speichern der anderen Daten nicht zu behindern oder zu
-    //  verzögern
+    //  Wetter-Abfrage als paralleler Task, um das Speichern der anderen Daten nicht zu behindern oder zu verzögern
     public void Wetter(String latitude, String longitude) {
         Weather.placeIdTask asyncTask = new Weather.placeIdTask(new Weather.AsyncResponse() {
             @Override
@@ -617,8 +620,7 @@ public class RecordTrip extends AppCompatActivity {
         asyncTask.execute(latitude, longitude);
     }
 
-    //  Tempolimit-Abfrage als paralleler Task, um das Speichern der anderen Daten nicht zu behindern oder zu
-    //  verzögern
+    //  Tempolimit-Abfrage als paralleler Task, um das Speichern der anderen Daten nicht zu behindern oder zu verzögern
     public void Tempolimit(String latitude, String longitude) {
         MyOSM.placeIdTask asyncTask = new MyOSM.placeIdTask(new MyOSM.AsyncResponse() {
             @Override

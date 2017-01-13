@@ -28,6 +28,7 @@ import java.text.DateFormat;
 
 public class Weather {
 
+    //  URL und Key von OpenWeatherMap statisch festlegen
     private static final String OPEN_WEATHER_MAP_URL = "http://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&units=metric&lang=de";
     private static final String OPEN_WEATHER_MAP_KEY = "92080114fee4af04b0fd05c803fba1fd";
 
@@ -56,7 +57,6 @@ public class Weather {
             } catch (Exception e) {
                 Log.d("Error", "JSON-Ergebnisse können nicht verarbeitet werden", e);
             }
-
 
             return jsonWeather;
         }

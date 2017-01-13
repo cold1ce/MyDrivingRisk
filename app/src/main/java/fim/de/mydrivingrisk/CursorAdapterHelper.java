@@ -28,8 +28,8 @@ import java.text.DateFormat;
  */
 
 public class CursorAdapterHelper extends CursorAdapter {
-    public Context context;
 
+    public Context context;
 
     public CursorAdapterHelper(Context context, Cursor cursor) {
         super(context, cursor, 0);
@@ -54,7 +54,6 @@ public class CursorAdapterHelper extends CursorAdapter {
 
         Button delete_button = (Button) view.findViewById(R.id.list_item_type1_button_delete);
 
-
         //  Extract properties from cursor
         String fahrtname = cursor.getString(cursor.getColumnIndexOrThrow("Name"));
         System.out.println(fahrtname);
@@ -66,7 +65,6 @@ public class CursorAdapterHelper extends CursorAdapter {
 
         DateFormat df = DateFormat.getDateTimeInstance();
 
-
         fahrtnameView.setText("" + fahrtname);
         scoreView.setText("" + score);
         beginView.setText("Beginn: " + df.format(begin));
@@ -76,7 +74,7 @@ public class CursorAdapterHelper extends CursorAdapter {
         delete_button.setText("" + id);
 
         final DatabaseHelper MyDB4;
-        //  this.context=context;
+
         MyDB4 = new DatabaseHelper(context, "Fahrtendatenbank.db");
 
 

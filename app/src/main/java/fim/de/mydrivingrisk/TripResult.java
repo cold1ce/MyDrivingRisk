@@ -38,7 +38,6 @@ public class TripResult extends AppCompatActivity {
 
     public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21;
     public DatabaseHelper myDB2;
-    public RatingBar r1;
     public Button b1, b2, b3;
     public String aktuelletabelle, eigenbewertung;
     public double aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz, averagespeed, maxspeed, selbstbewertung;
@@ -76,7 +75,7 @@ public class TripResult extends AppCompatActivity {
 
         myDB2 = new DatabaseHelper(this, "Fahrtendatenbank.db");
 
-        //Die im Bundle von RecordTrip übergebenen Daten verarbeiten.
+        //  Die im Bundle von RecordTrip übergebenen Daten verarbeiten.
         Bundle zielkorb = getIntent().getExtras();
         aktuelletabelle = zielkorb.getString("datenpaket1");
         aktuellerbreitengrad = zielkorb.getDouble("breitengrad");
@@ -133,7 +132,7 @@ public class TripResult extends AppCompatActivity {
         b2.setVisibility(View.VISIBLE);
         b3.setVisibility(View.INVISIBLE);
 
-        //Rating Bar mit 5 Sternen, mit der die Fahrt selbst eingeschätzt wird.
+        //  Rating Bar mit 5 Sternen, mit der die Fahrt selbst eingeschätzt wird.
         final RatingBar mBar = (RatingBar) findViewById(R.id.ratingBar);
         mBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
@@ -162,14 +161,13 @@ public class TripResult extends AppCompatActivity {
                     eigenbewertung = "?.";
                 }
 
-
             }
         });
 
         aktuellerTripGespeichert = false;
     }
 
-    //Abfangen wenn jemand den Zurückpfeil drückt und noch nicht gespeichert wurde
+    //  Abfangen wenn jemand den Zurückpfeil drückt und noch nicht gespeichert wurde
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -186,7 +184,7 @@ public class TripResult extends AppCompatActivity {
     }
 
 
-    //Abfangen wenn jemand den Zurückbutton drückt und noch nicht gespeichert wurde
+    //  Abfangen wenn jemand den Zurückbutton drückt und noch nicht gespeichert wurde
     public void onBackPressed() {
         if (aktuellerTripGespeichert == false) {
             cancelResultsDialog();
@@ -196,7 +194,7 @@ public class TripResult extends AppCompatActivity {
         }
     }
 
-    //Zurück zum Hauptmenü Button, auch mit Abfangen falls noch nicht gespeichert wurde.
+    //  Zurück zum Hauptmenü Button, auch mit Abfangen falls noch nicht gespeichert wurde.
     public void cancelResultsDialog() {
         if (aktuellerTripGespeichert == false) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -289,12 +287,12 @@ public class TripResult extends AppCompatActivity {
         t17.setText("" + fahrtDauerString);
     }
 
-    //Save Button ruft saveTrip Methode auf
+    //  Save Button ruft saveTrip Methode auf
     public void saveButton(View view) {
         saveTrip();
     }
 
-    //Endberechnung des Gesamtscores nach dem (angepassten) Scoring Modell von Moritz
+    //  Endberechnung des Gesamtscores nach dem (angepassten) Scoring Modell von Moritz
     public double berechneGesamtscore(double brakingscore, double accelerationscore, double timescore, double corneringscore, double speedingscore) {
         gesamtscore = ((brakingscore * 0.33) + (accelerationscore * 0.23) + (timescore * 0.08) + (corneringscore * 0.23) + (speedingscore * 0.13));
         return gesamtscore;
@@ -310,7 +308,7 @@ public class TripResult extends AppCompatActivity {
         }
     }
 
-    //Aus dem Gesamtscore die Risikoklasse ableiten und ausgeben
+    //  Aus dem Gesamtscore die Risikoklasse ableiten und ausgeben
     public String getRisikoklasse(double gesamtscore) {
         if (gesamtscore >= 0 && gesamtscore <= 10.0) {
             aktuelleRisikoKlasse = "sehr sicher";
@@ -329,7 +327,7 @@ public class TripResult extends AppCompatActivity {
         return aktuelleRisikoKlasse;
     }
 
-    //Methode zum Speichern der aktuellen Fahrt
+    //  Methode zum Speichern der aktuellen Fahrt
     public void saveTrip() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Fahrt benennen");
