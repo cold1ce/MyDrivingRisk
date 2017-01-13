@@ -1,6 +1,10 @@
-//MainActivity.java als Hauptmenü der App, hier erreicht man alle Funktionen und
-// man findet sich auch beim Start der App hier wieder.
-
+/*
+ *
+ * @MainActivity.java 14.11.2016 (myDrivingRisk-Team)
+ *
+ * Copyright (c) 2016 FIM, Universität Augsburg
+ *
+ */
 
 package fim.de.mydrivingrisk;
 
@@ -20,6 +24,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
+/**
+ * MainActivity.java als Hauptmenü der App, hier erreicht man alle Funktionen und
+ * man findet sich auch beim Start der App hier wieder.
+ *
+ * @author myDrivingRisk-Team
+ */
 
 public class MainActivity extends AppCompatActivity {
 

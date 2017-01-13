@@ -1,46 +1,33 @@
-//In der TripHistory.java ist es möglich vergangene Fahrten anzuschauen, sowie die Anzahl und den Schnitt
-//aller aufgezeichneten Fahrten
+/*
+ *
+ * @TripHistory.java 05.12.2016 (myDrivingRisk-Team)
+ *
+ * Copyright (c) 2016 FIM, Universität Augsburg
+ *
+ */
+
 package fim.de.mydrivingrisk;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidplot.ui.SeriesRenderer;
-import com.androidplot.ui.widget.TextLabelWidget;
-import com.androidplot.util.PixelUtils;
-import com.androidplot.util.SeriesUtils;
-import com.androidplot.xy.BarFormatter;
-import com.androidplot.xy.BarRenderer;
-import com.androidplot.xy.BoundaryMode;
-import com.androidplot.xy.CatmullRomInterpolator;
-import com.androidplot.xy.LineAndPointFormatter;
-import com.androidplot.xy.SimpleXYSeries;
-import com.androidplot.xy.StepMode;
-import com.androidplot.xy.XYGraphWidget;
-import com.androidplot.xy.XYPlot;
-import com.androidplot.xy.XYSeries;
-
-import java.text.FieldPosition;
-import java.text.Format;
-import java.text.ParsePosition;
-import java.util.Arrays;
+/**
+ * In der TripHistory.java ist es möglich vergangene Fahrten anzuschauen, sowie die Anzahl und den Schnitt
+ * aller aufgezeichneten Fahrten
+ *
+ * @author myDrivingRisk-Team
+ */
 
 public class TripHistory extends AppCompatActivity {
 
@@ -108,8 +95,8 @@ public class TripHistory extends AppCompatActivity {
             lvItems.setAdapter(todoAdapter);
         }
 
-        t2.setText(""+anzahlfahrten);
-        t3.setText(""+scoreschnitt);
+        t2.setText("" + anzahlfahrten);
+        t3.setText("" + scoreschnitt);
 
     }
 
@@ -135,10 +122,6 @@ public class TripHistory extends AppCompatActivity {
 
         return true;
     }
-
-
-
-
 
 
 }

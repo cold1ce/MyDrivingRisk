@@ -1,4 +1,10 @@
-//RecordTrip.java ist die wichtigste Klasse. Hier läuft der komplette Aufnahmeprozess einer Fahrt ab
+/*
+ *
+ * @RecordTrip.java 21.11.2016 (myDrivingRisk-Team)
+ *
+ * Copyright (c) 2016 FIM, Universität Augsburg
+ *
+ */
 
 package fim.de.mydrivingrisk;
 
@@ -32,6 +38,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * RecordTrip.java ist die wichtigste Klasse. Hier läuft der komplette Aufnahmeprozess einer Fahrt ab
+ *
+ * @author myDrivingRisk-Team
+ */
 
 public class RecordTrip extends AppCompatActivity {
 
@@ -517,8 +528,7 @@ public class RecordTrip extends AppCompatActivity {
 
                 //  Alle ermittelten Daten des aktuellen Datenpunktes in die Datenbank schreiben
                 myDB.insertFahrtDaten(aktuellezeit, aktuelleRechenzeit, aktuelletabelle, aktuellerbreitengrad, aktuellerlaengengrad, (aktuellerspeed * 3.6), aktuellebeschleunigung, aktuellelateralebeschleunigung, aktuellemaxbeschleunigung, wetter, wetterkategorie, sonnenaufgang, sonnenuntergang, aktuellestempolimit, aktuellestrasse, aktuellerstrassentyp);
-            }
-            else {
+            } else {
                 Toast.makeText(RecordTrip.this, "GPS zu ungenau, aktueller Erfassungspunkt wird nicht gespeichert!", Toast.LENGTH_SHORT).show();
                 DateFormat df = DateFormat.getDateTimeInstance();
                 t17.setText("" + aktuelleRechenzeit + "ms");

@@ -1,23 +1,30 @@
-//MyOSM.java ist die Hilfsklasse die asynchron für die Abfrage des Tempolimits zuständig ist
+/*
+ *
+ * @MyOSM.java 15.12.2016 (myDrivingRisk-Team)
+ *
+ * Copyright (c) 2016 FIM, Universität Augsburg
+ *
+ */
 
 package fim.de.mydrivingrisk;
 
-import android.os.AsyncTask;
-
+import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-
 import java.net.URL;
 
 import android.util.Log;
+import android.os.AsyncTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.*;
 
-import java.io.BufferedReader;
-
-
+/**
+ * MyOSM.java ist die Hilfsklasse die asynchron für die Abfrage des Tempolimits zuständig ist
+ *
+ * @author myDrivingRisk-Team
+ */
 
 public class MyOSM {
 
@@ -48,7 +55,7 @@ public class MyOSM {
                 Log.d("Error", "Cannot process JSON results", e);
             }
 
-            System.out.println("JsonTempo: "+jsonTempo);
+            System.out.println("JsonTempo: " + jsonTempo);
             return jsonTempo;
         }
 
@@ -56,66 +63,58 @@ public class MyOSM {
         protected void onPostExecute(JSONObject jsoninput) {
             System.out.println("onPostExecuteStarted");
             double maxspeed = 0.0;
-            String strasse ="leer", strassentyp="leer";
+            String strasse = "leer", strassentyp = "leer";
             try {
                 if (jsoninput != null) {
                     System.out.println("JSON Paket ist nicht leer :-)");
                     JSONObject object = jsoninput;
-                    System.out.println("JSON Object 1: "+object);
+                    System.out.println("JSON Object 1: " + object);
 
                     JSONArray array1 = jsoninput.getJSONArray("elements");
-                    System.out.println("Elements Array: "+array1);
+                    System.out.println("Elements Array: " + array1);
 
                     //for(int i = 0; i < array1.length(); i++)
                     //{
-                        JSONObject object3 = array1.getJSONObject(0);
-                        System.out.println("Object3 : "+object3);
+                    JSONObject object3 = array1.getJSONObject(0);
+                    System.out.println("Object3 : " + object3);
 
-                        //JSONArray array2 = object3.getJSONArray("tags");
-                        //System.out.println("Array2 : "+array2);
+                    //JSONArray array2 = object3.getJSONArray("tags");
+                    //System.out.println("Array2 : "+array2);
 
-                        String zwo = object3.getString("tags");
-                        System.out.println("String zwo/tags : "+zwo);
+                    String zwo = object3.getString("tags");
+                    System.out.println("String zwo/tags : " + zwo);
 
-                        JSONObject object4 = new JSONObject(zwo);
-                        System.out.println("Object 4 : "+object4);
+                    JSONObject object4 = new JSONObject(zwo);
+                    System.out.println("Object 4 : " + object4);
 
 
+                    try {
+                        maxspeed = object4.getDouble("maxspeed");
+                        System.out.println("MAXSPEED: " + maxspeed);
+                    } catch (JSONException e) {
+                        System.out.println("kein maxspeed-wert erhalten");
+                        maxspeed = 0.0;
+                    }
+
+                    try {
+                        strasse = object4.getString("name");
+                        System.out.println("Straße: " + strasse);
+                    } catch (JSONException e) {
+                        System.out.println("kein strasse-wert erhalten");
                         try {
-                            maxspeed = object4.getDouble("maxspeed");
-                            System.out.println("MAXSPEED: " + maxspeed);
+                            strasse = object4.getString("ref");
+                            System.out.println("Straße: " + strasse);
+                        } catch (JSONException f) {
+                            System.out.println("kein ref-wert erhalten");
                         }
-                        catch (JSONException e){
-                            System.out.println("kein maxspeed-wert erhalten");
-                            maxspeed = 0.0;
-                        }
+                    }
 
-                        try {
-                            strasse = object4.getString("name");
-                            System.out.println("Straße: "+strasse);
-                        }
-                        catch (JSONException e){
-                            System.out.println("kein strasse-wert erhalten");
-                            try {
-                                strasse = object4.getString("ref");
-                                System.out.println("Straße: "+strasse);
-                            }
-                            catch (JSONException f){
-                                System.out.println("kein ref-wert erhalten");
-                            }
-                        }
-
-                        try {
-                            strassentyp = object4.getString("highway");
-                            System.out.println("Straßentyp: "+strassentyp);
-                        }
-                        catch (JSONException e){
-                            System.out.println("kein straßentyp-wert erhalten");
-                        }
-
-
-
-
+                    try {
+                        strassentyp = object4.getString("highway");
+                        System.out.println("Straßentyp: " + strassentyp);
+                    } catch (JSONException e) {
+                        System.out.println("kein straßentyp-wert erhalten");
+                    }
 
 
                     //}
@@ -129,7 +128,6 @@ public class MyOSM {
 
                     //JSONArray object3 = new JSONArray(two);
                     //System.out.println("JSON Object 3: "+object3);
-
 
 
                     //System.out.println("Tags String: "+one);
@@ -146,29 +144,27 @@ public class MyOSM {
                     //System.out.println("Details: "+details2);
 
 
-
                     //String description = details.getString("id");
                     //long sunrise = json.getJSONObject("sys").getLong("sunrise") * 1000;
                     //long sunset = json.getJSONObject("sys").getLong("sunset") * 1000;
                     //String description = details.getString("id");
                     //String description2 = "desc2";
                     //String description2 = details2.getString("maxspeed");
-                    System.out.println("Ausgabe: "+maxspeed+" | "+strasse+" | "+strassentyp);
+                    System.out.println("Ausgabe: " + maxspeed + " | " + strasse + " | " + strassentyp);
 
 
-                }
-                else {
+                } else {
                     System.out.println("JSON Paket ist leer :-(");
                     maxspeed = 0.0;
                     strasse = "not found";
                     strassentyp = "not found";
                 }
             } catch (JSONException e) {
-                    maxspeed = 0.0;
-                    strasse = "not found";
-                    strassentyp = "not found";
-                    Log.e("FEHLER", "Cannot process JSON results", e);
-                    System.out.println("OSM-Abfrage-Exception");
+                maxspeed = 0.0;
+                strasse = "not found";
+                strassentyp = "not found";
+                Log.e("FEHLER", "Cannot process JSON results", e);
+                System.out.println("OSM-Abfrage-Exception");
 
             }
             delegate.processFinish(maxspeed, strasse, strassentyp);
@@ -185,12 +181,12 @@ public class MyOSM {
             //String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json];node(around:50,48.167006,%209.511681);way(bn)[highway];out;";
             //String sURL3 = "http://overpass-api.de/api/way[\"highway\"](around:5.0,48.165553,9.519322);out;"
             //String sURL3 = ("http://overpass-api.de/api/interpreter?data=[out:json];way[highway](around:5.0,"+lat+","+lon+");out;");
-            String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json];way[\"highway\"~\"motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|living_street\"][\"maxspeed\"](around:7.0,"+lat+","+lon+");out;";
+            String sURL3 = "http://overpass-api.de/api/interpreter?data=[out:json];way[\"highway\"~\"motorway|trunk|primary|secondary|tertiary|unclassified|residential|service|living_street\"][\"maxspeed\"](around:7.0," + lat + "," + lon + ");out;";
             String version = "nix";
             String zipcode = "nix";
 
             URL url = new URL(sURL3);
-            System.out.println("URL: "+url);
+            System.out.println("URL: " + url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.connect();
@@ -212,9 +208,9 @@ public class MyOSM {
             //  This value will be 404 if the request was not
             //  successful
             //if (data.getInt("cod") != 200) {
-             //   return null;
+            //   return null;
             //}
-            System.out.println("Data: "+data);
+            System.out.println("Data: " + data);
             return data;
 
 

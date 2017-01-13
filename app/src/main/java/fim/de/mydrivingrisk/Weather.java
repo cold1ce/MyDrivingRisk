@@ -1,7 +1,12 @@
-//Weather.java ist die Hilfsklasse die asynchron für die Wetterabfrage zuständig ist
+/*
+ *
+ * @Weather.java 01.12.2016 (myDrivingRisk-Team)
+ *
+ * Copyright (c) 2016 FIM, Universität Augsburg
+ *
+ */
 
 package fim.de.mydrivingrisk;
-
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -15,6 +20,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
 
+/**
+ * Weather.java ist die Hilfsklasse die asynchron für die Wetterabfrage zuständig ist
+ *
+ * @author myDrivingRisk-Team
+ */
 
 public class Weather {
 
@@ -62,7 +72,7 @@ public class Weather {
                     String description = details.getString("description");
                     long sunrise = json.getJSONObject("sys").getLong("sunrise") * 1000;
                     long sunset = json.getJSONObject("sys").getLong("sunset") * 1000;
-                    
+
                     delegate.processFinish(description, sunrise, sunset);
 
                 }

@@ -1,4 +1,10 @@
-//Impressum.java zeigt das Impressum der App an.
+/*
+ *
+ * @Impressum.java 13.12.2016 (myDrivingRisk-Team)
+ *
+ * Copyright (c) 2016 FIM, Universität Augsburg
+ *
+ */
 
 package fim.de.mydrivingrisk;
 
@@ -10,9 +16,16 @@ import android.text.Html;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+/**
+ * Impressum.java zeigt das Impressum der App an
+ *
+ * @author myDrivingRisk-Team
+ */
+
 public class Impressum extends AppCompatActivity {
 
     public TextView t1;
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -28,7 +41,7 @@ public class Impressum extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_impressum);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.setTitle("Impressum");
 
         t1 = (TextView) findViewById(R.id.textView20);

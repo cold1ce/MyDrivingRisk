@@ -1,5 +1,10 @@
-//DatabaseHelper.java ist die Hilfsklasse, die jegliche Interaktion mit unserer Datenbank möglich macht.
-
+/*
+ *
+ * @DatabaseHelper.java 21.11.2016 (myDrivingRisk-Team)
+ *
+ * Copyright (c) 2016 FIM, Universität Augsburg
+ *
+ */
 
 package fim.de.mydrivingrisk;
 
@@ -12,6 +17,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+/**
+ * DatabaseHelper.java ist die Hilfsklasse, die jegliche Interaktion mit unserer Datenbank möglich macht.
+ *
+ * @author myDrivingRisk-Team
+ */
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -507,7 +518,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM tripResultsTabelle2", null);
         int[] array = new int[cursor.getCount()];
         int i = 0;
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             int buff = cursor.getInt(cursor.getColumnIndex("Score"));
             array[i] = buff;
             i++;
@@ -527,7 +538,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public double getScoreOfTrip(int i) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT Score FROM tripResultsTabelle2 LIMIT 1 OFFSET "+i+"", null);
+        Cursor cursor = db.rawQuery("SELECT Score FROM tripResultsTabelle2 LIMIT 1 OFFSET " + i + "", null);
         cursor.moveToLast();
         double buff2 = cursor.getDouble(0);
         cursor.close();

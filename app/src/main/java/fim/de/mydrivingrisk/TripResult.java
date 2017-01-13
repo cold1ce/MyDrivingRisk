@@ -1,7 +1,13 @@
-//In der TripResult.java wird die Fahrt bewertet, der Score ausgerechnet sowie der Score ausgegeben,
-// zudem besteht die Möglichkeit den Score abzuspeichern.
+/*
+ *
+ * @TripResult.java 24.11.2016 (myDrivingRisk-Team)
+ *
+ * Copyright (c) 2016 FIM, Universität Augsburg
+ *
+ */
 
 package fim.de.mydrivingrisk;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -18,7 +24,15 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.text.DateFormat;
+
+/**
+ * In der TripResult.java wird die Fahrt bewertet, der Score ausgerechnet sowie der Score ausgegeben,
+ * zudem besteht die Möglichkeit den Score abzuspeichern.
+ *
+ * @author myDrivingRisk-Team
+ */
 
 public class TripResult extends AppCompatActivity {
 
@@ -48,7 +62,7 @@ public class TripResult extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setTitle("Fahrtergebnis");
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         setContentView(R.layout.activity_trip_result);
 
@@ -131,24 +145,19 @@ public class TripResult extends AppCompatActivity {
                 if (stars == 1) {
                     t19.setText("Sie bewerten Ihre Fahrt als sehr risikoreich.");
                     eigenbewertung = "Sie bewerten Ihre Fahrt als sehr risikoreich.";
-                }
-                else if (stars == 2) {
+                } else if (stars == 2) {
                     t19.setText("Sie bewerten Ihre Fahrt als risikoreich.");
                     eigenbewertung = "Sie bewerten Ihre Fahrt als risikoreich.";
-                }
-                else if (stars == 3) {
+                } else if (stars == 3) {
                     t19.setText("Sie bewerten Ihre Fahrt als neutral.");
                     eigenbewertung = "Sie bewerten Ihre Fahrt als neutral.";
-                }
-                else if (stars == 4) {
+                } else if (stars == 4) {
                     t19.setText("Sie bewerten Ihre Fahrt als sicher.");
                     eigenbewertung = "Sie bewerten Ihre Fahrt als sicher.";
-                }
-                else if (stars == 5) {
+                } else if (stars == 5) {
                     t19.setText("Sie bewerten Ihre Fahrt als sehr sicher.");
                     eigenbewertung = "Sie bewerten Ihre Fahrt als sehr sicher.";
-                }
-                else {
+                } else {
                     t19.setText("\"???\"");
                     eigenbewertung = "?.";
                 }
@@ -207,8 +216,7 @@ public class TripResult extends AppCompatActivity {
                     });
             final AlertDialog alert = builder.create();
             alert.show();
-        }
-        else {
+        } else {
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
         }
@@ -221,7 +229,7 @@ public class TripResult extends AppCompatActivity {
         Button b2 = (Button) findViewById(R.id.button9);
         Button b3 = (Button) findViewById(R.id.button_save);
         RatingBar r1 = (RatingBar) findViewById(R.id.ratingBar);
-        LinearLayout layout = (LinearLayout)findViewById(R.id.textll);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.textll);
 
         voteLayout.setVisibility(View.INVISIBLE);
         ergebnisLayout.setVisibility(View.VISIBLE);
@@ -268,17 +276,17 @@ public class TripResult extends AppCompatActivity {
         gesamtscore = berechneGesamtscore(brakingscore, accelerationscore, timescore, corneringscore, speedingscore);
         aktuelleRisikoKlasse = getRisikoklasse(gesamtscore);
 
-        t20.setText(""+aktuelleRisikoKlasse);
-        t21.setText(""+eigenbewertung);
-        t1.setText("Ihr Score beträgt: "+(Math.round(10.0*gesamtscore)/10.0));
-        t2.setText(""+(Math.round(10.0*averagespeed)/10.0)+" km/h");
-        t3.setText(""+Math.round(10.0*accelerationscore)/10.0);
-        t4.setText(""+Math.round(10.0*brakingscore)/10.0);
-        t5.setText(""+Math.round(10.0*corneringscore)/10.0);
-        t6.setText(""+Math.round(10.0*timescore)/10.0);
-        t7.setText(""+Math.round(10.0*speedingscore)/10.0);
-        t18.setText(""+(Math.round(maxspeed)+" km/h"));
-        t17.setText(""+fahrtDauerString);
+        t20.setText("" + aktuelleRisikoKlasse);
+        t21.setText("" + eigenbewertung);
+        t1.setText("Ihr Score beträgt: " + (Math.round(10.0 * gesamtscore) / 10.0));
+        t2.setText("" + (Math.round(10.0 * averagespeed) / 10.0) + " km/h");
+        t3.setText("" + Math.round(10.0 * accelerationscore) / 10.0);
+        t4.setText("" + Math.round(10.0 * brakingscore) / 10.0);
+        t5.setText("" + Math.round(10.0 * corneringscore) / 10.0);
+        t6.setText("" + Math.round(10.0 * timescore) / 10.0);
+        t7.setText("" + Math.round(10.0 * speedingscore) / 10.0);
+        t18.setText("" + (Math.round(maxspeed) + " km/h"));
+        t17.setText("" + fahrtDauerString);
     }
 
     //Save Button ruft saveTrip Methode auf
@@ -306,20 +314,15 @@ public class TripResult extends AppCompatActivity {
     public String getRisikoklasse(double gesamtscore) {
         if (gesamtscore >= 0 && gesamtscore <= 10.0) {
             aktuelleRisikoKlasse = "sehr sicher";
-        }
-        else if (gesamtscore > 10.0 && gesamtscore <= 20.0) {
+        } else if (gesamtscore > 10.0 && gesamtscore <= 20.0) {
             aktuelleRisikoKlasse = "sicher";
-        }
-        else if (gesamtscore > 20.0 && gesamtscore <= 30.0) {
+        } else if (gesamtscore > 20.0 && gesamtscore <= 30.0) {
             aktuelleRisikoKlasse = "neutral";
-        }
-        else if (gesamtscore > 30.0 && gesamtscore <= 40.0) {
+        } else if (gesamtscore > 30.0 && gesamtscore <= 40.0) {
             aktuelleRisikoKlasse = "risikoreich";
-        }
-        else if (gesamtscore > 40.0 && gesamtscore <= 140.0) {
+        } else if (gesamtscore > 40.0 && gesamtscore <= 140.0) {
             aktuelleRisikoKlasse = "extrem risikoreich";
-        }
-        else {
+        } else {
             aktuelleRisikoKlasse = "Fahrt mit unbekanntem Risiko";
         }
 
@@ -334,7 +337,7 @@ public class TripResult extends AppCompatActivity {
 
         final EditText input = new EditText(this);
         input.setText("Unbenannte Fahrt");
-        input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(25) });
+        input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(25)});
         alert.setView(input);
         alert.setCancelable(false);
         alert.setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
@@ -342,7 +345,7 @@ public class TripResult extends AppCompatActivity {
                 DateFormat df = DateFormat.getDateTimeInstance();
                 fahrtName = input.getText().toString();
 
-                double gesamtScoreGerundet = (Math.round(10.0*gesamtscore)/10.0);
+                double gesamtScoreGerundet = (Math.round(10.0 * gesamtscore) / 10.0);
 
                 myDB2.addTripResult(fahrtBeginn, fahrtEnde, fahrtName, gesamtScoreGerundet, fahrtDauerString, selbstbewertung);
                 aktuellerTripGespeichert = true;
