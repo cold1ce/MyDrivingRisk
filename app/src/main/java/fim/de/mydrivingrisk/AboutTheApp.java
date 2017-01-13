@@ -8,8 +8,10 @@
 
 package fim.de.mydrivingrisk;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 /**
@@ -23,12 +25,29 @@ public class AboutTheApp extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        t1 = (TextView) findViewById(R.id.textView90);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_the_app);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        this.setTitle("Über die App");
+        t1 = (TextView) findViewById(R.id.textView90);
 
-        String string1 = getString(R.string.aboutstring);
-        System.out.println("asd" + string1);
+        //  Text aus strings.xml holen und im textView der Activity anzeigen
+        String text = getResources().getString(R.string.abouttheappstring);
+        t1.setText(text);
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(i);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
