@@ -90,7 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    // Methode erzeugt Tabelle für die Fahrtergebnisse
+    //  Methode erzeugt Tabelle für die Fahrtergebnisse
     public void createtripResultsTabelle2() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("CREATE TABLE IF NOT EXISTS TripResultsTabelle2 (_id INTEGER PRIMARY KEY AUTOINCREMENT, Beginn DATETIME, Ende DATETIME, Name TEXT, Score REAL, Fahrtdauer REAL, Selbstbewertung REAL)");
