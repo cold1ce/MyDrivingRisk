@@ -1,10 +1,4 @@
-/*
- *
- * @AboutTheApp.java 05.01.2017 (myDrivingRisk-Team)
- *
- * Copyright (c) 2016 FIM, Universität Augsburg
- *
- */
+//AboutTheApp.java zeigt Informationen, Erklärungen und Benutzerhinweise zur App
 
 package fim.de.mydrivingrisk;
 
@@ -12,11 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-/**
- * AboutTheApp.java zeigt Informationen, Erklärungen und Benutzerhinweise zur App
- *
- * @author myDrivingRisk-Team
- */
+
 
 public class AboutTheApp extends AppCompatActivity {
     public TextView t1;
@@ -28,8 +18,8 @@ public class AboutTheApp extends AppCompatActivity {
         setContentView(R.layout.activity_about_the_app);
 
         String string1 = getString(R.string.aboutstring);
-        System.out.println("asd" + string1);
-        // t1.setText(""+string1);
+        System.out.println("asd"+string1);
+       // t1.setText(""+string1);
         //t1.setText("asd");
     }
 }
