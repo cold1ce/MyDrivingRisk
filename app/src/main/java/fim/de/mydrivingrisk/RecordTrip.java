@@ -53,16 +53,16 @@ public class RecordTrip extends AppCompatActivity {
     private double aktuellerbreitengrad = 0.0;
     private double aktuellerlaengengrad = 0.0;
     private double aktuellerspeed = 0.0;
-    private double aktuellerspeedkmh = aktuellerspeed * 3.6;
+    protected double aktuellerspeedkmh = aktuellerspeed * 3.6;
     private double aktuellegenauigkeit = 0.0;
-    private double aktuellebeschleunigung = 0.0;
+    protected double aktuellebeschleunigung = 0.0;
     private double aktuellerichtungsdifferenz = 0.0;
-    private double aktuellelateralebeschleunigung = 0.0;
-    private double aktuellemaxbeschleunigung = 0.0;
+    protected double aktuellelateralebeschleunigung = 0.0;
+    protected double aktuellemaxbeschleunigung = 0.0;
     private boolean aufnahmelaeuft;
-    private boolean test = true;
     private String aktuelletabelle;
-    private TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t51, t52, t53, t54, t55, t56, t60, t61;
+    private TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t16, t17, t18, t19, t20, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t51, t52, t53, t54, t55, t56, t60, t61;
+    protected TextView t14, t15, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32;
     private ProgressBar p1;
     private String wetter, wetterkategorie, aktuellestrasse, aktuellerstrassentyp;
     private double aktuellestempolimit;
@@ -634,5 +634,5 @@ public class RecordTrip extends AppCompatActivity {
         });
         asyncTask.execute(latitude, longitude);
     }
-    
+
 }
