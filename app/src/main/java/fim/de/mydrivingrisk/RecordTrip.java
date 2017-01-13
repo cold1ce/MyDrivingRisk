@@ -47,35 +47,35 @@ import java.util.Date;
 public class RecordTrip extends AppCompatActivity {
 
     //  Erstellen der benötigten Objekte
-    public DatabaseHelper myDB;
-    public LocationManager locationManager1;
-    public LocationListener locationListener1;
-    public double aktuellerbreitengrad = 0.0;
-    public double aktuellerlaengengrad = 0.0;
-    public double aktuellerspeed = 0.0;
-    public double aktuellerspeedkmh = aktuellerspeed * 3.6;
-    public double aktuellegenauigkeit = 0.0;
-    public double aktuellebeschleunigung = 0.0;
-    public double aktuellerichtungsdifferenz = 0.0;
-    public double aktuellelateralebeschleunigung = 0.0;
-    public double aktuellemaxbeschleunigung = 0.0;
-    public boolean aufnahmelaeuft;
-    public boolean test = true;
-    public String aktuelletabelle;
-    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t51, t52, t53, t54, t55, t56, t60, t61;
-    public ProgressBar p1;
-    public String wetter, wetterkategorie, aktuellestrasse, aktuellerstrassentyp;
-    public double aktuellestempolimit;
-    public long sonnenaufgang, sonnenuntergang, aktuellezeit, aktuelleRechenzeit, fahrtbeginn;
-    public ToggleButton toggle1;
+    private DatabaseHelper myDB;
+    private LocationManager locationManager1;
+    private LocationListener locationListener1;
+    private double aktuellerbreitengrad = 0.0;
+    private double aktuellerlaengengrad = 0.0;
+    private double aktuellerspeed = 0.0;
+    private double aktuellerspeedkmh = aktuellerspeed * 3.6;
+    private double aktuellegenauigkeit = 0.0;
+    private double aktuellebeschleunigung = 0.0;
+    private double aktuellerichtungsdifferenz = 0.0;
+    private double aktuellelateralebeschleunigung = 0.0;
+    private double aktuellemaxbeschleunigung = 0.0;
+    private boolean aufnahmelaeuft;
+    private boolean test = true;
+    private String aktuelletabelle;
+    private TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t51, t52, t53, t54, t55, t56, t60, t61;
+    private ProgressBar p1;
+    private String wetter, wetterkategorie, aktuellestrasse, aktuellerstrassentyp;
+    private double aktuellestempolimit;
+    private long sonnenaufgang, sonnenuntergang, aktuellezeit, aktuelleRechenzeit, fahrtbeginn;
+    private ToggleButton toggle1;
 
-    public ScrollView sc1;
-    public RelativeLayout e1;
+    private ScrollView sc1;
+    private RelativeLayout e1;
 
     //  "altezeit" dient als Referenz zur aktuellenzeit, um OSM Abfragen alle x Minuten auszuführen
-    public long altezeitOSM = (new Date().getTime()) - 1;
+    private long altezeitOSM = (new Date().getTime()) - 1;
     //  "altezeit" dient als Referenz zur aktuellenzeit, um Wetterabfragen alle x Minuten auszuführen
-    public long altezeit = (new Date().getTime()) - 1;
+    private long altezeit = (new Date().getTime()) - 1;
 
 
     public RecordTrip() throws JSONException {

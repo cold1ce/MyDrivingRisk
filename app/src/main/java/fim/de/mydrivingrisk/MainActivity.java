@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     public int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
     public int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION;
-    public LocationManager locationManager5;
+    private LocationManager locationManager5;
 
 
     @Override   //  Aktivieren des 3-Punkte-Optionsmenüs

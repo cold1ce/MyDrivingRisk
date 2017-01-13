@@ -31,10 +31,10 @@ import android.widget.Toast;
 
 public class TripHistory extends AppCompatActivity {
 
-    public DatabaseHelper myDB3;
-    public TextView t1, t2;
-    public double scoreschnitt;
-    public int anzahlfahrten;
+    private DatabaseHelper myDB3;
+    private TextView t1, t2;
+    private double scoreschnitt;
+    private int anzahlfahrten;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

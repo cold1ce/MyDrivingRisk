@@ -36,26 +36,27 @@ import java.text.DateFormat;
 
 public class TripResult extends AppCompatActivity {
 
-    public TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21;
-    public DatabaseHelper myDB2;
-    public Button b1, b2, b3;
-    public String aktuelletabelle, eigenbewertung;
-    public double aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz, averagespeed, maxspeed, selbstbewertung;
-    public double gesamtscore;
-    public double brakingscore;
-    public double accelerationscore;
-    public double corneringscore;
-    public double speedingscore;
-    public double timescore;
-    public String fahrtName;
-    public boolean aktuellerTripGespeichert;
-    public String aktuelleRisikoKlasse = "Risiko 123";
-    public String fahrtDauerString;
-    public long fahrtBeginn, fahrtEnde;
+    private TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21;
+    private DatabaseHelper myDB2;
+    private Button b1, b2, b3;
+    private String aktuelletabelle, eigenbewertung;
+    private double averagespeed, maxspeed, selbstbewertung;
+    public double aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz;
+    private double gesamtscore;
+    private double brakingscore;
+    private double accelerationscore;
+    private double corneringscore;
+    private double speedingscore;
+    private double timescore;
+    private String fahrtName;
+    private boolean aktuellerTripGespeichert;
+    private String aktuelleRisikoKlasse = "Risiko 123";
+    private String fahrtDauerString;
+    private long fahrtBeginn, fahrtEnde;
 
-    public LinearLayout voteLayout;
-    public LinearLayout ergebnisLayout;
-    public LinearLayout buttonsUnten;
+    private LinearLayout voteLayout;
+    private LinearLayout ergebnisLayout;
+    private LinearLayout buttonsUnten;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 public class Impressum extends AppCompatActivity {
 
-    public TextView t1;
+    private TextView t1;
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
