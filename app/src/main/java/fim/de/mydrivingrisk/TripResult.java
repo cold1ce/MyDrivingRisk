@@ -36,18 +36,15 @@ import java.text.DateFormat;
 
 public class TripResult extends AppCompatActivity {
 
-    private TextView t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21;
+    private TextView t1, t2, t3, t4, t5, t6, t7, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21;
+    protected TextView t8;
     private DatabaseHelper myDB2;
-    private Button b1, b2, b3;
+    protected Button b1, b2, b3;
     private String aktuelletabelle, eigenbewertung;
-    private double averagespeed, maxspeed, selbstbewertung;
+    protected double averagespeed, maxspeed, selbstbewertung;
     protected double aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz;
     private double gesamtscore;
-    private double brakingscore;
-    private double accelerationscore;
-    private double corneringscore;
-    private double speedingscore;
-    private double timescore;
+    protected double brakingscore, accelerationscore, corneringscore, speedingscore, timescore;
     private String fahrtName;
     private boolean aktuellerTripGespeichert;
     private String aktuelleRisikoKlasse = "Risiko 123";
@@ -173,7 +170,7 @@ public class TripResult extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
 
-                if (aktuellerTripGespeichert == false) {
+                if (!aktuellerTripGespeichert) {
                     cancelResultsDialog();
                 } else {
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
@@ -187,7 +184,7 @@ public class TripResult extends AppCompatActivity {
 
     //  Abfangen wenn jemand den Zurückbutton drückt und noch nicht gespeichert wurde
     public void onBackPressed() {
-        if (aktuellerTripGespeichert == false) {
+        if (!aktuellerTripGespeichert) {
             cancelResultsDialog();
         } else {
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
@@ -197,7 +194,7 @@ public class TripResult extends AppCompatActivity {
 
     //  Zurück zum Hauptmenü Button, auch mit Abfangen falls noch nicht gespeichert wurde.
     public void cancelResultsDialog() {
-        if (aktuellerTripGespeichert == false) {
+        if (!aktuellerTripGespeichert) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Die Fahrt wurde noch nicht gespeichert! Wollen Sie wirklich zum Hauptmenü zurückkehren?")
                     .setCancelable(false)
@@ -301,7 +298,7 @@ public class TripResult extends AppCompatActivity {
 
 
     public void mainMenuButton(View view) {
-        if (aktuellerTripGespeichert == false) {
+        if (!aktuellerTripGespeichert) {
             cancelResultsDialog();
         } else {
             Intent i = new Intent(getApplicationContext(), MainActivity.class);

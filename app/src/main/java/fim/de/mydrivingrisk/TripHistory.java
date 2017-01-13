@@ -32,9 +32,6 @@ import android.widget.Toast;
 public class TripHistory extends AppCompatActivity {
 
     private DatabaseHelper myDB3;
-    private TextView t1, t2;
-    private double scoreschnitt;
-    private int anzahlfahrten;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -75,14 +72,15 @@ public class TripHistory extends AppCompatActivity {
         myDB3.createtripResultsTabelle2();
 
 
-        t1 = (TextView) findViewById(R.id.textView81);
-        t2 = (TextView) findViewById(R.id.textView83);
+        TextView t1 = (TextView) findViewById(R.id.textView81);
+        TextView t2 = (TextView) findViewById(R.id.textView83);
 
-        scoreschnitt = myDB3.getDurchschnittScoreAllerFahrten();
+        double scoreschnitt = myDB3.getDurchschnittScoreAllerFahrten();
         scoreschnitt = (Math.round(10.0 * scoreschnitt) / 10.0);
 
         //  Den Listview füllen, sobald mehr als oder genau 1 Fahrt vorhanden ist
         Cursor todoCursor = myDB3.getListContents();
+        int anzahlfahrten;
         if (todoCursor.getCount() == 0) {
             Toast.makeText(this, "Keine aufgezeichneten Fahrten vorhanden!", Toast.LENGTH_SHORT).show();
             anzahlfahrten = 0;

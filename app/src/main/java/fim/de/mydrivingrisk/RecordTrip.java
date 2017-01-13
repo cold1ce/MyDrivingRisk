@@ -115,7 +115,7 @@ public class RecordTrip extends AppCompatActivity {
             System.out.println("LocatiionListener konnte nicht beendet werden!");
         }
 
-        if (aufnahmelaeuft == true) {
+        if (aufnahmelaeuft) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Aufnahme läuft! Wollen Sie die Aufnahme beenden ohne zu speichern?")
                     .setCancelable(false)
@@ -274,7 +274,7 @@ public class RecordTrip extends AppCompatActivity {
                 t51.setText("±" + Math.round(aktuellegenauigkeit) + " m");
                 t61.setText("±" + Math.round(aktuellegenauigkeit) + " m");
                 if (aktuellegenauigkeit <= 10.0) {
-                    if (aufnahmelaeuft == false) {
+                    if (!aufnahmelaeuft) {
                         Button b1 = (Button) findViewById(R.id.button6);
                         b1.setEnabled(true);
                         b1.setText("Aufzeichnung starten");
@@ -282,7 +282,7 @@ public class RecordTrip extends AppCompatActivity {
                         b1.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_edit, 0, 0, 0);
                     }
                 } else {
-                    if (aufnahmelaeuft == false) {
+                    if (!aufnahmelaeuft) {
                         Button b1 = (Button) findViewById(R.id.button6);
                         b1.setEnabled(false);
                         b1.setText("Suche GPS-Signal...");
@@ -310,7 +310,7 @@ public class RecordTrip extends AppCompatActivity {
             //  Abfangen wenn Standort Funktion deaktiviert wird/Deaktiviert ist
             @Override
             public void onProviderDisabled(String s) {
-                if (aufnahmelaeuft == true) {
+                if (aufnahmelaeuft) {
                     Toast.makeText(RecordTrip.this, "Sie haben Ihre Standortfunktion deaktiviert, Aufnahme wurde beendet!", Toast.LENGTH_LONG).show();
                     aufnahmelaeuft = false;
                     Button b1 = (Button) findViewById(R.id.button6);
@@ -366,7 +366,7 @@ public class RecordTrip extends AppCompatActivity {
         Button b1 = (Button) findViewById(R.id.button6);
         //  Überprüfen ob der Button gerade zum Starten oder zum Stoppen der Aufzeichnung gerade zuständig ist
         //  Wenn keine Aufnahme läuft, versuchen eine Aufnahme zu starten
-        if (aufnahmelaeuft == false) {
+        if (!aufnahmelaeuft) {
             //  Überprüfen ob GPS Signal einigermaßen genau ist (+/-10m)
             //  Wenn ja: Beginn der Aufzeichnung einer neuen Fahrt
             //  Wenn nein: Warnung ausgeben
@@ -387,7 +387,7 @@ public class RecordTrip extends AppCompatActivity {
             }
             //  Wenn eine Aufnahme läuft, diese beenden und auf die Ergebnisseite weiterleiten.
             //  Zudem den Aufnahme Button wieder zurücksetzen
-        } else if (aufnahmelaeuft == true) {
+        } else if (aufnahmelaeuft) {
             aufnahmelaeuft = false;
             Toast.makeText(RecordTrip.this, "Aufnahme beendet!", Toast.LENGTH_SHORT).show();
             b1.setText("Aufzeichnung starten");

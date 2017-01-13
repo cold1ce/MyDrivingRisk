@@ -24,8 +24,6 @@ import android.widget.TextView;
 
 public class Impressum extends AppCompatActivity {
 
-    private TextView t1;
-
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -44,7 +42,7 @@ public class Impressum extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         this.setTitle("Impressum");
 
-        t1 = (TextView) findViewById(R.id.textView20);
+        TextView t1 = (TextView) findViewById(R.id.textView20);
         t1.setText(Html.fromHtml("<html><p><strong><span style=\"font-size: x-large;\">myDrivingRisk</span><br /></strong>Angaben gem&auml;&szlig; &sect; 5 TMG</p>\n" +
                 "<p>Autoren: Julian Ruppert, Benedikt Neubert, Stefan Rasche, Tobias Wittmeir<br />Betreuer: Sebastian Heger, Marco Schmidt</p>\n" +
                 "<p>FIM Kernkompetenzzentrum<br />Universit&auml;t Augsburg<br />86135 Augsburg</p>\n" +
