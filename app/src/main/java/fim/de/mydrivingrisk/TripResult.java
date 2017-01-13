@@ -41,7 +41,7 @@ public class TripResult extends AppCompatActivity {
     private Button b1, b2, b3;
     private String aktuelletabelle, eigenbewertung;
     private double averagespeed, maxspeed, selbstbewertung;
-    public double aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz;
+    protected double aktuellerbreitengrad, aktuellerlaengengrad, aktuellerspeed, aktuellerichtungsdifferenz;
     private double gesamtscore;
     private double brakingscore;
     private double accelerationscore;
@@ -294,7 +294,7 @@ public class TripResult extends AppCompatActivity {
     }
 
     //  Endberechnung des Gesamtscores nach dem (angepassten) Scoring Modell von Moritz
-    public double berechneGesamtscore(double brakingscore, double accelerationscore, double timescore, double corneringscore, double speedingscore) {
+    private double berechneGesamtscore(double brakingscore, double accelerationscore, double timescore, double corneringscore, double speedingscore) {
         gesamtscore = ((brakingscore * 0.33) + (accelerationscore * 0.23) + (timescore * 0.08) + (corneringscore * 0.23) + (speedingscore * 0.13));
         return gesamtscore;
     }
@@ -310,7 +310,7 @@ public class TripResult extends AppCompatActivity {
     }
 
     //  Aus dem Gesamtscore die Risikoklasse ableiten und ausgeben
-    public String getRisikoklasse(double gesamtscore) {
+    private String getRisikoklasse(double gesamtscore) {
         if (gesamtscore >= 0 && gesamtscore <= 10.0) {
             aktuelleRisikoKlasse = "sehr sicher";
         } else if (gesamtscore > 10.0 && gesamtscore <= 20.0) {
@@ -329,7 +329,7 @@ public class TripResult extends AppCompatActivity {
     }
 
     //  Methode zum Speichern der aktuellen Fahrt
-    public void saveTrip() {
+    private void saveTrip() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Fahrt benennen");
         alert.setMessage("Geben Sie einen Fahrt-Namen ein!");

@@ -108,7 +108,7 @@ public class RecordTrip extends AppCompatActivity {
     }
 
     //  Überprüft ob eine Aufnahme läuft und warnt davor eine Aufnahme ohne Speichern zu beenden.
-    public void cancelRecordDialog() {
+    private void cancelRecordDialog() {
         try {
             locationManager1.removeUpdates(locationListener1);
         } catch (SecurityException e) {
@@ -398,7 +398,7 @@ public class RecordTrip extends AppCompatActivity {
     }
 
     //  Neue Fahrt anlegen
-    public void addNewTrip() {
+    private void addNewTrip() {
 
         //  Aktuelles Datum ermitteln, dieses in Format bringen
         Date aktuellesDatum = new Date();
@@ -569,12 +569,12 @@ public class RecordTrip extends AppCompatActivity {
         }
     };
 
-    public void stop() {
+    private void stop() {
         aufnahmelaeuft = false;
         handler.removeCallbacks(runnable);
     }
 
-    public void recordTrip() {
+    private void recordTrip() {
         aufnahmelaeuft = true;
         handler.postDelayed(runnable, 1000);
     }
@@ -583,7 +583,7 @@ public class RecordTrip extends AppCompatActivity {
      * Wenn die Aufnahme beendet wird, zur Ergebnisseite weiterleiten,
      * hierbei müssen einige Werte dieser Activitiy als Bundle weitergegeben werden
      */
-    public void toTripResult() {
+    private void toTripResult() {
         Bundle trip = new Bundle();
         trip.putString("datenpaket1", aktuelletabelle);
         trip.putDouble("breitengrad", aktuellerbreitengrad);
@@ -601,12 +601,12 @@ public class RecordTrip extends AppCompatActivity {
     }
 
     //  Gibt den Namen der aktuellen Tabelle zurück die verwendet wird
-    public String getAktuelleTabelle() {
+    protected String getAktuelleTabelle() {
         return aktuelletabelle;
     }
 
     //  Wetter-Abfrage als paralleler Task, um das Speichern der anderen Daten nicht zu behindern oder zu verzögern
-    public void Wetter(String latitude, String longitude) {
+    private void Wetter(String latitude, String longitude) {
         Weather.placeIdTask asyncTask = new Weather.placeIdTask(new Weather.AsyncResponse() {
             @Override
             public void processFinish(String output1, long output2, long output3) {
@@ -621,7 +621,7 @@ public class RecordTrip extends AppCompatActivity {
     }
 
     //  Tempolimit-Abfrage als paralleler Task, um das Speichern der anderen Daten nicht zu behindern oder zu verzögern
-    public void Tempolimit(String latitude, String longitude) {
+    private void Tempolimit(String latitude, String longitude) {
         MyOSM.placeIdTask asyncTask = new MyOSM.placeIdTask(new MyOSM.AsyncResponse() {
             @Override
             public void processFinish(double output1, String output2, String output3) {
@@ -634,6 +634,5 @@ public class RecordTrip extends AppCompatActivity {
         });
         asyncTask.execute(latitude, longitude);
     }
-
-
+    
 }
