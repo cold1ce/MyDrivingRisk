@@ -187,15 +187,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //  Zuvor abgefragte letzte Geschwindigkeit in Variable speichern
         cursor.moveToLast();
-        letzte = cursor.getDouble(0);
 
+        try {
+            letzte = cursor.getDouble(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+        }
 
         //  Berechnen der Beschleunigung (Geteilt durch 1 für eine Sekunde, sollte man evtl. noch nachbessern da manchmal zwischen zwei
         //  Spalten 2 Sekunden abstand generiert werden(Verzögerung durch Rechendauer) Edit: durch zeitPeriode versucht zu beheben
         beschleunigung = ((aktuellegeschwindigkeit - letzte) / zeitPeriode) / 3.6;
-        cursor.close();
-        return beschleunigung;
 
+        return beschleunigung;
     }
 
     //  Neue Tabelle für die aufzuzeichnende Fahrt anlegen
@@ -211,8 +216,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT Zeit FROM " + aktuelletab + " ORDER BY ID ASC LIMIT 1 OFFSET 2;", null);
         cursor.moveToLast();
-        long ret = cursor.getLong(0);
-        cursor.close();
+        long ret = 0;
+
+        try {
+            ret = cursor.getLong(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+        }
+
         return ret;
     }
 
@@ -231,8 +244,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT Zeit FROM " + aktuelletab + " ORDER BY ID DESC LIMIT 1", null);
         cursor.moveToLast();
-        long ret = cursor.getLong(0);
-        cursor.close();
+        long ret = 0;
+
+        try {
+            ret = cursor.getLong(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+        }
+
         return ret;
     }
 
@@ -357,7 +378,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor1.close();
         cursor2.close();
         cursor3.close();
-        return (s / n * 100);
+
+        double tmp = (s / n * 100);
+
+        if (Double.isNaN(tmp)) {
+            tmp = 0.0;
+        }
+
+        return tmp;
     }
 
     //  Methode um nach dem Scoring Modell den Braking-Score zu berechnen.
@@ -445,10 +473,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         double lateralebeschleunigung = 0.0;
 
         cursor1.moveToLast();
-        latitude2 = cursor1.getDouble(0);
+        try {
+            latitude2 = cursor1.getDouble(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor1.close();
+        }
 
         cursor2.moveToLast();
-        longitude2 = cursor2.getDouble(0);
+        try {
+            longitude2 = cursor2.getDouble(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor2.close();
+        }
 
         double a = Math.pow(Math.sin((latitude2 - latitude1) / 2), 2) + Math.cos(latitude1) * Math.cos(latitude2) * Math.pow(Math.sin(longitude2 - longitude1), 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
@@ -461,8 +501,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (lateralebeschleunigung > 50 || lateralebeschleunigung < -50) {
             lateralebeschleunigung = 0;
         }
-        cursor1.close();
-        cursor2.close();
+
         return lateralebeschleunigung;
     }
 
@@ -472,7 +511,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT Wetter FROM " + aktuelletabelle + " ORDER BY ID DESC LIMIT 1", null);
         cursor.moveToLast();
-        String wetter = cursor.getString(0);
+
+        String wetter = "keine Kategorie";
+
+        try {
+            wetter = cursor.getString(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+        }
+
         for (String aDry : dry) {
             if (aDry.equals(wetter)) {
                 return "dry";

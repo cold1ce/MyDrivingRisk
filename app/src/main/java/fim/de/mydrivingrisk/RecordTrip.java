@@ -503,7 +503,7 @@ public class RecordTrip extends AppCompatActivity {
                     altezeit = (new Date().getTime()) - 1;
                 }
 
-                //  Analog wie Wetterabfrage: OSM-Abfrage des Tempolimits, aktuell 5000ms, das heißt alle 5 Sekunden
+                //  Analog wie Wetterabfrage: OSM-Abfrage des Tempolimits, aktuell 3000ms, das heißt alle 3 Sekunden
                 if ((aktuellezeit - altezeitOSM) > (3000)) {
                     if (aktuellegenauigkeit <= 5.0) {
                         Tempolimit(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
