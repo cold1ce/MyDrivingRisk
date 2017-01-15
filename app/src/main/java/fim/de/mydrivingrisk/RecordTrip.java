@@ -506,7 +506,7 @@ public class RecordTrip extends AppCompatActivity {
                 //  Analog wie Wetterabfrage: OSM-Abfrage des Tempolimits, aktuell 3000ms, das heißt alle 3 Sekunden
                 if ((aktuellezeit - altezeitOSM) > (3000)) {
                     if (aktuellegenauigkeit <= 5.0) {
-                        Tempolimit(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
+                        tempolimit(String.valueOf(aktuellerbreitengrad), String.valueOf(aktuellerlaengengrad));
                     } else {
                         aktuellestempolimit = 0.0;
                         aktuellestrasse = "GPS zu ungenau!";
@@ -516,8 +516,15 @@ public class RecordTrip extends AppCompatActivity {
                 }
 
 
-                t18.setText("" + (Math.round(aktuellestempolimit)) + " km/h");
-                t54.setText("" + (Math.round(aktuellestempolimit)) + " km/h");
+//                t18.setText("" + (Math.round(aktuellestempolimit)) + " km/h");
+//                t54.setText("" + (Math.round(aktuellestempolimit)) + " km/h");
+                if ((aktuellerstrassentyp != null && aktuellerstrassentyp.equals("motorway")) && aktuellestempolimit == 0.0) {
+                    t18.setText("unbegrenzt");
+                    t54.setText("unbegrenzt");
+                } else {
+                    t18.setText("" + (Math.round(aktuellestempolimit)) + " km/h");
+                    t54.setText("" + (Math.round(aktuellestempolimit)) + " km/h");
+                }
                 t19.setText("" + aktuellestrasse);
                 t20.setText("" + aktuellerstrassentyp);
                 t10.setText("" + wetter);
@@ -606,7 +613,7 @@ public class RecordTrip extends AppCompatActivity {
     }
 
     //  Wetter-Abfrage als paralleler Task, um das Speichern der anderen Daten nicht zu behindern oder zu verzögern
-    private void Wetter(String latitude, String longitude) {
+    private void Wetter(String laengengrad, String breitengrad) {
         Weather.placeIdTask asyncTask = new Weather.placeIdTask(new Weather.AsyncResponse() {
             @Override
             public void processFinish(String output1, long output2, long output3) {
@@ -617,22 +624,22 @@ public class RecordTrip extends AppCompatActivity {
 
             }
         });
-        asyncTask.execute(latitude, longitude);
+        asyncTask.execute(laengengrad, breitengrad);
     }
 
     //  Tempolimit-Abfrage als paralleler Task, um das Speichern der anderen Daten nicht zu behindern oder zu verzögern
-    private void Tempolimit(String latitude, String longitude) {
+    private void tempolimit(String laengengrad, String breitengrad) {
         MyOSM.placeIdTask asyncTask = new MyOSM.placeIdTask(new MyOSM.AsyncResponse() {
             @Override
-            public void processFinish(double output1, String output2, String output3) {
+            public void processFinish(double ergebnis1, String ergebnis2, String ergebnis3) {
 
-                aktuellestempolimit = output1;
-                aktuellestrasse = output2;
-                aktuellerstrassentyp = output3;
+                aktuellestempolimit = ergebnis1;
+                aktuellestrasse = ergebnis2;
+                aktuellerstrassentyp = ergebnis3;
 
             }
         });
-        asyncTask.execute(latitude, longitude);
+        asyncTask.execute(laengengrad, breitengrad);
     }
 
 }

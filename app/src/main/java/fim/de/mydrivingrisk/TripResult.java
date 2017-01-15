@@ -308,15 +308,15 @@ public class TripResult extends AppCompatActivity {
 
     //  Aus dem Gesamtscore die Risikoklasse ableiten und ausgeben
     private String getRisikoklasse(double gesamtscore) {
-        if (gesamtscore >= 0 && gesamtscore <= 10.0) {
+        if (gesamtscore >= 0 && gesamtscore <= 9.0) {
             aktuelleRisikoKlasse = "sehr sicher";
-        } else if (gesamtscore > 10.0 && gesamtscore <= 20.0) {
+        } else if (gesamtscore > 9.0 && gesamtscore <= 12.0) {
             aktuelleRisikoKlasse = "sicher";
-        } else if (gesamtscore > 20.0 && gesamtscore <= 30.0) {
+        } else if (gesamtscore > 12.0 && gesamtscore <= 15.0) {
             aktuelleRisikoKlasse = "neutral";
-        } else if (gesamtscore > 30.0 && gesamtscore <= 40.0) {
+        } else if (gesamtscore > 15.0 && gesamtscore <= 18.0) {
             aktuelleRisikoKlasse = "risikoreich";
-        } else if (gesamtscore > 40.0 && gesamtscore <= 140.0) {
+        } else if (gesamtscore > 18.0 && gesamtscore <= 140.0) {
             aktuelleRisikoKlasse = "extrem risikoreich";
         } else {
             aktuelleRisikoKlasse = "Fahrt mit unbekanntem Risiko";
