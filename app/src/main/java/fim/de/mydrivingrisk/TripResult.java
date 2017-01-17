@@ -317,7 +317,7 @@ public class TripResult extends AppCompatActivity {
         } else if (gesamtscore > 15.0 && gesamtscore <= 18.0) {
             aktuelleRisikoKlasse = "risikoreich";
         } else if (gesamtscore > 18.0 && gesamtscore <= 140.0) {
-            aktuelleRisikoKlasse = "extrem risikoreich";
+            aktuelleRisikoKlasse = "sehr risikoreich";
         } else {
             aktuelleRisikoKlasse = "Fahrt mit unbekanntem Risiko";
         }
